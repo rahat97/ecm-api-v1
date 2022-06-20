@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.static(__dirname + "/template"));
 // app.use('/api/user', seedRouter);
 
-const dbUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jmnaf.mongodb.net/?retryWrites=true&w=majority`;
+const dbUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jmnaf.mongodb.net/pos-api-v1?retryWrites=true&w=majority`;
 // database connection
 mongoose
   .connect(dbUrl)
