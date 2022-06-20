@@ -1,43 +1,41 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const productRoutes = require('./routes/productRoutes');
+const express = require("express");
+const mongoose = require("mongoose");
+const path = require("path");
+const productRoutes = require("./routes/productRoutes");
 
-require('dotenv').config()
+require("dotenv").config();
 
 // app init
 const app = express();
 app.use(express.json());
+app.use(express.static(__dirname + "/template"));
 // app.use('/api/user', seedRouter);
 
-
-
-
-const dbUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jmnaf.mongodb.net/?retryWrites=true&w=majority`
+const dbUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jmnaf.mongodb.net/?retryWrites=true&w=majority`;
 // database connection
-mongoose.connect(dbUrl)
-.then(()=>console.log('connection successful'))
-.catch(err=>console.log(err))
+mongoose
+  .connect(dbUrl)
+  .then(() => console.log("connection successful"))
+  .catch((err) => console.log(err));
 
 // application routes
-app.use('/api/product', productRoutes)
-
+app.use("/api/product", productRoutes);
 
 // Home
-app.get('/', async(req, res)=>{
-    res.send('Hello')
-})
-
+app.get("/", async (req, res) => {
+  res.sendFile(path.join(__dirname + "/template/home.html"));
+});
 
 // error Handle
-function errorHandler(err, req, res, next){
-    if(res.headerSent){
-        return next(err);
-    }else{
-        res.status(500).json({error: err});
-    }
+function errorHandler(err, req, res, next) {
+  if (res.headerSent) {
+    return next(err);
+  } else {
+    res.status(500).json({ error: err });
+  }
 }
 
 // start app
-app.listen('5001',()=>{
-    console.log('Listing port:', '5000')
-})
+app.listen("5001", () => {
+  console.log("Listing port:", "5000");
+});
