@@ -8,9 +8,6 @@ const userSchema = mongoose.Schema(
     type: { type: String, require: true },
     address: { type: String },
     phone: { type: String, require: true, unique: true },
-    membership_card_no: { type: String },
-    points: { type: Number },
-    offers: { type: String },
     status: { type: String, enum: ["active", "inactive"] },
   },
   {
