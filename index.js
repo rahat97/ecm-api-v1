@@ -4,6 +4,7 @@ const path = require("path");
 const productRoutes = require("./routes/productRoutes");
 
 require("dotenv").config();
+const PORT = process.env.PORT || 5001;
 
 // app init
 const app = express();
@@ -36,6 +37,6 @@ function errorHandler(err, req, res, next) {
 }
 
 // start app
-app.listen("5001", () => {
-  console.log("Listing port:", "5000");
+app.listen(PORT, () => {
+  console.log("Listing port:", PORT);
 });
