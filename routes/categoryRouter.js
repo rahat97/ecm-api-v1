@@ -59,13 +59,14 @@ categoryRouter.get(
 );
 
 // GET MASTER CATEGORY
-categoryRouter.get(
-  "/mc",
-  expressAsyncHandler(async (req, res) => {
-    const mc = await Category.find({ parent: "" });
-    res.send(mc);
-  })
-);
+// categoryRouter.get(
+//   "/master-category",
+//   expressAsyncHandler(async (req, res) => {
+//     const mc = await Category.find({ mc: "10001" });
+//     res.send(mc);
+//     // res.send("mc");
+//   })
+// );
 
 // CREATE ONE CATEGORY
 categoryRouter.post(
