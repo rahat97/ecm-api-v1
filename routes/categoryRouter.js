@@ -1,10 +1,10 @@
 /**
- * USERS API
- * 1. get all Users
- * 2. get user by id
- * 3. get user by type
- * 3.1 get user by email
- * 3.2 get user by phone
+ * CATEGORY API
+ * 1. get all Category
+ * 2. get category by group
+ * 3. get category by id
+ * 3.1 get category by parent
+ * 3.2 get master category
  * 4. create one
  * 5. create many
  * 6. updateOne
@@ -13,102 +13,101 @@
 const express = require("express");
 const router = express.Router();
 const expressAsyncHandler = require("express-async-handler");
-const User = require("../models/userModel");
+const Category = require("../models/categoryModel");
 
-const userRouter = express.Router();
+const categoryRouter = express.Router();
 
-// GET ALL USERS
-userRouter.get(
+// GET ALL CATEGORY
+categoryRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const users = await User.find({});
-    res.send({ users });
+    const categories = await Category.find({});
+    res.send({ categories });
     // // res.send('removed');
-    console.log(users);
+    // console.log(categories);
   })
 );
 
-// GET ALL USERS BY TYPE
-userRouter.get(
-  "/type/:type",
+// GET ALL CATEGORY BY GROUP
+categoryRouter.get(
+  "/group/:group",
   expressAsyncHandler(async (req, res) => {
-    const type = req.params.type;
-    const users = await User.find({ type: type });
-    res.send(users);
+    const group = req.params.group;
+    const categories = await Category.find({ group: group });
+    res.send(categories);
   })
 );
 
-// GET USE BY ID
-userRouter.get(
+// GET CATEGORY BY ID
+categoryRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const user = await User.find({ _id: id });
-    res.send(user);
+    const category = await Category.find({ _id: id });
+    res.send(category);
   })
 );
 
-// GET USER BY PHONE
-userRouter.get(
-  "/phone/:phone",
+// GET CATEGORY BY PARENT
+categoryRouter.get(
+  "/parent/:parent",
   expressAsyncHandler(async (req, res) => {
-    const phone = req.params.phone;
-    const user = await User.find({ phone: phone });
-    res.send(user);
+    const parent = req.params.parent;
+    const category = await Category.find({ parent: parent });
+    res.send(category);
   })
 );
 
-// GET USER BY EMAIL
-userRouter.get(
-  "/email/:email",
+// GET MASTER CATEGORY
+categoryRouter.get(
+  "/mc",
   expressAsyncHandler(async (req, res) => {
-    const email = req.params.email;
-    const user = await User.find({ email: email });
-    res.send(user);
+    const mc = await Category.find({ parent: "" });
+    res.send(mc);
   })
 );
 
-// CREATE ONE USER
-userRouter.post(
+// CREATE ONE CATEGORY
+categoryRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const newUser = new User(req.body);
-    await newUser.save((err) => {
+    const newCategory = new Category(req.body);
+    await newCategory.save((err) => {
       if (err) {
         res.status(500).json({ error: "There was a server side error" });
       } else {
         res.status(200).json({
-          message: "User is created Successfully",
+          message: "Category is created Successfully",
         });
       }
     });
   })
 );
 
-// CREATE MULTI USERS
-userRouter.post(
+// CREATE MULTI CATEGORIES
+categoryRouter.post(
   "/all",
   expressAsyncHandler(async (req, res) => {
-    await User.insertMany(req.body, (err) => {
+    await Category.insertMany(req.body, (err) => {
       if (err) {
         res.status(500).json({ error: err });
       } else {
         res.status(200).json({
-          message: "Users are created Successfully",
+          message: "Category are created Successfully",
         });
       }
     });
   })
 );
 
-// UPDATE ONE USER
-userRouter.put(
+// UPDATE ONE CATEGORY
+categoryRouter.put(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const update = req.body;
     try {
-      await User.updateOne({ _id: id }, { $set: update })
+      await Category.updateOne({ _id: id }, { $set: update })
         .then((response) => {
           res.send(response);
         })
@@ -121,13 +120,13 @@ userRouter.put(
   })
 );
 
-// DELETE ONE USER
-userRouter.delete(
+// DELETE ONE CATEGORY
+categoryRouter.delete(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     try {
-      await User.deleteOne({ _id: id })
+      await Category.deleteOne({ _id: id })
         .then((response) => {
           res.send(response);
         })
@@ -140,4 +139,4 @@ userRouter.delete(
   })
 );
 
-module.exports = userRouter;
+module.exports = categoryRouter;

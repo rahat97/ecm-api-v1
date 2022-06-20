@@ -1,8 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-const productRoutes = require("./routes/productRoutes");
-const userRoutes = require("./routes/userRouter");
+const productRouter = require("./routes/productRouter");
+const userRouter = require("./routes/userRouter");
+const categoryRouter = require("./routes/categoryRouter");
 
 require("dotenv").config();
 const PORT = process.env.PORT || 5001;
@@ -20,9 +21,10 @@ mongoose
   .then(() => console.log("connection successful"))
   .catch((err) => console.log(err));
 
-// application routes
-app.use("/api/product", productRoutes);
-app.use("/api/user", userRoutes);
+// application router
+app.use("/api/product", productRouter);
+app.use("/api/user", userRouter);
+app.use("/api/category", categoryRouter);
 
 // Home
 app.get("/", async (req, res) => {
