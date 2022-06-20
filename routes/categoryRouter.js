@@ -53,20 +53,10 @@ categoryRouter.get(
   "/parent/:parent",
   expressAsyncHandler(async (req, res) => {
     const parent = req.params.parent;
-    const category = await Category.find({ parent: parent });
+    const category = await Category.find({ mc: parent });
     res.send(category);
   })
 );
-
-// GET MASTER CATEGORY
-// categoryRouter.get(
-//   "/master-category",
-//   expressAsyncHandler(async (req, res) => {
-//     const mc = await Category.find({ mc: "10001" });
-//     res.send(mc);
-//     // res.send("mc");
-//   })
-// );
 
 // CREATE ONE CATEGORY
 categoryRouter.post(
