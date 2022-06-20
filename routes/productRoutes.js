@@ -1,22 +1,46 @@
+/**
+ * PRODUCTS API
+ * 1. get all product
+ * 2. get product by id
+ * 3. get product by article code
+ * 4. get product by ean
+ * 5. create one
+ * 6. create many
+ * 7. updateOne
+ * 8. delete one
+ */
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const Product = require("../models/productModel");
 
-// GET ALL Products
+// GET ALL PRODUCTS
 router.get("/", async (req, res) => {
   const products = await Product.find({});
   res.send(products);
 });
 
-// GET One Product
+// GET ONE PRODUCT
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   const products = await Product.find({ _id: id });
   res.send(products);
 });
 
-// create One Product
+// GET ONE PRODUCT BY ARTICLE CODE
+router.get("/code/:id", async (req, res) => {
+  const id = req.params.id;
+  const products = await Product.find({ article_code: id });
+  res.send(products);
+});
+
+// GET ONE PRODUCT BY EAN
+router.get("/ean/:id", async (req, res) => {
+  const id = req.params.id;
+  const products = await Product.find({ ean: id });
+  res.send(products);
+});
+
+// CREATE ONE PRODUCT
 router.post("/", async (req, res) => {
   const newProduct = new Product(req.body);
   await newProduct.save((err) => {
@@ -30,7 +54,7 @@ router.post("/", async (req, res) => {
   });
 });
 
-// Create Many Product
+// CREATE MANY PRODUCTS
 router.post("/all", async (req, res) => {
   await Product.insertMany(req.body, (err) => {
     if (err) {
@@ -43,7 +67,7 @@ router.post("/all", async (req, res) => {
   });
 });
 
-// Update one Product
+// UPDATE ONE PRODUCT
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
   const update = req.body;
@@ -60,7 +84,20 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// delete Product
-router.delete("/:id", async (req, res) => {});
+// DELETE PRODUCT
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    await Product.deleteOne({ _id: id })
+      .then((response) => {
+        res.send(response);
+      })
+      .catch((err) => {
+        res.send(err);
+      });
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 module.exports = router;
