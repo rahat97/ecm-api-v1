@@ -6,7 +6,7 @@ const categorySchema = mongoose.Schema(
     code: { type: String, require: true, unique: true },
     mcId: { type: Number, require: true },
     mc: { type: String },
-    group: { type: String, require: true },
+    group: { type: String },
     photo: { type: String },
     description: { type: String },
     status: { type: String, enum: ["active", "inactive"] },

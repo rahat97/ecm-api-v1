@@ -22,7 +22,7 @@ categoryRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
     const categories = await Category.find({});
-    res.send({ categories });
+    res.send(categories);
     // // res.send('removed');
     // console.log(categories);
   })
