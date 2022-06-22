@@ -140,4 +140,12 @@ userRouter.delete(
   })
 );
 
+// USER LOGIN
+userRouter.post(
+  "/login",
+  expressAsyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+  })
+);
+
 module.exports = userRouter;

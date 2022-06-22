@@ -39,6 +39,15 @@ router.get(
     res.send(products);
   })
 );
+// GET PRODUCT BY category
+router.get(
+  "/category/:id",
+  expressAsyncHandler(async (req, res) => {
+    const category = req.params.category;
+    const products = await Product.find({ category: category });
+    res.send(products);
+  })
+);
 
 // GET ONE PRODUCT BY EAN
 router.get(
@@ -73,7 +82,9 @@ router.post(
   expressAsyncHandler(async (req, res) => {
     await Product.insertMany(req.body, (err) => {
       if (err) {
-        res.status(500).json({ error: "There was a server side error" });
+        res
+          .status(500)
+          .json({ error: "There was a server side error", err: err });
       } else {
         res.status(200).json({
           message: "Products are created Successfully",
