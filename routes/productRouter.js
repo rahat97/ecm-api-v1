@@ -1,6 +1,7 @@
 /**
  * PRODUCTS API
  * 1. get all product "/"
+ * 1.1. get product by category
  * 2. get product by id "/:id"
  * 3. get product by article code "/code/:code"
  * 4. get product by ean "/ean/:ean"
@@ -17,6 +18,15 @@ const Product = require("../models/productModel");
 // GET ALL PRODUCTS
 router.get("/", async (req, res) => {
   const products = await Product.find({});
+  res.send(products);
+});
+
+// GET ALL PRODUCTS
+router.get("/category/:category", async (req, res) => {
+  const category = req.params.category;
+  const products = await Product.find({
+    category: { $regex: new RegExp("^" + category.toLowerCase(), "i") },
+  });
   res.send(products);
 });
 
