@@ -44,13 +44,15 @@ app.get("/", async (req, res) => {
 });
 
 // error Handle
-function errorHandler(err, req, res, next) {
+const errorHandler = (err, req, res, next) => {
   if (res.headerSent) {
     return next(err);
   } else {
     res.status(500).json({ error: err });
   }
-}
+};
+
+app.use(errorHandler);
 
 // start app
 app.listen(PORT, () => {
