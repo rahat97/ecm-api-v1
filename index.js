@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const path = require("path");
 const productRouter = require("./routes/productRouter");
 const userRouter = require("./routes/userRouter");
@@ -11,11 +12,17 @@ const PORT = process.env.PORT || 5001;
 // app init
 const app = express();
 
+app.use(express.json({ limit: "50mb" }));
+app.use(
+  express.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
+
 app.use(express.json());
 app.use(express.static(__dirname + "/template"));
-
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 const dbUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jmnaf.mongodb.net/pos-api-v1?retryWrites=true&w=majority`;
 // database connection

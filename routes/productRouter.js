@@ -1,13 +1,13 @@
 /**
  * PRODUCTS API
- * 1. get all product
- * 2. get product by id
- * 3. get product by article code
- * 4. get product by ean
- * 5. create one
- * 6. create many
- * 7. updateOne
- * 8. delete one
+ * 1. get all product "/"
+ * 2. get product by id "/:id"
+ * 3. get product by article code "/code/:code"
+ * 4. get product by ean "/ean/:ean"
+ * 5. create one "/"
+ * 6. create many "/all"
+ * 7. updateOne "/:id"
+ * 8. delete one "/:id"
  */
 const express = require("express");
 const router = express.Router();
@@ -80,6 +80,8 @@ router.post(
 router.post(
   "/all",
   expressAsyncHandler(async (req, res) => {
+    console.log(req.body);
+    await Product.deleteMany({});
     await Product.insertMany(req.body, (err) => {
       if (err) {
         res
@@ -132,5 +134,20 @@ router.delete(
     }
   })
 );
+// // DELETE ALL
+// router.get(
+//   "/del-all",
+//   expressAsyncHandler(async (req, res) => {
+//     try {
+//       await Product.remove((response) => {
+//         res.send(response);
+//       }).catch((err) => {
+//         res.send(err);
+//       });
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   })
+// );
 
 module.exports = router;
