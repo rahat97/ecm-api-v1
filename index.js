@@ -5,6 +5,7 @@ const path = require("path");
 const productRouter = require("./routes/productRouter");
 const userRouter = require("./routes/userRouter");
 const categoryRouter = require("./routes/categoryRouter");
+const multer = require("multer");
 
 require("dotenv").config();
 const PORT = process.env.PORT || 5001;
@@ -48,7 +49,11 @@ const errorHandler = (err, req, res, next) => {
   if (res.headerSent) {
     return next(err);
   } else {
-    res.status(500).json({ error: err });
+    if (err instanceof multer.MulterError) {
+      res.status(500).send(err.message);
+    } else {
+      res.status(500).json({ err: err });
+    }
   }
 };
 

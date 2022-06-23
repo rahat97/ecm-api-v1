@@ -14,6 +14,7 @@ const express = require("express");
 const router = express.Router();
 const expressAsyncHandler = require("express-async-handler");
 const Category = require("../models/categoryModel");
+const upload = require("../middlewares/fileUploader");
 
 const categoryRouter = express.Router();
 
@@ -129,5 +130,14 @@ categoryRouter.delete(
     }
   })
 );
+
+// CATEGORY PHOTO UPLOAD
+categoryRouter.post("/photo", upload.single("c_photo"), (req, res) => {
+  res.send(req.file);
+});
+// CATEGORY PHOTO UPLOAD
+categoryRouter.post("/doc", upload.single("doc"), (req, res) => {
+  res.send(req.file);
+});
 
 module.exports = categoryRouter;
