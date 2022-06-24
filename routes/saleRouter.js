@@ -16,6 +16,7 @@ const expressAsyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const Sale = require("../models/saleModel");
 const checklogin = require("../middlewares/checkLogin");
+const generateId = require("../utility/generateId");
 
 const saleRouter = express.Router();
 
@@ -26,7 +27,6 @@ saleRouter.get(
     const sales = await Sale.find({ status: "complete" });
     res.send(sales);
     // // res.send('removed');
-    console.log(sales);
   })
 );
 
@@ -46,7 +46,17 @@ saleRouter.get(
 saleRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const newSale = new Sale(req.body);
+    // const todayTotal = await Sale.countDocuments({});
+    // const ID = await generateId("TCM", "POS", todayTotal);
+    // if (ID) {
+    //   console.log(ID);
+    //   const saleData = {
+    //     ...req.body,
+    //     invoiceId: ID,
+    //   };
+    //   console.log(saleData);
+    // }
+    const newSale = new Sale(req.data);
     try {
       await newSale.save();
       res.status(200).json({
