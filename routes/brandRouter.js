@@ -1,10 +1,8 @@
 /**
- * sales API
- * 1. get all sales
- * 2. get Sale by id
- * 3. get Sale by type
- * 3.1 get Sale by email
- * 3.2 get Sale by phone
+ * brands API
+ * 1. get all brands
+ * 2. get Brand by id
+ * 3. get Brand by type
  * 4. create one
  * 5. create many
  * 6. updateOne
@@ -14,43 +12,43 @@ const express = require("express");
 const router = express.Router();
 const expressAsyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
-const Sale = require("../models/saleModel");
+const Brand = require("../models/brandModel");
 const checklogin = require("../middlewares/checkLogin");
 
-const saleRouter = express.Router();
+const brandRouter = express.Router();
 
-// GET ALL sales
-saleRouter.get(
+// GET ALL brands
+brandRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const sales = await Sale.find({ status: "complete" });
-    res.send(sales);
+    const brands = await Brand.find({ status: "active" });
+    res.send(brands);
     // // res.send('removed');
-    console.log(sales);
+    console.log(brands);
   })
 );
 
-// GET ONE sales
-saleRouter.get(
+// GET ONE brands
+brandRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const sales = await Sale.find({ _id: id, status: "complete" });
-    res.send(sales);
+    const brands = await Brand.find({ _id: id, status: "active" });
+    res.send(brands);
     // // res.send('removed');
-    console.log(sales);
+    console.log(brands);
   })
 );
 
-// CREATE ONE SALE
-saleRouter.post(
+// CREATE ONE Brand
+brandRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const newSale = new Sale(req.body);
+    const newBrand = new Brand(req.body);
     try {
-      await newSale.save();
+      await newBrand.save();
       res.status(200).json({
-        message: "Sale is created Successfully",
+        message: "Brand is created Successfully",
       });
     } catch (err) {
       res
@@ -60,30 +58,30 @@ saleRouter.post(
   })
 );
 
-// CREATE MULTI sales
-saleRouter.post(
+// CREATE MULTI brands
+brandRouter.post(
   "/all",
   expressAsyncHandler(async (req, res) => {
-    await Sale.insertMany(req.body, (err) => {
+    await Brand.insertMany(req.body, (err) => {
       if (err) {
         res.status(500).json({ error: err });
       } else {
         res.status(200).json({
-          message: "sales are created Successfully",
+          message: "brands are created Successfully",
         });
       }
     });
   })
 );
 
-// UPDATE ONE Sale
-saleRouter.put(
+// UPDATE ONE Brand
+brandRouter.put(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const update = req.body;
     try {
-      await Sale.updateOne({ _id: id }, { $set: update })
+      await Brand.updateOne({ _id: id }, { $set: update })
         .then((response) => {
           res.send(response);
         })
@@ -96,13 +94,13 @@ saleRouter.put(
   })
 );
 
-// DELETE ONE Sale
-saleRouter.delete(
+// DELETE ONE Brand
+brandRouter.delete(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     try {
-      await Sale.deleteOne({ _id: id })
+      await Brand.deleteOne({ _id: id })
         .then((response) => {
           res.send(response);
         })
@@ -115,4 +113,4 @@ saleRouter.delete(
   })
 );
 
-module.exports = saleRouter;
+module.exports = brandRouter;

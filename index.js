@@ -6,6 +6,10 @@ const productRouter = require("./routes/productRouter");
 const userRouter = require("./routes/userRouter");
 const categoryRouter = require("./routes/categoryRouter");
 const saleRouter = require("./routes/saleRouter");
+const supplierRouter = require("./routes/supplierRouter");
+const customerRouter = require("./routes/customerRouter");
+const brandRouter = require("./routes/brandRouter");
+const unitRouter = require("./routes/unitRouter");
 const multer = require("multer");
 
 require("dotenv").config();
@@ -40,6 +44,10 @@ app.use("/api/product", productRouter);
 app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/sale", saleRouter);
+app.use("/api/supplier", supplierRouter);
+app.use("/api/customer", customerRouter);
+app.use("/api/brand", brandRouter);
+app.use("/api/unit", unitRouter);
 
 // Home
 app.get("/", async (req, res) => {

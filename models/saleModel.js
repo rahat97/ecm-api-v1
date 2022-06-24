@@ -9,7 +9,7 @@ const saleSchema = mongoose.Schema(
       {
         type: Map,
         of: new mongoose.Schema({
-          code: { type: String },
+          id: { type: mongoose.Types.ObjectId, require: true, ref: "Products" },
           tp: { type: mongoose.Types.Decimal128, require: true },
           mrp: { type: mongoose.Types.Decimal128, require: true },
           supplier: {
@@ -36,8 +36,12 @@ const saleSchema = mongoose.Schema(
     changeAmount: { type: mongoose.Types.Decimal128, require: true },
     totalItem: { type: Number, require: true },
     total: { type: mongoose.Types.Decimal128, require: true },
-    billerId: { type: String },
-    customerId: { type: String },
+    billerId: { type: mongoose.Types.ObjectId, require: true, ref: "User" },
+    customerId: {
+      type: mongoose.Types.ObjectId,
+      require: true,
+      ref: "Customer",
+    },
     status: { type: String, enum: ["order", "confirm", "complete"] },
   },
   {

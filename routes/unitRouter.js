@@ -1,10 +1,8 @@
 /**
- * sales API
- * 1. get all sales
- * 2. get Sale by id
- * 3. get Sale by type
- * 3.1 get Sale by email
- * 3.2 get Sale by phone
+ * units API
+ * 1. get all units
+ * 2. get Unit by id
+ * 3. get Unit by type
  * 4. create one
  * 5. create many
  * 6. updateOne
@@ -14,43 +12,43 @@ const express = require("express");
 const router = express.Router();
 const expressAsyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
-const Sale = require("../models/saleModel");
+const Unit = require("../models/unitModel");
 const checklogin = require("../middlewares/checkLogin");
 
-const saleRouter = express.Router();
+const unitRouter = express.Router();
 
-// GET ALL sales
-saleRouter.get(
+// GET ALL units
+unitRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const sales = await Sale.find({ status: "complete" });
-    res.send(sales);
+    const units = await Unit.find({ status: "active" });
+    res.send(units);
     // // res.send('removed');
-    console.log(sales);
+    console.log(units);
   })
 );
 
-// GET ONE sales
-saleRouter.get(
+// GET ONE units
+unitRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const sales = await Sale.find({ _id: id, status: "complete" });
-    res.send(sales);
+    const units = await Unit.find({ _id: id, status: "active" });
+    res.send(units);
     // // res.send('removed');
-    console.log(sales);
+    console.log(units);
   })
 );
 
-// CREATE ONE SALE
-saleRouter.post(
+// CREATE ONE Unit
+unitRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const newSale = new Sale(req.body);
+    const newUnit = new Unit(req.body);
     try {
-      await newSale.save();
+      await newUnit.save();
       res.status(200).json({
-        message: "Sale is created Successfully",
+        message: "Unit is created Successfully",
       });
     } catch (err) {
       res
@@ -60,30 +58,30 @@ saleRouter.post(
   })
 );
 
-// CREATE MULTI sales
-saleRouter.post(
+// CREATE MULTI units
+unitRouter.post(
   "/all",
   expressAsyncHandler(async (req, res) => {
-    await Sale.insertMany(req.body, (err) => {
+    await Unit.insertMany(req.body, (err) => {
       if (err) {
         res.status(500).json({ error: err });
       } else {
         res.status(200).json({
-          message: "sales are created Successfully",
+          message: "units are created Successfully",
         });
       }
     });
   })
 );
 
-// UPDATE ONE Sale
-saleRouter.put(
+// UPDATE ONE Unit
+unitRouter.put(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const update = req.body;
     try {
-      await Sale.updateOne({ _id: id }, { $set: update })
+      await Unit.updateOne({ _id: id }, { $set: update })
         .then((response) => {
           res.send(response);
         })
@@ -96,13 +94,13 @@ saleRouter.put(
   })
 );
 
-// DELETE ONE Sale
-saleRouter.delete(
+// DELETE ONE Unit
+unitRouter.delete(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     try {
-      await Sale.deleteOne({ _id: id })
+      await Unit.deleteOne({ _id: id })
         .then((response) => {
           res.send(response);
         })
@@ -115,4 +113,4 @@ saleRouter.delete(
   })
 );
 
-module.exports = saleRouter;
+module.exports = unitRouter;
