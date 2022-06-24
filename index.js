@@ -14,6 +14,7 @@ const priceRouter = require("./routes/priceRouter");
 const warehouseRouter = require("./routes/warehouseRouter");
 const inventoryRouter = require("./routes/inventoryRouter");
 const inventoryCountRouter = require("./routes/inventoryCountRouter");
+const poRouter = require("./routes/poRouter");
 const multer = require("multer");
 
 require("dotenv").config();
@@ -56,6 +57,7 @@ app.use("/api/price", priceRouter);
 app.use("/api/warehouse", warehouseRouter);
 app.use("/api/inventory", inventoryRouter);
 app.use("/api/inventoryCount", inventoryCountRouter);
+app.use("/api/purchase", poRouter);
 
 // Home
 app.get("/", async (req, res) => {
