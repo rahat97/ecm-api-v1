@@ -60,6 +60,11 @@ app.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname + "/template/home.html"));
 });
 
+// API DOCS
+app.get("/api/v1/docs", async (req, res) => {
+  res.sendFile(path.join(__dirname + "/template/docs.html"));
+});
+
 // error Handle
 const errorHandler = (err, req, res, next) => {
   if (res.headerSent) {
