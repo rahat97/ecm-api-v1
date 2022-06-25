@@ -14,7 +14,7 @@ const priceRouter = require("./routes/priceRouter");
 const warehouseRouter = require("./routes/warehouseRouter");
 const inventoryRouter = require("./routes/inventoryRouter");
 const inventoryCountRouter = require("./routes/inventoryCountRouter");
-const poRouter = require("./routes/poRouter");
+const poRouter = require("./routes/purchaseRouter");
 const multer = require("multer");
 
 require("dotenv").config();

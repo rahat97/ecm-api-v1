@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 
-const poSchema = mongoose.Schema(
+const purchaseSchema = mongoose.Schema(
   {
     poNo: { type: String, require: true },
     supplier: { type: mongoose.Types.ObjectId, ref: "Supplier", require: true },
-    // warehouse: {
-    //   type: mongoose.Types.ObjectId,
-    //   ref: "Warehouse",
-    //   require: true,
-    //   unique: true,
-    // },
+    warehouse: {
+      type: mongoose.Types.ObjectId,
+      ref: "Warehouse",
+      require: true,
+      unique: true,
+    },
     products: [
       {
         type: Map,
@@ -49,5 +49,5 @@ const poSchema = mongoose.Schema(
   }
 );
 
-const PO = new mongoose.model("PO", poSchema);
-module.exports = PO;
+const Purchase = new mongoose.model("Purchase", purchaseSchema);
+module.exports = Purchase;
