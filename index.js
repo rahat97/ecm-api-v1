@@ -19,6 +19,7 @@ const grnRouter = require("./routes/grnRouter");
 const rtvRouter = require("./routes/rtvRouter");
 const tpnRouter = require("./routes/tpnRouter");
 const companyRouter = require("./routes/companyRouter");
+const damageRouter = require("./routes/damageRouter");
 const multer = require("multer");
 
 require("dotenv").config();
@@ -66,6 +67,7 @@ app.use("/api/grn", grnRouter);
 app.use("/api/rtv", rtvRouter);
 app.use("/api/tpn", tpnRouter);
 app.use("/api/company", companyRouter);
+app.use("/api/damage", damageRouter);
 
 // Home
 app.get("/", async (req, res) => {
