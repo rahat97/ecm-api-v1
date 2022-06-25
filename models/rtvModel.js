@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
-const purchaseSchema = mongoose.Schema(
+const rtvSchema = mongoose.Schema(
   {
+    grnNo: { type: String, require: true },
     poNo: { type: String, require: true },
     supplier: { type: mongoose.Types.ObjectId, ref: "Supplier", require: true },
     warehouse: { type: mongoose.Types.ObjectId, ref: "Warehouse" },
@@ -28,7 +29,6 @@ const purchaseSchema = mongoose.Schema(
         }),
       },
     ],
-    type: { type: String },
     note: { type: String },
     doc: { type: String },
     totalItem: { type: Number, default: 0, require: true },
@@ -38,7 +38,7 @@ const purchaseSchema = mongoose.Schema(
     userId: { type: mongoose.Types.ObjectId, ref: "User", require: true },
     status: {
       type: String,
-      enum: ["Pending", "Ordered", "Partial", "Recieved"],
+      enum: ["Partial", "Complete"],
     },
   },
   {
@@ -46,5 +46,5 @@ const purchaseSchema = mongoose.Schema(
   }
 );
 
-const Purchase = new mongoose.model("Purchase", purchaseSchema);
-module.exports = Purchase;
+const Rtv = new mongoose.model("Rtv", rtvSchema);
+module.exports = Rtv;

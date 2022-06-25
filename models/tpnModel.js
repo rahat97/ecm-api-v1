@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 
-const purchaseSchema = mongoose.Schema(
+const tpnSchema = mongoose.Schema(
   {
-    poNo: { type: String, require: true },
-    supplier: { type: mongoose.Types.ObjectId, ref: "Supplier", require: true },
-    warehouse: { type: mongoose.Types.ObjectId, ref: "Warehouse" },
+    tpnNo: { type: String, require: true },
+    poNo: { type: mongoose.Types.ObjectId, ref: "Purchase", require: true },
+    warehouseTo: { type: mongoose.Types.ObjectId, ref: "Warehouse" },
+    warehouseFrom: { type: mongoose.Types.ObjectId, ref: "Warehouse" },
     products: [
       {
         type: Map,
@@ -33,12 +34,10 @@ const purchaseSchema = mongoose.Schema(
     doc: { type: String },
     totalItem: { type: Number, default: 0, require: true },
     total: { type: mongoose.Types.Decimal128, default: 0, require: true },
-    discount: { type: mongoose.Types.Decimal128, default: 0, require: true },
-    tax: { type: mongoose.Types.Decimal128, default: 0, require: true },
     userId: { type: mongoose.Types.ObjectId, ref: "User", require: true },
     status: {
       type: String,
-      enum: ["Pending", "Ordered", "Partial", "Recieved"],
+      enum: ["Pending", "Complete"],
     },
   },
   {
@@ -46,5 +45,5 @@ const purchaseSchema = mongoose.Schema(
   }
 );
 
-const Purchase = new mongoose.model("Purchase", purchaseSchema);
-module.exports = Purchase;
+const Tpn = new mongoose.model("Tpn", tpnSchema);
+module.exports = Tpn;

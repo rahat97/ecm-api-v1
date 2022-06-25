@@ -9,7 +9,6 @@ const grnSchema = mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "Warehouse",
       require: true,
-      unique: true,
     },
     products: [
       {
@@ -24,6 +23,7 @@ const grnSchema = mongoose.Schema(
           mrp: { type: mongoose.Types.Decimal128, default: 0, require: true },
           tax: { type: mongoose.Types.Decimal128, default: 0, require: true },
           qty: { type: mongoose.Types.Decimal128, default: 0, require: true },
+          unit: { type: mongoose.Types.ObjectId, ref: "Unit", require: true },
           discount: {
             type: mongoose.Types.Decimal128,
             default: 0,
@@ -39,6 +39,7 @@ const grnSchema = mongoose.Schema(
     total: { type: mongoose.Types.Decimal128, default: 0, require: true },
     discount: { type: mongoose.Types.Decimal128, default: 0, require: true },
     tax: { type: mongoose.Types.Decimal128, default: 0, require: true },
+    userId: { type: mongoose.Types.ObjectId, ref: "User", require: true },
     status: {
       type: String,
       enum: ["Partial", "Complete"],
