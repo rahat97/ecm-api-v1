@@ -36,6 +36,8 @@ const saleSchema = mongoose.Schema(
     changeAmount: { type: mongoose.Types.Decimal128, require: true },
     totalItem: { type: Number, require: true },
     total: { type: mongoose.Types.Decimal128, require: true },
+    vat: { type: mongoose.Types.Decimal128, require: true },
+    discount: { type: mongoose.Types.Decimal128, require: true },
     billerId: { type: mongoose.Types.ObjectId, require: true, ref: "User" },
     customerId: {
       type: mongoose.Types.ObjectId,
