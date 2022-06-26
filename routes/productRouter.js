@@ -17,8 +17,12 @@ const Product = require("../models/productModel");
 
 // GET ALL PRODUCTS
 router.get("/", async (req, res) => {
-  const products = await Product.find({});
-  res.send(products);
+  try {
+    const products = await Product.find({});
+    res.send(products);
+  } catch {
+    res.status(500).json("Server side error");
+  }
 });
 
 // GET ALL PRODUCTS
