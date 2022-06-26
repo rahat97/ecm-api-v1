@@ -9,13 +9,14 @@
  * 6. create many "/all"
  * 7. updateOne "/:id"
  * 8. delete one "/:id"
+ * Only I know what I have done for this
  */
 const express = require("express");
 const router = express.Router();
 const expressAsyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 
-// GET ALL PRODUCTS
+// GET ALL PRODUCTS UPDATED
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find({});
