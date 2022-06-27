@@ -19,8 +19,7 @@ const Product = require("../models/productModel");
 // GET ALL PRODUCTS UPDATED
 router.get("/", async (req, res) => {
   try {
-    const product = new Product();
-    const products = await product.find({});
+    const products = await Product.find({});
     res.send(products);
   } catch {
     res.status(500).json("Server side error");
@@ -42,6 +41,14 @@ router.get("/category/:category", async (req, res) => {
   const category = req.params.category;
   const products = await Product.find({
     category: { $regex: new RegExp("^" + category.toLowerCase(), "i") },
+  });
+  res.send(products);
+});
+
+// GET ALL FEATURED PRODUCTS
+router.get("/featured", async (req, res) => {
+  const products = await Product.find({
+    featured: true,
   });
   res.send(products);
 });
