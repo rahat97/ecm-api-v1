@@ -43,7 +43,7 @@ categoryRouter.get(
 categoryRouter.get(
   "/master/",
   expressAsyncHandler(async (req, res) => {
-    const categories = await Category.find({ parent: "mc" });
+    const categories = await Category.find({ mc: "mc" });
     res.send(categories);
   })
 );
