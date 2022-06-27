@@ -39,6 +39,15 @@ categoryRouter.get(
   })
 );
 
+// GET ALL MASTER CATEGORY
+categoryRouter.get(
+  "/master/",
+  expressAsyncHandler(async (req, res) => {
+    const categories = await Category.find({ parent: "mc" });
+    res.send(categories);
+  })
+);
+
 // GET CATEGORY BY ID
 categoryRouter.get(
   "/:id",

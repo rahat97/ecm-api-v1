@@ -19,7 +19,18 @@ const Product = require("../models/productModel");
 // GET ALL PRODUCTS UPDATED
 router.get("/", async (req, res) => {
   try {
-    const products = await Product.find({});
+    const product = new Product();
+    const products = await product.find({});
+    res.send(products);
+  } catch {
+    res.status(500).json("Server side error");
+  }
+});
+
+// GET ALL ACTIVE PRODUCTS UPDATED
+router.get("/active", async (req, res) => {
+  try {
+    const products = await Product.findActive();
     res.send(products);
   } catch {
     res.status(500).json("Server side error");
@@ -73,6 +84,12 @@ router.get(
     res.send(products);
   })
 );
+
+//ECOMMERCE PRODUCT SEARCH
+router.post("search", async (req, res) => {
+  const name = req.params.searchString;
+  Product.find({ name: name }, {}, { lean: true });
+});
 
 // CREATE ONE PRODUCT
 router.post(

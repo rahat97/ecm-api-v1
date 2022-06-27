@@ -28,4 +28,11 @@ const productSchema = mongoose.Schema(
 );
 
 const Product = new mongoose.model("Product", productSchema);
+
+productSchema.method = {
+  findActive: function () {
+    return mongoose.model("Product");
+  },
+};
+
 module.exports = Product;
