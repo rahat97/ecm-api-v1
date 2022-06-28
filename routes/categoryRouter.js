@@ -82,7 +82,7 @@ categoryRouter.get(
   "/mc/:mcId",
   expressAsyncHandler(async (req, res) => {
     const parent = req.params.mcId;
-    const category = await Category.find({ mcId: parent });
+    const category = await Category.find({ mcId: parent, mc: { $ne: "mc" } });
     res.send(category);
   })
 );
