@@ -113,7 +113,7 @@ categoryRouter.post(
         res.status(500).json({ error: err });
       } else {
         res.status(200).json({
-          message: "Category are created Successfully",
+          message: "Categories are created Successfully",
         });
       }
     });

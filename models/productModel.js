@@ -16,6 +16,7 @@ const productSchema = mongoose.Schema(
     ],
     brand: { type: String, require: true },
     slug: { type: String, require: true },
+    details: { type: String },
     unit: { type: String, require: true },
     alert_quantity: { type: Number, require: true },
     vat: { type: Number, require: true },

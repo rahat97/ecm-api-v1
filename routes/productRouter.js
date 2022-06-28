@@ -19,7 +19,15 @@ const Product = require("../models/productModel");
 // GET ALL PRODUCTS UPDATED
 router.get("/", async (req, res) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({})
+      .select({
+        name: 1,
+        ean: 1,
+        article_code: 1,
+        priceList: 1,
+        category: 1,
+      })
+      .populate("category", "name");
     res.send(products);
   } catch {
     res.status(500).json("Server side error");
@@ -58,7 +66,10 @@ router.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const products = await Product.find({ _id: id });
+    const products = await Product.find({ _id: id }).populate(
+      "category",
+      "name"
+    );
     res.send(products);
   })
 );
