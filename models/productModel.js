@@ -8,11 +8,15 @@ const productSchema = mongoose.Schema(
     master_category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     product_type: { type: String, require: true },
+    priceList: [
+      {
+        type: mongoose.Types.ObjectId, //HERE
+        ref: "Price",
+      },
+    ],
     brand: { type: String, require: true },
     slug: { type: String, require: true },
     unit: { type: String, require: true },
-    sale_unit: { type: String, require: true },
-    purchase_unit: { type: String, require: true },
     alert_quantity: { type: Number, require: true },
     vat: { type: Number, require: true },
     vat_method: { type: Boolean, require: true },
