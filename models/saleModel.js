@@ -4,7 +4,7 @@ const saleSchema = mongoose.Schema(
   {
     invoiceId: { type: String, require: true },
     source: { type: String, require: true },
-    warhouse: { type: String, require: true },
+    warehouse: { type: String, require: true },
     products: [
       {
         type: Map,

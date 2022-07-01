@@ -63,7 +63,7 @@ categoryRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const category = await Category.find({ _id: id });
-    res.send(category);
+    res.send(category[0]);
   })
 );
 
