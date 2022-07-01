@@ -25,13 +25,13 @@ const userRouter = express.Router();
 userRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const users = await User.find({}).select({ 
-      name: 1, 
-      username: 1, 
-      email: 1, 
-      phone: 1, 
-      type: 1, 
-      status: 1 
+    const users = await User.find({}).select({
+      name: 1,
+      username: 1,
+      email: 1,
+      phone: 1,
+      type: 1,
+      status: 1
     });
     res.send(users);
     // // res.send('removed');
@@ -121,9 +121,9 @@ userRouter.put(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     let update = req.body;
-    if(update.password){
+    if (update.password) {
       const hashPassword = await bcrypt.hash(req.body.password, 10);
-      update = {...update, password: hashPassword}
+      update = { ...update, password: hashPassword }
     }
 
     // console.log(req.body)
@@ -168,7 +168,7 @@ userRouter.post(
   expressAsyncHandler(async (req, res) => {
     try {
       const hashPassword = await bcrypt.hash(req.body.password, 10);
-      
+
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
@@ -187,7 +187,7 @@ userRouter.post(
       });
     } catch (error) {
       // res.status(400).json({
-        res
+      res
         .status(500)
         .json({ message: "There was a server side error", error: error });
       // });
@@ -201,12 +201,23 @@ userRouter.post(
 userRouter.post(
   "/login",
   expressAsyncHandler(async (req, res) => {
+    const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email)
+    console.log({ body: req.body, email: isEmail })
     try {
-      const user = await User.find({
-        status: "active",
-        username: req.body.username,
-      });
-
+      let user;
+      if (isEmail) {
+        user = await User.find({
+          status: "active",
+          email: req.body.email.toLowerCase(),
+        });
+      } else {
+        user = await User.find({
+          status: "active",
+          username: req.body.email.toLowerCase(),
+        });
+      }
+      console.log(user)
+      
       if (user && user.length > 0) {
         const isValidPassword = await bcrypt.compare(
           req.body.password,
