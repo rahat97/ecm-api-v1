@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema(
     username: { type: String, require: true, unique: true },
     password: { type: String, require: true },
     type: { type: String, require: true },
-    previllage: { type: Object, require: true },
+    privilege: { type: Object},
     address: { type: String },
     phone: { type: String, require: true, unique: true },
     status: { type: String, enum: ["active", "inactive"] },
