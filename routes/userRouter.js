@@ -202,7 +202,7 @@ userRouter.post(
   "/login",
   expressAsyncHandler(async (req, res) => {
     const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email)
-    console.log({ body: req.body, email: isEmail })
+    // console.log({ body: req.body, email: isEmail })
     try {
       let user;
       if (isEmail) {
@@ -216,7 +216,7 @@ userRouter.post(
           username: req.body.email.toLowerCase(),
         });
       }
-      console.log(user)
+      // console.log(user)
       
       if (user && user.length > 0) {
         const isValidPassword = await bcrypt.compare(
@@ -237,24 +237,25 @@ userRouter.post(
 
           res.status(200).json({
             access_token: token,
-            status: "success",
+            status: true,
+            user: { name: user[0].name, username: user[0].username, email: user[0].email, type: user[0].type },
             message: "Login Successful",
           });
         } else {
           res.status(401).json({
-            status: "fail",
+            status: false,
             error: "Password Does not Match",
           });
         }
       } else {
         res.status(401).json({
-          status: "fail",
+          status: false,
           error: "User Not Found",
         });
       }
     } catch (err) {
       res.status(500).json({
-        status: "fail",
+        status: false,
         error: err,
       });
     }
