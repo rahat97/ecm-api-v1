@@ -16,50 +16,91 @@ const router = express.Router();
 const expressAsyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
 
+// COUNT PRODUCT
+router.get(
+  "/count",
+  expressAsyncHandler(async (req, res) => {
+    const total = await Product.countDocuments({});
+    res.status(200).json(total);
+  })
+);
+
+// GET ALL PRODUCTS WITH PAGENATION
+router.get(
+  "/all",
+  expressAsyncHandler(async (req, res) => {
+    const page = parseInt(req.query.page);
+    const size = parseInt(req.query.size);
+    console.log("page:", page, "size:", size);
+    const query = {};
+
+    if (page || size) {
+      product = await Product.find({})
+        .skip(page * size)
+        .limit(size);
+    } else {
+      product = await Product.find({});
+    }
+    res.send(product);
+  })
+);
+
 // GET ALL PRODUCTS UPDATED
-router.get("/", async (req, res) => {
-  try {
-    const products = await Product.find({})
-      .select({
-        name: 1,
-        ean: 1,
-        article_code: 1,
-        priceList: 1,
-        category: 1,
-      })
-      .populate("category", "name");
-    res.send(products);
-  } catch {
-    res.status(500).json("Server side error");
-  }
-});
+router.get(
+  "/",
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const products = await Product.find({})
+        .select({
+          name: 1,
+          ean: 1,
+          article_code: 1,
+          priceList: 1,
+          category: 1,
+        })
+        .populate("category", "name");
+      res.send(products);
+    } catch {
+      res.status(500).json("Server side error");
+    }
+  })
+);
 
 // GET ALL ACTIVE PRODUCTS UPDATED
-router.get("/active", async (req, res) => {
-  try {
-    const products = await Product.findActive();
-    res.send(products);
-  } catch {
-    res.status(500).json("Server side error");
-  }
-});
+router.get(
+  "/active",
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const products = await Product.findActive();
+      res.send(products);
+    } catch {
+      res.status(500).json("Server side error");
+    }
+  })
+);
 
 // GET ALL PRODUCTS
-router.get("/category/:category", async (req, res) => {
-  const category = req.params.category;
-  const products = await Product.find({
-    category: { $regex: new RegExp("^" + category.toLowerCase(), "i") },
-  });
-  res.send(products);
-});
+router.get(
+  "/category/:category",
+  expressAsyncHandler(async (req, res) => {
+    const category = req.params.category;
+    const products = await Product.find({
+      category: { $regex: new RegExp("^" + category.toLowerCase(), "i") },
+    });
+    res.send(products);
+  })
+);
 
 // GET ALL FEATURED PRODUCTS
-router.get("/featured", async (req, res) => {
-  const products = await Product.find({
-    featured: true,
-  });
-  res.send(products);
-});
+router.get(
+  "/featured",
+  expressAsyncHandler(async (req, res) => {
+    const products = await Product.find({
+      featured: true,
+    });
+    res.send(products);
+  })
+);
 
 // GET ONE PRODUCT
 router.get(
@@ -105,13 +146,33 @@ router.get(
 
 // ECOMMERCE SEARCH
 router.get(
-  "/search/:q",
-  expressAsyncHandler(async (req, res) => {})
+  "/web-search/:q",
+  expressAsyncHandler(async (req, res) => {
+    let payload = req.params.q.trim().toString().toLocaleLowerCase();
+
+    query = { name: { $regex: new RegExp("^" + payload + ".*", "i") } };
+    const search = await Product.find(query)
+      .select({
+        _id: 1,
+        name: 1,
+        ean: 1,
+        unit: 1,
+        article_code: 1,
+        priceList: 1,
+        category: 1,
+      })
+      .limit(10);
+    if (payload === "") {
+      res.send([]);
+    } else {
+      res.send({ search });
+    }
+  })
 );
 
-// POS SRARCH
+// PRODUCTS SRARCH
 router.get(
-  "/pos-search/:q",
+  "/search/:q",
   expressAsyncHandler(async (req, res) => {
     let payload = req.params.q.trim().toString().toLocaleLowerCase();
 
@@ -138,6 +199,7 @@ router.get(
         _id: 1,
         name: 1,
         ean: 1,
+        unit: 1,
         article_code: 1,
         priceList: 1,
         category: 1,
