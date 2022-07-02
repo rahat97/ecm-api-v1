@@ -31,35 +31,63 @@ router.get(
   expressAsyncHandler(async (req, res) => {
     const page = parseInt(req.params.page);
     const size = parseInt(req.params.size);
-    // const page = parseInt(req.query.page);
+    const queryString = req.query.q.trim().toString().toLocaleLowerCase();
+    let product = [];
     // const size = parseInt(req.query.size);
-    console.log("page:", page, "size:", size);
-    const query = {};
+    console.log("page:", page, "size:", size, "search:", queryString);
 
-    if (page || size) {
-      product = await Product.find({})
-        .skip(page * size)
-        .limit(size)
+    if (queryString === "") {
+      const isNumber = /^\d/.test(payload);
+      let query = {};
+      if (!isNumber) {
+        query = { name: { $regex: new RegExp("^" + payload + ".*", "i") } };
+        // query = { name:  payload  };
+      } else {
+        query = {
+          $or: [
+            { ean: { $regex: new RegExp("^" + payload + ".*", "i") } },
+            { article_code: { $regex: new RegExp("^" + payload + ".*", "i") } },
+          ],
+        };
+      }
+
+      const product = await Product.find(query)
         .select({
+          _id: 1,
           name: 1,
           ean: 1,
+          unit: 1,
           article_code: 1,
           priceList: 1,
           category: 1,
         })
-        .populate("category", "name");
+        .limit(10);
     } else {
-      product = await Product.find({})
-        .select({
-          name: 1,
-          ean: 1,
-          article_code: 1,
-          priceList: 1,
-          category: 1,
-        })
-        .populate("category", "name");
+      if (page || size) {
+        product = await Product.find({})
+          .skip(page * size)
+          .limit(size)
+          .select({
+            name: 1,
+            ean: 1,
+            article_code: 1,
+            priceList: 1,
+            category: 1,
+          })
+          .populate("category", "name");
+      } else {
+        product = await Product.find({})
+          .select({
+            name: 1,
+            ean: 1,
+            article_code: 1,
+            priceList: 1,
+            category: 1,
+          })
+          .populate("category", "name");
+      }
+      res.send(product);
     }
-    res.send(product);
   })
 );
 
