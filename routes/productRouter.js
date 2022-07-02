@@ -27,10 +27,12 @@ router.get(
 
 // GET ALL PRODUCTS WITH PAGENATION
 router.get(
-  "/all",
+  "/all/:page/:size",
   expressAsyncHandler(async (req, res) => {
-    const page = parseInt(req.query.page);
-    const size = parseInt(req.query.size);
+    const page = parseInt(req.params.page);
+    const size = parseInt(req.params.size);
+    // const page = parseInt(req.query.page);
+    // const size = parseInt(req.query.size);
     console.log("page:", page, "size:", size);
     const query = {};
 
