@@ -38,7 +38,7 @@ const purchaseSchema = mongoose.Schema(
     userId: { type: mongoose.Types.ObjectId, ref: "User", require: true },
     status: {
       type: String,
-      enum: ["Pending", "Ordered", "Partial", "Recieved"],
+      enum: ["Pending", "Ordered", "Partial", "Received"],
     },
   },
   {

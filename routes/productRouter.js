@@ -103,32 +103,6 @@ router.get(
   })
 );
 
-//ECOMMERCE PRODUCT SEARCH
-router.post("/search/:q", async (req, res) => {
-  let payload = req.params.q.trim().toString().toLocaleLowerCase();
-  // check search item num | ean or article code
-  const isNumber = /^\d/.test(payload);
-  let query = {};
-  if (!isNumber) {
-    query = { name: { $regex: new RegExp("^" + payload + ".*", "i") } };
-    // query = { name:  payload  };
-  } else {
-    query = {
-      $or: [
-        { ean: { $regex: new RegExp("^" + payload + ".*", "i") } },
-        { article_code: { $regex: new RegExp("^" + payload + ".*", "i") } },
-      ],
-    };
-  }
-  // const cursor = productCollection.find(query);
-  const search = await Product.find(query);
-  if (payload === "") {
-    res.send([]);
-  } else {
-    res.send({ search });
-  }
-});
-
 // CREATE ONE PRODUCT
 router.post(
   "/",

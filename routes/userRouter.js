@@ -21,14 +21,21 @@ const checklogin = require("../middlewares/checkLogin");
 const userRouter = express.Router();
 
 // GET ALL USERS
+// checklogin,
 userRouter.get(
   "/",
-  checklogin,
   expressAsyncHandler(async (req, res) => {
-    const users = await User.find({ status: "active" });
+    const users = await User.find({}).select({
+      name: 1,
+      username: 1,
+      email: 1,
+      phone: 1,
+      type: 1,
+      status: 1,
+    });
     res.send(users);
     // // res.send('removed');
-    console.log(users);
+    // console.log(users);
   })
 );
 
@@ -47,8 +54,15 @@ userRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const user = await User.find({ _id: id });
-    res.send(user);
+    const user = await User.find({ _id: id }).select({
+      name: 1,
+      email: 1,
+      phone: 1,
+      type: 1,
+      status: 1,
+      username: 1,
+    });
+    res.send(user[0]);
   })
 );
 
@@ -75,9 +89,10 @@ userRouter.get(
 // CREATE ONE USER
 userRouter.post(
   "/",
-  checklogin,
+  // checklogin,
   expressAsyncHandler(async (req, res) => {
     const newUser = new User(req.body);
+    console.log(newUser);
     try {
       await newUser.save();
       res.status(200).json({
@@ -112,13 +127,21 @@ userRouter.put(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const update = req.body;
+    let update = req.body;
+    if (update.password) {
+      const hashPassword = await bcrypt.hash(req.body.password, 10);
+      update = { ...update, password: hashPassword };
+    }
+
+    // console.log(req.body)
+    // console.log(update)
     try {
       await User.updateOne({ _id: id }, { $set: update })
         .then((response) => {
           res.send(response);
         })
         .catch((err) => {
+          // console.log(err)
           res.send(err);
         });
     } catch (error) {
@@ -152,16 +175,15 @@ userRouter.post(
   expressAsyncHandler(async (req, res) => {
     try {
       const hashPassword = await bcrypt.hash(req.body.password, 10);
-      let userNameGen = req.body.name;
-      let un = userNameGen.replace(" ", "").substring(0, 10).toLowerCase();
+
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        username: un,
+        username: req.body.username,
         phone: req.body.phone,
         type: req.body.type,
-        address: req.body.address,
-        previllage: req.body.previllage,
+        address: "",
+        privilege: {},
         password: hashPassword,
         status: req.body.status,
       });
@@ -169,14 +191,13 @@ userRouter.post(
       res.status(200).json({
         message: "Registration Successful",
         status: "success",
-        data: un,
       });
     } catch (error) {
-      res.status(400).json({
-        message: "Registration Unsuccessful",
-        error: error,
-        ststus: "fail",
-      });
+      // res.status(400).json({
+      res
+        .status(500)
+        .json({ message: "There was a server side error", error: error });
+      // });
     }
 
     // res.send(newUser);?
@@ -187,13 +208,24 @@ userRouter.post(
 userRouter.post(
   "/login",
   expressAsyncHandler(async (req, res) => {
-    console.log(req.body);
+    const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      req.body.email
+    );
+    // console.log({ body: req.body, email: isEmail })
     try {
-      const user = await User.find({
-        status: "active",
-        username: req.body.email,
-      });
-
+      let user;
+      if (isEmail) {
+        user = await User.find({
+          status: "active",
+          email: req.body.email.toLowerCase(),
+        });
+      } else {
+        user = await User.find({
+          status: "active",
+          username: req.body.email.toLowerCase(),
+        });
+      }
+      // console.log(user)
       if (user && user.length > 0) {
         const isValidPassword = await bcrypt.compare(
           req.body.password,
@@ -213,24 +245,30 @@ userRouter.post(
 
           res.status(200).json({
             access_token: token,
-            status: "success",
+            status: true,
+            user: {
+              name: user[0].name,
+              username: user[0].username,
+              email: user[0].email,
+              type: user[0].type,
+            },
             message: "Login Successful",
           });
         } else {
           res.status(401).json({
-            status: "fail",
-            error: "Password Doesnot Match",
+            status: false,
+            error: "Password Does not Match",
           });
         }
       } else {
         res.status(401).json({
-          status: "fail",
+          status: false,
           error: "User Not Found",
         });
       }
     } catch (err) {
       res.status(500).json({
-        status: "fail",
+        status: false,
         error: err,
       });
     }

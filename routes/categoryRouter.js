@@ -43,7 +43,7 @@ categoryRouter.get(
 categoryRouter.get(
   "/master/",
   expressAsyncHandler(async (req, res) => {
-    const categories = await Category.find({ mc: "mc" });
+    const categories = await Category.find({ status: "active", mc: "mc" }).select({_id:1, name:1, mcId:1});
     res.send(categories);
   })
 );
@@ -63,7 +63,7 @@ categoryRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const category = await Category.find({ _id: id });
-    res.send(category);
+    res.send(category[0]);
   })
 );
 
@@ -92,6 +92,7 @@ categoryRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
     const newCategory = new Category(req.body);
+    // console.log(newCategory)
     await newCategory.save((err) => {
       if (err) {
         res.status(500).json({ error: "There was a server side error" });
