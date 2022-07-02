@@ -37,9 +37,22 @@ router.get(
     if (page || size) {
       product = await Product.find({})
         .skip(page * size)
-        .limit(size);
+        .limit(size)
+        .select({
+          name: 1,
+          ean: 1,
+          article_code: 1,
+          priceList: 1,
+          category: 1,
+        });
     } else {
-      product = await Product.find({});
+      product = await Product.find({}).select({
+        name: 1,
+        ean: 1,
+        article_code: 1,
+        priceList: 1,
+        category: 1,
+      });
     }
     res.send(product);
   })
