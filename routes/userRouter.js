@@ -187,10 +187,11 @@ userRouter.post(
 userRouter.post(
   "/login",
   expressAsyncHandler(async (req, res) => {
+    console.log(req.body);
     try {
       const user = await User.find({
         status: "active",
-        username: req.body.username,
+        username: req.body.email,
       });
 
       if (user && user.length > 0) {
