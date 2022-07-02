@@ -103,6 +103,54 @@ router.get(
   })
 );
 
+// ECOMMERCE SEARCH
+router.get(
+  "/search/:q",
+  expressAsyncHandler(async (req, res) => {})
+);
+
+// POS SRARCH
+router.get(
+  "/pos-search/:q",
+  expressAsyncHandler(async (req, res) => {
+    let payload = req.params.q.trim().toString().toLocaleLowerCase();
+
+    // res.send(payload)
+    // check search item num | ean or article code
+    const isNumber = /^\d/.test(payload);
+    let query = {};
+    if (!isNumber) {
+      query = { name: { $regex: new RegExp("^" + payload + ".*", "i") } };
+      // query = { name:  payload  };
+    } else {
+      query = {
+        $or: [
+          // { ean: payload   },
+          // { article_code:  payload }
+          { ean: { $regex: new RegExp("^" + payload + ".*", "i") } },
+          { article_code: { $regex: new RegExp("^" + payload + ".*", "i") } },
+        ],
+      };
+    }
+
+    const search = await Product.find(query)
+      .select({
+        _id: 1,
+        name: 1,
+        ean: 1,
+        article_code: 1,
+        priceList: 1,
+        category: 1,
+      })
+      .limit(10);
+    if (payload === "") {
+      res.send([]);
+    } else {
+      res.send({ search });
+    }
+  })
+);
+
 // CREATE ONE PRODUCT
 router.post(
   "/",
