@@ -46,15 +46,18 @@ router.get(
           article_code: 1,
           priceList: 1,
           category: 1,
-        });
+        })
+        .populate("category", "name");
     } else {
-      product = await Product.find({}).select({
-        name: 1,
-        ean: 1,
-        article_code: 1,
-        priceList: 1,
-        category: 1,
-      });
+      product = await Product.find({})
+        .select({
+          name: 1,
+          ean: 1,
+          article_code: 1,
+          priceList: 1,
+          category: 1,
+        })
+        .populate("category", "name");
     }
     res.send(product);
   })
