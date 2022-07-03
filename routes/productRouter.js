@@ -25,36 +25,46 @@ router.get(
   })
 );
 
-// GET ALL PRODUCTS WITH PAGENATION
+// GET ALL PRODUCTS WITH PAGENATION & SEARCH
 router.get(
   "/all/:page/:size",
   expressAsyncHandler(async (req, res) => {
     const page = parseInt(req.params.page);
     const size = parseInt(req.params.size);
-    const queryString = req.query.q.trim().toString().toLocaleLowerCase();
-    let product = [];
+    const queryString = req.query?.q?.trim().toString().toLocaleLowerCase();
+    const currentPage = page + 1;
+
     let query = {};
+    let product = [];
     // const size = parseInt(req.query.size);
-    console.log("page:", page, "size:", size, "search:", queryString);
-    if (queryString !== "") {
+    console.log("page:", currentPage, "size:", size, "search:", queryString);
+
+    //check if search or the pagenation
+
+    if (queryString) {
+      console.log("search:", query);
+      // search check if num or string
       const isNumber = /^\d/.test(queryString);
+      console.log(isNumber);
       if (!isNumber) {
+        // if text then search name
         query = { name: { $regex: new RegExp("^" + queryString + ".*", "i") } };
         // query = { name:  queryString  };
       } else {
+        // if number search in ean and article code
         query = {
           $or: [
-            { ean: { $regex: new RegExp("^" + queryString + ".*", "i") } },
+            { ean: { $regex: RegExp("^" + queryString + ".*", "i") } },
             {
               article_code: {
-                $regex: new RegExp("^" + queryString + ".*", "i"),
+                $regex: RegExp("^" + queryString + ".*", "i"),
               },
             },
           ],
         };
       }
 
-      const product = await Product.find(query)
+      product = await Product.find(query)
         .select({
           _id: 1,
           name: 1,
@@ -64,32 +74,28 @@ router.get(
           priceList: 1,
           category: 1,
         })
-        .limit(10);
+        .limit(50)
+        .populate("category", "name");
+      res.status(200).json(product);
     } else {
-      if (page || size) {
-        product = await Product.find({})
-          .skip(page * size)
-          .limit(size)
-          .select({
-            name: 1,
-            ean: 1,
-            article_code: 1,
-            priceList: 1,
-            category: 1,
-          })
-          .populate("category", "name");
-      } else {
-        product = await Product.find({})
-          .select({
-            name: 1,
-            ean: 1,
-            article_code: 1,
-            priceList: 1,
-            category: 1,
-          })
-          .populate("category", "name");
-      }
-      res.send(product);
+      // regular pagination
+      query = {};
+
+      product = await Product.find(query)
+        .select({
+          _id: 1,
+          name: 1,
+          ean: 1,
+          unit: 1,
+          article_code: 1,
+          priceList: 1,
+          category: 1,
+        })
+        .limit(size)
+        .skip(size * page)
+        .populate("category", "name");
+      res.status(200).json(product);
+      console.log("done:", query);
     }
   })
 );
