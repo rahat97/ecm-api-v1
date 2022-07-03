@@ -33,20 +33,23 @@ router.get(
     const size = parseInt(req.params.size);
     const queryString = req.query.q.trim().toString().toLocaleLowerCase();
     let product = [];
+    let query = {};
     // const size = parseInt(req.query.size);
     console.log("page:", page, "size:", size, "search:", queryString);
-
-    if (queryString === "") {
-      const isNumber = /^\d/.test(payload);
-      let query = {};
+    if (queryString !== "") {
+      const isNumber = /^\d/.test(queryString);
       if (!isNumber) {
-        query = { name: { $regex: new RegExp("^" + payload + ".*", "i") } };
-        // query = { name:  payload  };
+        query = { name: { $regex: new RegExp("^" + queryString + ".*", "i") } };
+        // query = { name:  queryString  };
       } else {
         query = {
           $or: [
-            { ean: { $regex: new RegExp("^" + payload + ".*", "i") } },
-            { article_code: { $regex: new RegExp("^" + payload + ".*", "i") } },
+            { ean: { $regex: new RegExp("^" + queryString + ".*", "i") } },
+            {
+              article_code: {
+                $regex: new RegExp("^" + queryString + ".*", "i"),
+              },
+            },
           ],
         };
       }
