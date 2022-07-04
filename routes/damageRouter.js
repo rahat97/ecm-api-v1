@@ -34,7 +34,7 @@ damageRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const damages = await Damage.find({ _id: id });
-    res.send(damages);
+    res.send(damages[0]);
     // // res.send('removed');
     console.log(damages);
   })

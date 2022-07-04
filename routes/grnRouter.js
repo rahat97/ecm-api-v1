@@ -34,7 +34,7 @@ grnRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const grns = await Grn.find({ _id: id });
-    res.send(grns);
+    res.send(grns[0]);
     // // res.send('removed');
     console.log(grns);
   })

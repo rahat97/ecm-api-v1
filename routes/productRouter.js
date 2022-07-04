@@ -166,7 +166,7 @@ router.get(
       "category",
       "name"
     );
-    res.send(products);
+    res.send(products[0]);
   })
 );
 

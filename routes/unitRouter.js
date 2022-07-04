@@ -34,7 +34,7 @@ unitRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const units = await Unit.find({ _id: id, status: "active" });
-    res.send(units);
+    res.send(units[0]);
     // // res.send('removed');
     console.log(units);
   })

@@ -37,7 +37,7 @@ inventoryCountRouter.get(
       _id: id,
       status: "active",
     });
-    res.send(InventoryCounts);
+    res.send(InventoryCounts[0]);
     // // res.send('removed');
     console.log(InventoryCounts);
   })

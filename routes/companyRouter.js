@@ -34,7 +34,7 @@ companyRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const comapnies = await Company.find({ _id: id });
-    res.send(comapnies);
+    res.send(comapnies[0]);
     // // res.send('removed');
     console.log(comapnies);
   })

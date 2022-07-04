@@ -34,7 +34,7 @@ brandRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const brands = await Brand.find({ _id: id, status: "active" });
-    res.send(brands);
+    res.send(brands[0]);
     // // res.send('removed');
     console.log(brands);
   })

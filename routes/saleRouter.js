@@ -36,7 +36,7 @@ saleRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const sales = await Sale.find({ _id: id, status: "complete" });
-    res.send(sales);
+    res.send(sales[0]);
     // // res.send('removed');
     console.log(sales);
   })

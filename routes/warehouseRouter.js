@@ -34,7 +34,7 @@ warehouseRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const warehouses = await Warehouse.find({ _id: id, status: "active" });
-    res.send(warehouses);
+    res.send(warehouses[0]);
     // // res.send('removed');
     console.log(warehouses);
   })

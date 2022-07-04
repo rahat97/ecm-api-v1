@@ -34,7 +34,7 @@ inventoryRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const inventories = await Inventory.find({ _id: id, status: "active" });
-    res.send(inventories);
+    res.send(inventories[0]);
     // // res.send('removed');
     console.log(inventories);
   })

@@ -34,7 +34,7 @@ priceRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const prices = await Price.find({ _id: id, status: "active" });
-    res.send(prices);
+    res.send(prices[0]);
     // // res.send('removed');
     console.log(prices);
   })

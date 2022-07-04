@@ -34,7 +34,7 @@ tpnRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const tpns = await Tpn.find({ _id: id });
-    res.send(tpns);
+    res.send(tpns[0]);
     // // res.send('removed');
     console.log(tpns);
   })

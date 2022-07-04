@@ -34,7 +34,7 @@ purchaseRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const Purchases = await Purchase.find({ _id: id });
-    res.send(Purchases);
+    res.send(Purchases[0]);
     // // res.send('removed');
     console.log(Purchases);
   })
