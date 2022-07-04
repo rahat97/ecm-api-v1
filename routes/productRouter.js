@@ -199,7 +199,7 @@ router.get(
   })
 );
 
-// ECOMMERCE SEARCH
+// E COMMERCE SEARCH
 router.get(
   "/web-search/:q",
   expressAsyncHandler(async (req, res) => {
@@ -229,9 +229,9 @@ router.get(
 router.get(
   "/search/:q",
   expressAsyncHandler(async (req, res) => {
-    let payload = req.params.q.trim().toString().toLocaleLowerCase();
-
-    // res.send(payload)
+    // let payload = req.query?.q?.trim().toString().toLocaleLowerCase();
+    const payload = req.params?.q?.trim().toString().toLocaleLowerCase();
+    console.log(payload);
     // check search item num | ean or article code
     const isNumber = /^\d/.test(payload);
     let query = {};
@@ -263,7 +263,7 @@ router.get(
     if (payload === "") {
       res.send([]);
     } else {
-      res.send({ search });
+      res.send(search);
     }
   })
 );
