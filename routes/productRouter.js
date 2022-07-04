@@ -227,9 +227,9 @@ router.get(
 
 // PRODUCTS SRARCH
 router.get(
-  "/search/:q",
+  "/search",
   expressAsyncHandler(async (req, res) => {
-    let payload = req.params.q.trim().toString().toLocaleLowerCase();
+    let payload = req.query.q.trim().toString().toLocaleLowerCase();
 
     // res.send(payload)
     // check search item num | ean or article code
@@ -241,8 +241,6 @@ router.get(
     } else {
       query = {
         $or: [
-          // { ean: payload   },
-          // { article_code:  payload }
           { ean: { $regex: new RegExp("^" + payload + ".*", "i") } },
           { article_code: { $regex: new RegExp("^" + payload + ".*", "i") } },
         ],
@@ -267,6 +265,14 @@ router.get(
     }
   })
 );
+
+// PRODUCTS SRARCH
+// router.get(
+//   "/pos-search",
+//   expressAsyncHandler(async (req, res) => {
+//     console.log("hi");
+//   })
+// );
 
 // CREATE ONE PRODUCT
 router.post(
