@@ -23,7 +23,7 @@ customerRouter.get(
   expressAsyncHandler(async (req, res) => {
     const customers = await Customer.find({ status: "active" });
     res.send(customers);
-    console.log(customers);
+    // console.log(customers);
     // // res.send('removed');
   })
 );
