@@ -231,7 +231,7 @@ router.get(
   expressAsyncHandler(async (req, res) => {
     // let payload = req.query?.q?.trim().toString().toLocaleLowerCase();
     const payload = req.params?.q?.trim().toString().toLocaleLowerCase();
-    console.log(payload);
+    // console.log(payload);
 
     const isNumber = /^\d/.test(payload);
     let query = {};
