@@ -33,7 +33,7 @@ userRouter.get(
       type: 1,
       status: 1,
     });
-    res.send(users);
+    res.status(200).json(users);
     // // res.send('removed');
     // console.log(users);
   })

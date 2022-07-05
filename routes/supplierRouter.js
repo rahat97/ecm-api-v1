@@ -24,7 +24,7 @@ supplierRouter.get(
     const suppliers = await Supplier.find({ status: "active" });
     res.send(suppliers);
     // // res.send('removed');
-    console.log(suppliers);
+    // console.log(suppliers);
   })
 );
 

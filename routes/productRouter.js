@@ -236,7 +236,7 @@ router.get(
     const isNumber = /^\d/.test(payload);
     let query = {};
     if (!isNumber) {
-      query = { name: { $regex: new RegExp("^" + payload + ".*", "i") } };
+      query = { name: { $regex: new RegExp("*" + payload + ".*", "i") } };
       // query = { name:  payload  };
     } else {
       query = {
@@ -255,9 +255,8 @@ router.get(
         unit: 1,
         article_code: 1,
         priceList: 1,
-        category: 1,
       })
-      .limit(10);
+      .limit(5);
     if (payload === "") {
       res.send([]);
     } else {

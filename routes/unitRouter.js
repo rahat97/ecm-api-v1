@@ -24,7 +24,7 @@ unitRouter.get(
     const units = await Unit.find({ status: "active" });
     res.send(units);
     // // res.send('removed');
-    console.log(units);
+    // console.log(units);
   })
 );
 
