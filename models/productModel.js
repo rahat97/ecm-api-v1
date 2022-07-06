@@ -7,7 +7,7 @@ const productSchema = mongoose.Schema(
     article_code: { type: String, require: true },
     master_category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
-    product_type: { type: String, require: true },
+    product_type: { type: String, enum: ["standard", "combo", "offer"]},
     priceList: [
       {
         type: mongoose.Types.ObjectId, //HERE
