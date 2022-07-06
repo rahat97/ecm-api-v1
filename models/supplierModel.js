@@ -10,7 +10,11 @@ const supplierSchema = mongoose.Schema(
       {
         type: Map,
         of: new mongoose.Schema({
-          id: { type: mongoose.Types.ObjectId, require: true },
+          id: { type: mongoose.Types.ObjectId, ref: "Product", require: true },
+          ean: { type: String, require: true },
+          article_code: { type: String, require: true },
+          name: { type: String, require: true },
+          unit: { type: String, require: true },
           order: { type: Number, require: true },
         }),
       },

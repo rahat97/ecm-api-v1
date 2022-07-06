@@ -33,7 +33,11 @@ supplierRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const suppliers = await Supplier.find({ _id: id, status: "active" });
+    const suppliers = await Supplier.find({
+      _id: id,
+      status: "active",
+    });
+    // }).populate("Product.id", "name", "ean", "article_code", "unit");
     res.send(suppliers[0]);
     // // res.send('removed');
     console.log(suppliers);
