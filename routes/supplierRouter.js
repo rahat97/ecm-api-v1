@@ -84,6 +84,7 @@ supplierRouter.put(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const update = req.body;
+    // console.log(req.body);
     try {
       await Supplier.updateOne({ _id: id }, { $set: update })
         .then((response) => {
