@@ -173,12 +173,13 @@ router.get(
       master_category: 1,
     })
     .populate(
-      "master_category",
-      "name"
-    ).populate(
       "category",
       "name"
-    );
+      )
+      .populate(
+        "master_category",
+        "name"
+      );
     res.send(products[0]);
   })
 );
