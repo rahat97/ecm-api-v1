@@ -157,9 +157,9 @@ router.get(
   })
 );
 
-// GET ONE PRODUCT
+// GET ONE PRODUCT FOR PRICE TABLE
 router.get(
-  "infoPrice/:id",
+  "/infoPrice/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const products = await Product.find({ _id: id }).select({
@@ -180,7 +180,7 @@ router.get(
         "master_category",
         "name"
       );
-    res.send(products[0]);
+    res.status(200).json(products[0]);
   })
 );
 
