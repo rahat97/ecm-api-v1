@@ -159,6 +159,32 @@ router.get(
 
 // GET ONE PRODUCT
 router.get(
+  "infoPrice/:id",
+  expressAsyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const products = await Product.find({ _id: id }).select({
+      _id: 1,
+      name: 1,
+      ean: 1,
+      unit: 1,
+      article_code: 1,
+      priceList: 1,
+      category: 1,
+      master_category: 1,
+    })
+    .populate(
+      "master_category",
+      "name"
+    ).populate(
+      "category",
+      "name"
+    );
+    res.send(products[0]);
+  })
+);
+
+// GET ONE PRODUCT
+router.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
@@ -278,11 +304,12 @@ router.post(
   "/",
   expressAsyncHandler(async (req, res) => {
     const newProduct = new Product(req.body);
-    await newProduct.save((err) => {
+    await newProduct.save((err, product) => {
       if (err) {
         res.status(500).json({ error: "There was a server side error" });
       } else {
         res.status(200).json({
+          data: product._id,
           message: "Product is created Successfully",
         });
       }
