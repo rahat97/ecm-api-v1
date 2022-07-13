@@ -44,6 +44,23 @@ supplierRouter.get(
   })
 );
 
+// GET suppliers by Product article_code 
+supplierRouter.get(
+  "/product/:code",
+  expressAsyncHandler(async (req, res) => {
+    const code = req.params.code;
+    const suppliers = await Supplier.find({
+      // _id: id,
+      status: "active",
+    });
+    console.log(code)
+    // }).populate("Product.id", "name", "ean", "article_code", "unit");
+    res.send(suppliers);
+    // // res.send('removed');
+    console.log(suppliers.name);
+  })
+);
+
 // CREATE ONE Supplier
 supplierRouter.post(
   "/",
