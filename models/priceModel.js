@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const priceSchema = mongoose.Schema(
   {
-    product: { type: mongoose.Types.ObjectId, ref: "Product", require: true },
+    article_code: {
+      type: mongoose.Types.ObjectId,
+      ref: "Product",
+      require: true,
+    },
     supplier: { type: mongoose.Types.ObjectId, ref: "Supplier", require: true },
     warehouse: {
       type: mongoose.Types.ObjectId,
