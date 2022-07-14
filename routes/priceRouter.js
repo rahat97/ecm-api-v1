@@ -28,6 +28,7 @@ priceRouter.get(
   })
 );
 
+
 // GET ONE prices
 priceRouter.get(
   "/:id",
@@ -39,7 +40,20 @@ priceRouter.get(
     console.log(prices);
   })
 );
-
+// GET prices By Product Article Code
+priceRouter.get(
+  "/product/:id",
+  expressAsyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const prices = await Price.find({
+       product: id, 
+       status: "active" 
+      });
+    res.send(prices);
+    // // res.send('removed');
+    console.log(prices);
+  })
+);
 // CREATE ONE Price
 priceRouter.post(
   "/",
