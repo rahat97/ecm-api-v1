@@ -13,8 +13,9 @@ const priceSchema = mongoose.Schema(
       ref: "Warehouse",
       require: true,
     },
-    tp: { type: mongoose.Types.Decimal128, require: true },
-    mrp: { type: mongoose.Types.Decimal128, require: true },
+    tp: { type: Number, require: true },
+    mrp: { type: Number, require: true },
+    order: { type: String },
     status: { type: String, enum: ["active", "inactive"] },
   },
   {

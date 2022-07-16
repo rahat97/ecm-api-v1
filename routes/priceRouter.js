@@ -21,20 +21,19 @@ const priceRouter = express.Router();
 priceRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const prices = await Price.find({ status: "active" });
+    const prices = await Price.find({});
     res.send(prices);
     // // res.send('removed');
     console.log(prices);
   })
 );
 
-
 // GET ONE prices
 priceRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const prices = await Price.find({ _id: id, status: "active" });
+    const prices = await Price.find({ _id: id });
     res.send(prices[0]);
     // // res.send('removed');
     console.log(prices);
@@ -46,9 +45,8 @@ priceRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const prices = await Price.find({
-       product: id, 
-       status: "active" 
-      });
+      article_code: id,
+    });
     res.send(prices);
     // // res.send('removed');
     console.log(prices);
