@@ -7,7 +7,7 @@ const productSchema = mongoose.Schema(
     article_code: { type: String, require: true },
     master_category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
-    product_type: { type: String, enum: ["standard", "combo", "offer"]},
+    product_type: { type: String, enum: ["standard", "combo", "offer"] },
     priceList: [
       {
         type: mongoose.Types.ObjectId, //HERE
@@ -17,6 +17,10 @@ const productSchema = mongoose.Schema(
     brand: { type: String, require: true },
     slug: { type: String, require: true },
     details: { type: String },
+    specification: { type: String },
+    promo_price: { type: String },
+    promo_start: { type: data },
+    promo_end: { type: date },
     unit: { type: String, require: true },
     alert_quantity: { type: Number, require: true },
     vat: { type: Number, require: true },
