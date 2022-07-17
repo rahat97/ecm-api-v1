@@ -18,6 +18,79 @@ const upload = require("../middlewares/fileUploader");
 
 const categoryRouter = express.Router();
 
+// COUNT Category
+categoryRouter.get(
+  "/count",
+  expressAsyncHandler(async (req, res) => {
+    const total = await Category.countDocuments({});
+    res.status(200).json(total);
+  })
+);
+
+// GET ALL Category WITH PAGENATION & SEARCH
+categoryRouter.get(
+  "/all/:page/:size",
+  expressAsyncHandler(async (req, res) => {
+    const page = parseInt(req.params.page);
+    const size = parseInt(req.params.size);
+    const queryString = req.query?.q?.trim().toString().toLocaleLowerCase();
+    const currentPage = page + 0;
+
+    let query = {};
+    let category = [];
+    // const size = parseInt(req.query.size);
+    console.log("page:", currentPage, "size:", size, "search:", queryString);
+
+    //check if search or the pagenation
+
+    if (queryString) {
+      console.log("search:", query);
+      // search check if num or string
+      const isNumber = /^\d/.test(queryString);
+      console.log(isNumber);
+      if (!isNumber) {
+        // if text then search name
+        query = { name: { $regex: new RegExp("^" + queryString + ".*", "i") } };
+        // query = { name:  queryString  };
+      } else {
+        // if number search in ean and article code
+        query = {
+          article_code: {
+            $regex: RegExp("^" + queryString + ".*", "i"),
+          },
+        };
+      }
+
+      category = await Category.find(query)
+        .select({
+          _id: 1,
+          name: 1,
+          mcId: 1,
+          mc: 1,
+        })
+        .limit(50);
+      // .populate("mc", "name");
+      res.status(200).json(category);
+    } else {
+      // regular pagination
+      query = {};
+
+      category = await Category.find(query)
+        .select({
+          _id: 1,
+          name: 1,
+          mcId: 1,
+          mc: 1,
+        })
+        .limit(size)
+        .skip(size * page);
+      // .populate("mc", "name");
+      res.status(200).json(category);
+      console.log("done:", query);
+    }
+  })
+);
+
 // GET ALL CATEGORY
 categoryRouter.get(
   "/",
@@ -43,7 +116,10 @@ categoryRouter.get(
 categoryRouter.get(
   "/master/",
   expressAsyncHandler(async (req, res) => {
-    const categories = await Category.find({ status: "active", mc: "mc" }).select({_id:1, name:1, mcId:1});
+    const categories = await Category.find({
+      status: "active",
+      mc: "mc",
+    }).select({ _id: 1, name: 1, mcId: 1 });
     res.send(categories);
   })
 );

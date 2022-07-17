@@ -32,7 +32,7 @@ router.get(
     const page = parseInt(req.params.page);
     const size = parseInt(req.params.size);
     const queryString = req.query?.q?.trim().toString().toLocaleLowerCase();
-    const currentPage = page + 1;
+    const currentPage = page + 0;
 
     let query = {};
     let product = [];
@@ -162,24 +162,19 @@ router.get(
   "/infoPrice/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const products = await Product.find({ _id: id }).select({
-      _id: 1,
-      name: 1,
-      ean: 1,
-      unit: 1,
-      article_code: 1,
-      priceList: 1,
-      category: 1,
-      master_category: 1,
-    })
-    .populate(
-      "category",
-      "name"
-      )
-      .populate(
-        "master_category",
-        "name"
-      );
+    const products = await Product.find({ _id: id })
+      .select({
+        _id: 1,
+        name: 1,
+        ean: 1,
+        unit: 1,
+        article_code: 1,
+        priceList: 1,
+        category: 1,
+        master_category: 1,
+      })
+      .populate("category", "name")
+      .populate("master_category", "name");
     res.status(200).json(products[0]);
   })
 );
