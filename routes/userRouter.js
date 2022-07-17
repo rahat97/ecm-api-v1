@@ -247,6 +247,7 @@ userRouter.post(
             access_token: token,
             status: true,
             user: {
+              id: user[0]._id,
               name: user[0].name,
               username: user[0].username,
               email: user[0].email,
