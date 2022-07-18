@@ -45,7 +45,7 @@ priceRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const prices = await Price.find({
-      _id: id,
+      article_code: id,
     });
     res.send(prices);
     // // res.send('removed');
@@ -58,15 +58,24 @@ priceRouter.post(
   expressAsyncHandler(async (req, res) => {
     const newPrice = new Price(req.body);
     try {
-      await newPrice.save();
-      res.status(200).json({
-        message: "Price is created Successfully",
+      await newPrice.save(function (err, price) {
+        if(err) {
+          res
+            .status(500)
+            .json({ message: "There was a server side error", error: err });
+        }else{
+          res.status(200).json({
+            message: "Price is created Successfully",
+            id: price._id,
+          });
+        }
       });
+
     } catch (err) {
-      res
-        .status(500)
-        .json({ message: "There was a server side error", error: err });
-    }
+  res
+    .status(500)
+    .json({ message: "There was a server side error", error: err });
+}
   })
 );
 
