@@ -45,11 +45,11 @@ priceRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const prices = await Price.find({
-      article_code: id,
+      _id: id,
     });
     res.send(prices);
     // // res.send('removed');
-    console.log(prices);
+    console.log("product:", prices);
   })
 );
 // CREATE ONE Price
