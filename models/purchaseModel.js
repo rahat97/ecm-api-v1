@@ -4,7 +4,7 @@ const purchaseSchema = mongoose.Schema(
   {
     poNo: { type: String, require: true },
     supplier: { type: mongoose.Types.ObjectId, ref: "Supplier", require: true },
-    warehouse: { type:String, require: true},
+    warehouse: { type: mongoose.Types.ObjectId, ref: "Warehouse", require: true},
     products: [
       {
         type: Map,
