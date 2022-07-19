@@ -4,7 +4,7 @@ const purchaseSchema = mongoose.Schema(
   {
     poNo: { type: String, require: true },
     supplier: { type: mongoose.Types.ObjectId, ref: "Supplier", require: true },
-    warehouse: { type: mongoose.Types.ObjectId, ref: "Warehouse" },
+    warehouse: { type: mongoose.Types.ObjectId, ref: "Warehouse", require: true },
     products: [
       {
         type: Map,
@@ -18,9 +18,9 @@ const purchaseSchema = mongoose.Schema(
           mrp: { type: Number, default: 0, require: true },
           tax: { type: Number, default: 0, require: true },
           qty: { type: Number, default: 0, require: true },
-          unit: { type: mongoose.Types.ObjectId, ref: "Unit", require: true },
+          unit: { type: String,  require: true },
           discount: {
-            type: mongoose.Types.Decimal128,
+            type: Number,
             default: 0,
             require: true,
           },
@@ -32,9 +32,9 @@ const purchaseSchema = mongoose.Schema(
     note: { type: String },
     doc: { type: String },
     totalItem: { type: Number, default: 0, require: true },
-    total: { type: mongoose.Types.Decimal128, default: 0, require: true },
-    discount: { type: mongoose.Types.Decimal128, default: 0, require: true },
-    tax: { type: mongoose.Types.Decimal128, default: 0, require: true },
+    total: { type: Number, default: 0, require: true },
+    discount: { type: Number, default: 0,},
+    tax: { type: Number, default: 0, },
     userId: { type: mongoose.Types.ObjectId, ref: "User", require: true },
     status: {
       type: String,
