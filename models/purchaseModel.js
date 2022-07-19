@@ -4,12 +4,12 @@ const purchaseSchema = mongoose.Schema(
   {
     poNo: { type: String, require: true },
     supplier: { type: mongoose.Types.ObjectId, ref: "Supplier", require: true },
-    warehouse: { type: mongoose.Types.ObjectId, ref: "Warehouse" },
+    warehouse: { type:String, require: true},
     products: [
       {
         type: Map,
         of: new mongoose.Schema({
-          code: {
+          id: {
             type: mongoose.Types.ObjectId,
             ref: "Product",
             require: true,
