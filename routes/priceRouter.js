@@ -66,7 +66,7 @@ priceRouter.post(
         }else{
           res.status(200).json({
             message: "Price is created Successfully",
-            id: price._id,
+            // id: price._id,
           });
         }
       });

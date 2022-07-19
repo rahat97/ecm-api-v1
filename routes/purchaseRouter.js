@@ -21,7 +21,28 @@ const purchaseRouter = express.Router();
 purchaseRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const Purchases = await Purchase.find();
+    const Purchases = await Purchase.find({}).select({
+      poId: 1,
+      supplier: 1,
+      warehouse: 1,
+      products: 1,
+      note: 1,
+      type: 1,
+      doc: 1,
+      totalItem: 1,
+      total: 1,
+      discount: 1,
+      tax: 1,
+      status: 1,
+    })
+      .populate("supplier", "name")
+      .populate({
+        path:'products.id',
+        model:'Product', 
+        select:"name"
+      })
+      .populate("warehouse", "name")
+      .populate("userId", "name");
     res.send(Purchases);
     // // res.send('removed');
     console.log(Purchases);
@@ -33,7 +54,28 @@ purchaseRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const Purchases = await Purchase.find({ _id: id });
+    const Purchases = await Purchase.find({ _id: id }).select({
+      poId: 1,
+      supplier: 1,
+      warehouse: 1,
+      products: 1,
+      note: 1,
+      type: 1,
+      doc: 1,
+      totalItem: 1,
+      total: 1,
+      discount: 1,
+      tax: 1,
+      status: 1,
+    })
+      .populate("supplier", "name")
+      .populate({
+        path:'products.id',
+        model:'Product', 
+        select:"name"
+      })
+      .populate("warehouse", "name")
+      .populate("userId", "name");
     res.send(Purchases[0]);
     // // res.send('removed');
     console.log(Purchases);
