@@ -49,33 +49,38 @@ priceRouter.get(
     });
     res.send(prices);
     // // res.send('removed');
-    console.log("product:", prices);
+    // console.log("product:", prices);
   })
 );
 // CREATE ONE Price
 priceRouter.post(
-  "/",
-  expressAsyncHandler(async (req, res) => {
+  "/", expressAsyncHandler(async (req, res) => {
     const newPrice = new Price(req.body);
+    console.log(req.body)
     try {
-      await newPrice.save(function (err, price) {
-        if(err) {
-          res
-            .status(500)
-            .json({ message: "There was a server side error", error: err });
-        }else{
+      console.log('before save');
+      let saveUser = await newPrice.save(); //when fail its goes to catch
+      console.log(saveUser); //when success it print.
+      console.log('after save');
+      // await newPrice.save((err, price) => {
+      //   if (err) {
+      //     res
+      //       .status(500)
+      //       .json({ message: "There was a server side error", error: err });
+      //   } else {
+      //     console.log(price)
           res.status(200).json({
             message: "Price is created Successfully",
-            // id: price._id,
+            id: saveUser._id,
           });
-        }
-      });
+      //   }
+      // });
 
     } catch (err) {
-  res
-    .status(500)
-    .json({ message: "There was a server side error", error: err });
-}
+      res
+        .status(500)
+        .json({ message: "There was a server side error", error: err });
+    }
   })
 );
 
