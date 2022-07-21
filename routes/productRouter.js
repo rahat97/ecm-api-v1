@@ -24,6 +24,18 @@ router.get(
     res.status(200).json(total);
   })
 );
+// GET PRODUCT PRICE
+router.get(
+  "/price/:id",
+  expressAsyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const products = await Product.find({ _id: id }).select({
+      _id: 1,
+      priceList: 1,
+    });
+    res.status(200).json(products[0]);
+  })
+);
 
 // GET ALL PRODUCTS WITH PAGENATION & SEARCH
 router.get(
