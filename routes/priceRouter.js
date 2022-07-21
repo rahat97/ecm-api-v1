@@ -68,7 +68,7 @@ priceRouter.post(
       //       .status(500)
       //       .json({ message: "There was a server side error", error: err });
       //   } else {
-      //     console.log(price)
+      // console.log(price)
           res.status(200).json({
             message: "Price is created Successfully",
             id: saveUser._id,

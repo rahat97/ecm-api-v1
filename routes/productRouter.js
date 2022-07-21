@@ -87,7 +87,8 @@ router.get(
           category: 1,
         })
         .limit(50)
-        .populate("category", "name");
+        .populate("category", "name")
+        .populate('priceList')
       res.status(200).json(product);
     } else {
       // regular pagination
@@ -105,7 +106,8 @@ router.get(
         })
         .limit(size)
         .skip(size * page)
-        .populate("category", "name");
+        .populate("category", "name")
+        .populate("priceList")
       res.status(200).json(product);
       console.log("done:", query);
     }
@@ -146,7 +148,7 @@ router.get(
   })
 );
 
-// GET ALL PRODUCTS
+// GET ALL PRODUCTS BY CATEGORY
 router.get(
   "/category/:category",
   expressAsyncHandler(async (req, res) => {
@@ -200,6 +202,22 @@ router.get(
       "category",
       "name"
     );
+    res.send(products[0]);
+  })
+);
+router.get(
+  "/details/:id",
+  expressAsyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const products = await Product.find({ _id: id }).select({
+      _id: 1,
+      name: 1,
+      ean: 1,
+      unit: 1,
+      article_code: 1,
+      priceList: 1,
+    })
+    .populate("priceList", "mrp");
     res.send(products[0]);
   })
 );
@@ -290,6 +308,7 @@ router.get(
         article_code: 1,
         priceList: 1,
       })
+      .populate("priceList")
       .limit(5);
     if (payload === "") {
       res.send([]);
@@ -299,13 +318,6 @@ router.get(
   })
 );
 
-// PRODUCTS SRARCH
-// router.get(
-//   "/pos-search",
-//   expressAsyncHandler(async (req, res) => {
-//     console.log("hi");
-//   })
-// );
 
 // CREATE ONE PRODUCT
 router.post(

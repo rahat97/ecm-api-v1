@@ -8,12 +8,7 @@ const productSchema = mongoose.Schema(
     master_category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
     product_type: { type: String, enum: ["standard", "combo", "offer"] },
-    priceList: [
-      {
-        type: mongoose.Types.ObjectId, //HERE
-        ref: "Price",
-      },
-    ],
+    priceList: [ { type: mongoose.Schema.Types.ObjectId,  ref: "Price"} ],
     brand: { type: String, require: true },
     slug: { type: String, require: true },
     details: { type: String },
