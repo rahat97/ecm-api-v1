@@ -21,31 +21,23 @@ const purchaseRouter = express.Router();
 purchaseRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const Purchases = await Purchase.find({}).select({
-      poId: 1,
+    const Purchases = await Purchase.find({})
+    .select({
+      poNo: 1,
       supplier: 1,
       warehouse: 1,
-      products: 1,
-      note: 1,
       type: 1,
-      doc: 1,
       totalItem: 1,
       total: 1,
-      discount: 1,
-      tax: 1,
-      status: 1,
     })
       .populate("supplier", "name")
-      .populate({
-        path:'products.id',
-        model:'Product', 
-        select:"name"
-      })
       .populate("warehouse", "name")
-      .populate("userId", "name");
+      .populate("userId", "name")
+    //   .exec(callback);
+
     res.send(Purchases);
     // // res.send('removed');
-    console.log(Purchases);
+    // console.log(Purchases);
   })
 );
 

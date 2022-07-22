@@ -21,7 +21,7 @@ const supplierRouter = express.Router();
 supplierRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const suppliers = await Supplier.find({ status: "active" });
+    const suppliers = await Supplier.find({});
     res.send(suppliers);
     // // res.send('removed');
     // console.log(suppliers);

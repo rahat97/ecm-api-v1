@@ -326,7 +326,7 @@ router.post(
     const newProduct = new Product(req.body);
     await newProduct.save((err, product) => {
       if (err) {
-        res.status(500).json({ error: "There was a server side error" });
+        res.status(500).json({ error: err, message: "There was a server side error" });
       } else {
         res.status(200).json({
           data: product._id,
