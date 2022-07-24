@@ -62,19 +62,10 @@ priceRouter.post(
       let saveUser = await newPrice.save(); //when fail its goes to catch
       console.log(saveUser); //when success it print.
       console.log('after save');
-      // await newPrice.save((err, price) => {
-      //   if (err) {
-      //     res
-      //       .status(500)
-      //       .json({ message: "There was a server side error", error: err });
-      //   } else {
-      // console.log(price)
-          res.status(200).json({
-            message: "Price is created Successfully",
-            id: saveUser._id,
-          });
-      //   }
-      // });
+      res.status(200).json({
+        message: "Price is created Successfully",
+        id: saveUser._id,
+      });
 
     } catch (err) {
       res
