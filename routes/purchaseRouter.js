@@ -49,7 +49,7 @@ purchaseRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const Purchases = await Purchase.find({ _id: id }).select({
-      poId: 1,
+      poINo: 1,
       supplier: 1,
       warehouse: 1,
       products: 1,
