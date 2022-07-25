@@ -46,22 +46,21 @@ saleRouter.get(
 saleRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
-    // const todayTotal = await Sale.countDocuments({});
-    // const ID = await generateId("TCM", "POS", todayTotal);
-    // if (ID) {
-    //   console.log(ID);
-    //   const saleData = {
-    //     ...req.body,
-    //     invoiceId: ID,
-    //   };
-    //   console.log(saleData);
-    // }
-    const newSale = new Sale(req.data);
+    console.log(req.body)
+    const newSale = new Sale(req.body);
     try {
-      await newSale.save();
-      res.status(200).json({
-        message: "Sale is created Successfully",
+      await newSale.save((err, sale) => {
+        if (err) {
+          res.status(500).json({ message: "There was a server side error", error: err });
+        } else {
+          console.log(sale)
+          res.status(200).json({
+            message: "Sale is created Successfully",
+            data: sale
+          });
+        }
       });
+      
     } catch (err) {
       res
         .status(500)

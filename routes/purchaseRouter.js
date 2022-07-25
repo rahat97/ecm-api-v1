@@ -48,32 +48,15 @@ purchaseRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const Purchases = await Purchase.find({ _id: id }).select({
-      poINo: 1,
-      supplier: 1,
-      warehouse: 1,
-      products: 1,
-      note: 1,
-      type: 1,
-      doc: 1,
-      totalItem: 1,
-      total: 1,
-      discount: 1,
-      tax: 1,
-      status: 1,
-    })
-      .populate("supplier", "name")
-      .populate({
-        path:'products.id',
-        model:'Product', 
-        select:"name"
-      })
-      .populate("warehouse", "name")
-      .populate("userId", "name");
+    const Purchases = await Purchase.find({ _id: id })
+    .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
+    .populate("warehouse", "name")
+    .populate("userId", "name")
+    // .populate("userId")
     res.send(Purchases[0]);
     // // res.send('removed');
     console.log(Purchases);
-  })
+  }) 
 );
 
 // CREATE ONE Purchase
