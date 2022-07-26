@@ -4,7 +4,6 @@ const Purchase = require("../models/purchaseModel");
 const Rtv = require("../models/rtvModel");
 const Sale = require("../models/saleModel");
 const Tpn = require("../models/tpnModel");
-const User = require("../models/userModel");
 
 // Generate POS Sales ID
 const generatePosId = async (req, res, next) => {
@@ -17,7 +16,7 @@ const generatePosId = async (req, res, next) => {
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
   const date = format(new Date(new Date()), "MMddyyyy");
-  const newId = "TCM-POS-" + date + "-" + current;
+  const newId = process.env.ID_PREFIX + "-POS-" + date + "-" + current;
   console.log(newId);
   req.body.invoiceId = newId;
   next();
@@ -34,7 +33,7 @@ const generatePoId = async (req, res, next) => {
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
   const date = format(new Date(new Date()), "MMddyyyy");
-  const newId = "TCM-PO-" + date + "-" + current;
+  const newId = process.env.ID_PREFIX + "-PO-" + date + "-" + current;
   console.log(newId);
   req.body.invoiceId = newId;
   next();
@@ -51,7 +50,7 @@ const generateGrnId = async (req, res, next) => {
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
   const date = format(new Date(new Date()), "MMddyyyy");
-  const newId = "TCM-PO-" + date + "-" + current;
+  const newId = process.env.ID_PREFIX + "-GRN-" + date + "-" + current;
   console.log(newId);
   req.body.invoiceId = newId;
   next();
@@ -68,7 +67,7 @@ const generateRtvId = async (req, res, next) => {
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
   const date = format(new Date(new Date()), "MMddyyyy");
-  const newId = "TCM-RTV-" + date + "-" + current;
+  const newId = process.env.ID_PREFIX + "-RTV-" + date + "-" + current;
   console.log(newId);
   req.body.invoiceId = newId;
   next();
