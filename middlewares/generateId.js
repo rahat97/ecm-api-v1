@@ -16,7 +16,7 @@ const generatePosId = async (req, res, next) => {
 
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
-  const date = format(new Date(new Date()), "yyyyMMdd");
+  const date = format(new Date(new Date()), "MMddyyyy");
   const newId = "TCM-POS-" + date + "-" + current;
   console.log(newId);
   req.body.invoiceId = newId;
@@ -33,7 +33,7 @@ const generatePoId = async (req, res, next) => {
 
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
-  const date = format(new Date(new Date()), "yyyyMMdd");
+  const date = format(new Date(new Date()), "MMddyyyy");
   const newId = "TCM-PO-" + date + "-" + current;
   console.log(newId);
   req.body.invoiceId = newId;
@@ -50,7 +50,7 @@ const generateGrnId = async (req, res, next) => {
 
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
-  const date = format(new Date(new Date()), "yyyyMMdd");
+  const date = format(new Date(new Date()), "MMddyyyy");
   const newId = "TCM-PO-" + date + "-" + current;
   console.log(newId);
   req.body.invoiceId = newId;
@@ -67,7 +67,7 @@ const generateRtvId = async (req, res, next) => {
 
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
-  const date = format(new Date(new Date()), "yyyyMMdd");
+  const date = format(new Date(new Date()), "MMddyyyy");
   const newId = "TCM-RTV-" + date + "-" + current;
   console.log(newId);
   req.body.invoiceId = newId;
@@ -84,15 +84,17 @@ const generateTpnId = async (req, res, next) => {
 
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
-  const date = format(new Date(new Date()), "yyyyMMdd");
-  const newId = "TCM-TPN-" + date + "-" + current;
+  const date = format(new Date(new Date()), "MMddyyyy");
+  const newId = process.env.ID_PREFIX + "-TPN-" + date + "-" + current;
   console.log(newId);
   req.body.invoiceId = newId;
   next();
 };
 
-module.exports = generatePosId;
-module.exports = generatePoId;
-module.exports = generateGrnId;
-module.exports = generateRtvId;
-module.exports = generateTpnId;
+module.exports = {
+  generatePosId,
+  generatePoId,
+  generateGrnId,
+  generateRtvId,
+  generateTpnId,
+};

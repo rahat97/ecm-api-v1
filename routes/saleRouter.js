@@ -16,8 +16,7 @@ const expressAsyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const Sale = require("../models/saleModel");
 const checklogin = require("../middlewares/checkLogin");
-const generateId = require("../utility/generateId");
-const generatePosId = require("../middlewares/generateId");
+const { generatePosId } = require("../middlewares/generateId");
 
 const saleRouter = express.Router();
 
@@ -50,25 +49,25 @@ saleRouter.post(
   expressAsyncHandler(async (req, res) => {
     console.log(req.body);
     const newSale = new Sale(req.body);
-    // try {
-    //   await newSale.save((err, sale) => {
-    //     if (err) {
-    //       res
-    //         .status(500)
-    //         .json({ message: "There was a server side error", error: err });
-    //     } else {
-    //       console.log(sale);
-    //       res.status(200).json({
-    //         message: "Sale is cre ated Successfully",
-    //         data: req.body,
-    //       });
-    //     }
-    //   });
-    // } catch (err) {
-    //   res
-    //     .status(500)
-    //     .json({ message: "There was a server side error", error: err });
-    // }
+    try {
+      await newSale.save((err, sale) => {
+        if (err) {
+          res
+            .status(500)
+            .json({ message: "There was a server side error", error: err });
+        } else {
+          console.log(sale);
+          res.status(200).json({
+            message: "Sale is cre ated Successfully",
+            data: req.body,
+          });
+        }
+      });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: "There was a server side error", error: err });
+    }
   })
 );
 
