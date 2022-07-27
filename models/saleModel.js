@@ -38,7 +38,6 @@ const saleSchema = mongoose.Schema(
     grossTotal: { type: Number, require: true },
     grossTotalRound: { type: Number, require: true },
     totalItem: { type: Number, require: true },
-    subTotal: { type: Number, require: true },
     total: { type: Number, require: true },
     vat: { type: Number, require: true },
     discount: { type: Number, require: true },
