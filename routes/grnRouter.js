@@ -14,6 +14,7 @@ const expressAsyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const Grn = require("../models/grnModel"); // Goods Recieve Note
 const checklogin = require("../middlewares/checkLogin");
+const { generateGrnId } = require("../middlewares/generateId");
 
 const grnRouter = express.Router();
 
@@ -33,7 +34,24 @@ grnRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const grns = await Grn.find({ _id: id });
+    const grns = await Grn.find({ _id: id })
+      .select({
+        poNo: 1,
+        GrnNo: 1,
+        userId: 1,
+        supplier: 1,
+        warehouse: 1,
+        products: 1,
+        type: 1,
+        totalItem: 1,
+        total: 1,
+        status: 1,
+        createdAt: 1,
+      })
+      .populate("Purchase", "poNo")
+      .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
+      .populate("warehouse", "name")
+      .populate("userId", "name");
     res.send(grns[0]);
     // // res.send('removed');
     console.log(grns);
@@ -43,6 +61,7 @@ grnRouter.get(
 // CREATE ONE Grn
 grnRouter.post(
   "/",
+  generateGrnId,
   expressAsyncHandler(async (req, res) => {
     const newGrn = new Grn(req.body);
     try {

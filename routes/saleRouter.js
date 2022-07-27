@@ -17,6 +17,7 @@ const jwt = require("jsonwebtoken");
 const Sale = require("../models/saleModel");
 const checklogin = require("../middlewares/checkLogin");
 const { generatePosId } = require("../middlewares/generateId");
+const { startOfDay, endOfDay } = require("date-fns");
 
 const saleRouter = express.Router();
 
@@ -24,7 +25,29 @@ const saleRouter = express.Router();
 saleRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const sales = await Sale.countDocuments({ status: "complete" });
+    const start = req.params.start
+      ? startOfDay(new Date(req.params.start))
+      : startOfDay(new Date());
+    const end = req.params.end
+      ? endOfDay(new Date(req.params.end))
+      : endOfDay(new Date());
+    const sales = await Sale.find({
+      status: "complete",
+      createdAt: { $gte: start, $lte: end },
+    })
+      .select({
+        poNo: 1,
+        supplier: 1,
+        warehouse: 1,
+        type: 1,
+        totalItem: 1,
+        total: 1,
+        status: 1,
+        createdAt: 1,
+      })
+      .populate("supplier", "name")
+      .populate("warehouse", "name")
+      .populate("userId", "name");
     res.send(sales);
     // // res.send('removed');
   })
@@ -47,8 +70,8 @@ saleRouter.post(
   "/",
   generatePosId,
   expressAsyncHandler(async (req, res) => {
-    console.log(req.body);
     const newSale = new Sale(req.body);
+    console.log(newSale);
     try {
       await newSale.save((err, sale) => {
         if (err) {
@@ -58,7 +81,7 @@ saleRouter.post(
         } else {
           console.log(sale);
           res.status(200).json({
-            message: "Sale is cre ated Successfully",
+            message: "Sale is created Successfully",
             data: req.body,
           });
         }

@@ -14,6 +14,7 @@ const expressAsyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const Purchase = require("../models/purchaseModel");
 const checklogin = require("../middlewares/checkLogin");
+const { generatePoId } = require("../middlewares/generateId");
 
 const purchaseRouter = express.Router();
 
@@ -22,19 +23,19 @@ purchaseRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
     const Purchases = await Purchase.find({})
-    .select({
-      poNo: 1,
-      supplier: 1,
-      warehouse: 1,
-      type: 1,
-      totalItem: 1,
-      total: 1,
-      status: 1,
-      createdAt: 1,
-    })
+      .select({
+        poNo: 1,
+        supplier: 1,
+        warehouse: 1,
+        type: 1,
+        totalItem: 1,
+        total: 1,
+        status: 1,
+        createdAt: 1,
+      })
       .populate("supplier", "name")
       .populate("warehouse", "name")
-      .populate("userId", "name")
+      .populate("userId", "name");
     //   .exec(callback);
 
     res.send(Purchases);
@@ -49,19 +50,20 @@ purchaseRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const Purchases = await Purchase.find({ _id: id })
-    .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
-    .populate("warehouse", "name")
-    .populate("userId", "name")
+      .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
+      .populate("warehouse", "name")
+      .populate("userId", "name");
     // .populate("userId")
     res.send(Purchases[0]);
     // // res.send('removed');
     console.log(Purchases);
-  }) 
+  })
 );
 
 // CREATE ONE Purchase
 purchaseRouter.post(
   "/",
+  generatePoId,
   expressAsyncHandler(async (req, res) => {
     const newPurchase = new Purchase(req.body);
     try {
