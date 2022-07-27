@@ -61,7 +61,7 @@ grnRouter.get(
         status: 1,
         createdAt: 1,
       })
-      .populate("Purchase", "poNo")
+      .populate("poNo", "poNo")
       .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
       .populate("warehouse", "name")
       .populate("userId", "name");
