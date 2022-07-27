@@ -35,7 +35,7 @@ const generatePoId = async (req, res, next) => {
   const date = format(new Date(new Date()), "MMddyyyy");
   const newId = process.env.ID_PREFIX + "-PO-" + date + "-" + current;
   console.log(newId);
-  req.body.invoiceId = newId;
+  req.body.poNo = newId;
   next();
 };
 
@@ -52,7 +52,7 @@ const generateGrnId = async (req, res, next) => {
   const date = format(new Date(new Date()), "MMddyyyy");
   const newId = process.env.ID_PREFIX + "-GRN-" + date + "-" + current;
   console.log(newId);
-  req.body.invoiceId = newId;
+  req.body.GrnNo = newId;
   next();
 };
 
@@ -69,7 +69,7 @@ const generateRtvId = async (req, res, next) => {
   const date = format(new Date(new Date()), "MMddyyyy");
   const newId = process.env.ID_PREFIX + "-RTV-" + date + "-" + current;
   console.log(newId);
-  req.body.invoiceId = newId;
+  req.body.RtvNo = newId;
   next();
 };
 
@@ -86,7 +86,7 @@ const generateTpnId = async (req, res, next) => {
   const date = format(new Date(new Date()), "MMddyyyy");
   const newId = process.env.ID_PREFIX + "-TPN-" + date + "-" + current;
   console.log(newId);
-  req.body.invoiceId = newId;
+  req.body.TpnNo = newId;
   next();
 };
 

@@ -22,7 +22,7 @@ const grnRouter = express.Router();
 grnRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const grns = await Grn.find()
+    const grns = await Grn.find({})
       .select({
         poNo: 1,
         GrnNo: 1,
@@ -33,8 +33,8 @@ grnRouter.get(
         status: 1,
         createdAt: 1,
       })
-      .populate("Purchase", "poNo")
-      .populate("Purchase", "poNo")
+      .populate("poNo", "poNo")
+      .populate("supplier", "name")
       .populate("userId", "name");
     res.send(grns);
     // // res.send('removed');

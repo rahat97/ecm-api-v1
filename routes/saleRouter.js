@@ -25,29 +25,50 @@ const saleRouter = express.Router();
 saleRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
+    const sales = await Sale.find({
+      status: "complete",
+    })
+      .select({
+        invoiceId: 1,
+        totalItem: 1,
+        grossTotalRound: 1,
+        total: 1,
+        status: 1,
+        billerId: 1,
+        createdAt: 1,
+        changeAmount: 1,
+      })
+      .populate("billerId", "name");
+    res.send(sales);
+    // // res.send('removed');
+  })
+);
+// GET ALL sales
+saleRouter.get(
+  "/:start/:end",
+  expressAsyncHandler(async (req, res) => {
     const start = req.params.start
       ? startOfDay(new Date(req.params.start))
       : startOfDay(new Date());
     const end = req.params.end
       ? endOfDay(new Date(req.params.end))
       : endOfDay(new Date());
+    console.log(start, end, new Date());
     const sales = await Sale.find({
       status: "complete",
       createdAt: { $gte: start, $lte: end },
     })
       .select({
-        poNo: 1,
-        supplier: 1,
-        warehouse: 1,
-        type: 1,
+        invoiceId: 1,
         totalItem: 1,
+        grossTotalRound: 1,
         total: 1,
         status: 1,
+        billerId: 1,
         createdAt: 1,
+        changeAmount: 1,
       })
-      .populate("supplier", "name")
-      .populate("warehouse", "name")
-      .populate("userId", "name");
+      .populate("billerId", "name");
     res.send(sales);
     // // res.send('removed');
   })

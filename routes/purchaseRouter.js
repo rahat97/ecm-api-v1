@@ -65,6 +65,7 @@ purchaseRouter.post(
   "/",
   generatePoId,
   expressAsyncHandler(async (req, res) => {
+    console.log(req.body);
     const newPurchase = new Purchase(req.body);
     try {
       await newPurchase.save();
