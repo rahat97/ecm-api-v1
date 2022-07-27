@@ -22,7 +22,20 @@ const grnRouter = express.Router();
 grnRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const grns = await Grn.find();
+    const grns = await Grn.find()
+      .select({
+        poNo: 1,
+        GrnNo: 1,
+        userId: 1,
+        totalItem: 1,
+        supplier: 1,
+        total: 1,
+        status: 1,
+        createdAt: 1,
+      })
+      .populate("Purchase", "poNo")
+      .populate("Purchase", "poNo")
+      .populate("userId", "name");
     res.send(grns);
     // // res.send('removed');
     console.log(grns);
