@@ -65,10 +65,13 @@ saleRouter.get(
         total: 1,
         status: 1,
         billerId: 1,
+        totalReceived: 1,
         createdAt: 1,
         changeAmount: 1,
+        customerId: 1,
       })
-      .populate("billerId", "name");
+      .populate("billerId", "name")
+      .populate("customerId", "phone");
     res.send(sales);
     // // res.send('removed');
   })
