@@ -45,14 +45,14 @@ saleRouter.get(
 );
 // GET ALL sales
 saleRouter.get(
-  "/:start/:end",
+  "/byDate/:start/:end",
   expressAsyncHandler(async (req, res) => {
     const start = req.params.start
       ? startOfDay(new Date(req.params.start))
-      : startOfDay(new Date());
+      : startOfDay(new Date.now());
     const end = req.params.end
       ? endOfDay(new Date(req.params.end))
-      : endOfDay(new Date());
+      : endOfDay(new Date.now());
     console.log(start, end, new Date());
     const sales = await Sale.find({
       status: "complete",

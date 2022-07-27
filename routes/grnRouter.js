@@ -34,7 +34,7 @@ grnRouter.get(
         createdAt: 1,
       })
       .populate("poNo", "poNo")
-      .populate("supplier", "name")
+      .populate("supplier", "company")
       .populate("userId", "name");
     res.send(grns);
     // // res.send('removed');
