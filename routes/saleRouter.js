@@ -73,7 +73,7 @@ saleRouter.get(
       .populate("billerId", "name")
       .populate("customerId", "phone");
     res.send(sales);
-    console.log(sales);
+    // console.log(sales);
     // // res.send('removed');
   })
 );
@@ -83,7 +83,9 @@ saleRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const sales = await Sale.find({ _id: id, status: "complete" });
+    const sales = await Sale.find({ _id: id, status: "complete" })
+      .populate("billerId", "name")
+      .populate("customerId", "phone");
     res.send(sales[0]);
     // // res.send('removed');
     // console.log(sales);

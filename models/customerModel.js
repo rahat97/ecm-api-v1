@@ -9,6 +9,7 @@ const customerSchema = mongoose.Schema(
     membership: { type: String, unique: true },
     address: { type: String },
     type: { type: String },
+    point: { type: Number, default: 0 },
     phone: { type: String, require: true, unique: true },
     status: { type: String, enum: ["active", "inactive"] },
   },
