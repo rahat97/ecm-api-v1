@@ -53,7 +53,7 @@ saleRouter.get(
     const end = req.params.end
       ? endOfDay(new Date(req.params.end))
       : endOfDay(new Date.now());
-    console.log(start, end, new Date());
+    // console.log(start, end, new Date());
     const sales = await Sale.find({
       status: "complete",
       createdAt: { $gte: start, $lte: end },
@@ -73,6 +73,7 @@ saleRouter.get(
       .populate("billerId", "name")
       .populate("customerId", "phone");
     res.send(sales);
+    console.log(sales);
     // // res.send('removed');
   })
 );
@@ -85,7 +86,7 @@ saleRouter.get(
     const sales = await Sale.find({ _id: id, status: "complete" });
     res.send(sales[0]);
     // // res.send('removed');
-    console.log(sales);
+    // console.log(sales);
   })
 );
 
