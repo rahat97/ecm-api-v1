@@ -52,7 +52,8 @@ const generateGrnId = async (req, res, next) => {
   const date = format(new Date(new Date()), "MMddyyyy");
   const newId = process.env.ID_PREFIX + "-GRN-" + date + "-" + current;
   console.log(newId);
-  req.body.GrnNo = newId;
+  req.body.grnNo = newId;
+  console.log(newId);
   next();
 };
 
@@ -69,7 +70,7 @@ const generateRtvId = async (req, res, next) => {
   const date = format(new Date(new Date()), "MMddyyyy");
   const newId = process.env.ID_PREFIX + "-RTV-" + date + "-" + current;
   console.log(newId);
-  req.body.RtvNo = newId;
+  req.body.rtvNo = newId;
   next();
 };
 
@@ -86,7 +87,7 @@ const generateTpnId = async (req, res, next) => {
   const date = format(new Date(new Date()), "MMddyyyy");
   const newId = process.env.ID_PREFIX + "-TPN-" + date + "-" + current;
   console.log(newId);
-  req.body.TpnNo = newId;
+  req.body.tpnNo = newId;
   next();
 };
 

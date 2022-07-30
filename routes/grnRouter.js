@@ -77,6 +77,7 @@ grnRouter.post(
   generateGrnId,
   expressAsyncHandler(async (req, res) => {
     const newGrn = new Grn(req.body);
+    console.log(newGrn);
     try {
       await newGrn.save();
       res.status(200).json({
