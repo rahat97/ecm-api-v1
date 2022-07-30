@@ -21,7 +21,18 @@ const damageRouter = express.Router();
 damageRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const damages = await Damage.find();
+    const damages = await Damage.find({})
+      .select({
+        _id: 1,
+        product: 1,
+        warehouse: 1,
+        userId: 1,
+        qty: 1,
+      })
+      .populate("Product", "name")
+      .populate("warehouse", "name")
+      .populate("userId", "name");
+
     res.send(damages);
     // // res.send('removed');
     console.log(damages);

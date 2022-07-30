@@ -109,7 +109,7 @@ saleRouter.post(
           console.log(sale);
           res.status(200).json({
             message: "Sale is created Successfully",
-            data: req.body,
+            data: sale,
           });
         }
       });
