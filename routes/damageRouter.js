@@ -29,7 +29,7 @@ damageRouter.get(
         userId: 1,
         qty: 1,
       })
-      .populate("Product", "name")
+      .populate("product", "name")
       .populate("warehouse", "name")
       .populate("userId", "name");
 
@@ -44,7 +44,19 @@ damageRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const damages = await Damage.find({ _id: id });
+    const damages = await Damage.find({ _id: id })
+      .select({
+        _id: 1,
+        product: 1,
+        warehouse: 1,
+        userId: 1,
+        qty: 1,
+        reason: 1,
+        createdAt: 1,
+      })
+      .populate("product", "name")
+      .populate("warehouse", "name")
+      .populate("userId", "name");
     res.send(damages[0]);
     // // res.send('removed');
     console.log(damages);
