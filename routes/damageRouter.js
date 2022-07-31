@@ -26,6 +26,7 @@ damageRouter.get(
         _id: 1,
         product: 1,
         warehouse: 1,
+        reason: 1,
         userId: 1,
         qty: 1,
       })
