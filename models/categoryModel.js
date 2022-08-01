@@ -5,7 +5,7 @@ const categorySchema = mongoose.Schema(
     name: { type: String, require: true },
     code: { type: String, require: true, unique: true },
     mcId: { type: Number, require: true },
-    mc: { type: String },
+    mc: { type: mongoose.Types.ObjectId, ref: "Category" },
     group: { type: String },
     photo: { type: String },
     description: { type: String },
