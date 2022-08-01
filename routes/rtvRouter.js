@@ -21,7 +21,21 @@ const rtvRouter = express.Router();
 rtvRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const rtvs = await Rtv.find();
+    const rtvs = await Rtv.find({})
+      .select({
+        grnNo: 1,
+        rtvNo: 1,
+        userId: 1,
+        totalItem: 1,
+        supplier: 1,
+        total: 1,
+        status: 1,
+        createdAt: 1,
+      })
+      .populate("grnNo", "poNo")
+      .populate("supplier", { company: 1 })
+      .populate("warehouse", "name")
+      .populate("userId", "name");
     res.send(rtvs);
     // // res.send('removed');
     console.log(rtvs);
@@ -33,7 +47,21 @@ rtvRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const rtvs = await Rtv.find({ _id: id });
+    const rtvs = await Rtv.find({ _id: id })
+      // .select({
+      //   grnNo: 1,
+      //   rtvNo: 1,
+      //   userId: 1,
+      //   totalItem: 1,
+      //   supplier: 1,
+      //   total: 1,
+      //   status: 1,
+      //   createdAt: 1,
+      // })
+      .populate("grnNo", "poNo")
+      .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
+      .populate("warehouse", "name")
+      .populate("userId", "name");
     res.send(rtvs[0]);
     // // res.send('removed');
     console.log(rtvs);

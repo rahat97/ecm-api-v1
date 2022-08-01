@@ -25,7 +25,7 @@ grnRouter.get(
     const grns = await Grn.find({})
       .select({
         poNo: 1,
-        GrnNo: 1,
+        grnNo: 1,
         userId: 1,
         totalItem: 1,
         supplier: 1,
@@ -50,7 +50,7 @@ grnRouter.get(
     const grns = await Grn.find({ _id: id })
       .select({
         poNo: 1,
-        GrnNo: 1,
+        grnNo: 1,
         userId: 1,
         supplier: 1,
         warehouse: 1,
