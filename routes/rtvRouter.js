@@ -14,6 +14,7 @@ const expressAsyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const Rtv = require("../models/rtvModel");
 const checklogin = require("../middlewares/checkLogin");
+const { generateRtvId } = require("../middlewares/generateId");
 
 const rtvRouter = express.Router();
 
@@ -32,7 +33,7 @@ rtvRouter.get(
         status: 1,
         createdAt: 1,
       })
-      .populate("grnNo", "poNo")
+      .populate("grnNo", "grnNo")
       .populate("supplier", { company: 1 })
       .populate("warehouse", "name")
       .populate("userId", "name");
@@ -58,7 +59,7 @@ rtvRouter.get(
       //   status: 1,
       //   createdAt: 1,
       // })
-      .populate("grnNo", "poNo")
+      .populate("grnNo", "grnNo")
       .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
       .populate("warehouse", "name")
       .populate("userId", "name");
@@ -71,6 +72,7 @@ rtvRouter.get(
 // CREATE ONE Rtv
 rtvRouter.post(
   "/",
+  generateRtvId,
   expressAsyncHandler(async (req, res) => {
     const newRtv = new Rtv(req.body);
     try {

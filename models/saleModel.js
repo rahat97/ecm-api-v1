@@ -32,6 +32,7 @@ const saleSchema = mongoose.Schema(
         name: { type: String },
         amount: { type: Number },
       },
+      point: { type: Number },
     }),
     changeAmount: { type: Number, require: true },
     totalReceived: { type: Number, require: true },
