@@ -36,7 +36,7 @@ customerRouter.get(
       _id: 1,
       name: 1,
       phone: 1,
-    })
+    });
     res.send(customers);
     // console.log(customers);
     // // res.send('removed');
@@ -54,6 +54,22 @@ customerRouter.get(
     // console.log(customers);
   })
 );
+// GET ONE CUSTOMER POINT
+customerRouter.get(
+  "/point/:id",
+  expressAsyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const customers = await Customer.find({ _id: id, status: "active" }).select(
+      {
+        _id: 1,
+        point: 1,
+      }
+    );
+    res.send(customers[0]);
+    // // res.send('removed');
+    // console.log(customers);
+  })
+);
 
 // CREATE ONE Customer
 customerRouter.post(
@@ -63,20 +79,21 @@ customerRouter.post(
     try {
       await newCustomer.save((err, customer) => {
         if (err) {
-          res.status(500).json({ message: "There was a server side error", error: err });
+          res
+            .status(500)
+            .json({ message: "There was a server side error", error: err });
         } else {
           res.status(200).json({
             message: "Customer is created Successfully",
-            id: customer._id
+            id: customer._id,
           });
         }
-      })
+      });
     } catch (err) {
       res
         .status(500)
         .json({ message: "There was a server side error", error: err });
     }
-
   })
 );
 
