@@ -68,8 +68,8 @@ categoryRouter.get(
           mcId: 1,
           mc: 1,
         })
-        .limit(50);
-      // .populate("mc", "name");
+        .limit(50)
+        .populate("mc", "name");
       res.status(200).json(category);
     } else {
       // regular pagination
@@ -83,8 +83,8 @@ categoryRouter.get(
           mc: 1,
         })
         .limit(size)
-        .skip(size * page);
-      // .populate("mc", "name");
+        .skip(size * page)
+        .populate("mc", "name");
       res.status(200).json(category);
       console.log("done:", query);
     }
