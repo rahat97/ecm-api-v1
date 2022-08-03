@@ -118,7 +118,7 @@ categoryRouter.get(
   expressAsyncHandler(async (req, res) => {
     const categories = await Category.find({
       status: "active",
-      mc: "mc",
+      mc: "",
     }).select({ _id: 1, name: 1, mcId: 1 });
     res.send(categories);
   })
