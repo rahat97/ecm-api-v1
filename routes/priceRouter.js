@@ -54,19 +54,19 @@ priceRouter.get(
 );
 // CREATE ONE Price
 priceRouter.post(
-  "/", expressAsyncHandler(async (req, res) => {
+  "/",
+  expressAsyncHandler(async (req, res) => {
     const newPrice = new Price(req.body);
-    console.log(req.body)
+    console.log(req.body);
     try {
-      console.log('before save');
-      let saveUser = await newPrice.save(); //when fail its goes to catch
-      console.log(saveUser); //when success it print.
-      console.log('after save');
+      console.log("before save");
+      let savePrice = await newPrice.save(); //when fail its goes to catch
+      console.log(savePrice); //when success it print.
+      console.log("after save");
       res.status(200).json({
         message: "Price is created Successfully",
-        id: saveUser._id,
+        id: savePrice._id,
       });
-
     } catch (err) {
       res
         .status(500)
