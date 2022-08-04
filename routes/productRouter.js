@@ -88,7 +88,7 @@ router.get(
         })
         .limit(50)
         .populate("category", "name")
-        .populate('priceList')
+        .populate("priceList");
       res.status(200).json(product);
     } else {
       // regular pagination
@@ -107,7 +107,7 @@ router.get(
         .limit(size)
         .skip(size * page)
         .populate("category", "name")
-        .populate("priceList")
+        .populate("priceList");
       res.status(200).json(product);
       console.log("done:", query);
     }
@@ -206,18 +206,40 @@ router.get(
   })
 );
 router.get(
+  "select/:id",
+  expressAsyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const products = await Product.find({ _id: id })
+      .select({
+        _id: 1,
+        name: 1,
+        ean: 1,
+        vat: 1,
+        unit: 1,
+        article_code: 1,
+        priceList: 1,
+        category: 1,
+      })
+      .populate("category", "name");
+    res.send(products[0]);
+  })
+);
+
+router.get(
   "/details/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const products = await Product.find({ _id: id }).select({
-      _id: 1,
-      name: 1,
-      ean: 1,
-      unit: 1,
-      article_code: 1,
-      priceList: 1,
-    })
-    .populate("priceList", "mrp");
+    const products = await Product.find({ _id: id })
+      .select({
+        _id: 1,
+        name: 1,
+        ean: 1,
+        vat: 1,
+        unit: 1,
+        article_code: 1,
+        priceList: 1,
+      })
+      .populate("priceList", "mrp");
     res.send(products[0]);
   })
 );
@@ -305,10 +327,11 @@ router.get(
         name: 1,
         ean: 1,
         unit: 1,
+        vat: 1,
         article_code: 1,
         priceList: 1,
       })
-      .populate("priceList")
+      .populate("priceList", "mrp")
       .limit(5);
     if (payload === "") {
       res.send([]);
@@ -318,7 +341,6 @@ router.get(
   })
 );
 
-
 // CREATE ONE PRODUCT
 router.post(
   "/",
@@ -326,7 +348,9 @@ router.post(
     const newProduct = new Product(req.body);
     await newProduct.save((err, product) => {
       if (err) {
-        res.status(500).json({ error: err, message: "There was a server side error" });
+        res
+          .status(500)
+          .json({ error: err, message: "There was a server side error" });
       } else {
         res.status(200).json({
           data: product._id,
