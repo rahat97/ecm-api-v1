@@ -17,6 +17,15 @@ const checklogin = require("../middlewares/checkLogin");
 
 const customerRouter = express.Router();
 
+// COUNT User
+router.get(
+  "/count",
+  expressAsyncHandler(async (req, res) => {
+    const total = await Customer.countDocuments({});
+    res.status(200).json(total);
+  })
+);
+
 // GET ALL customers
 customerRouter.get(
   "/",
