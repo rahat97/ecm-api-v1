@@ -60,7 +60,7 @@ router.get(
       console.log(isNumber);
       if (!isNumber) {
         // if text then search name
-        query = { name: { $regex: new RegExp("^" + queryString + ".*", "i") } };
+        query = { name: { $regex: new RegExp(queryString + ".*?", "i") } };
         // query = { name:  queryString  };
       } else {
         // if number search in ean and article code

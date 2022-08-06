@@ -17,11 +17,12 @@ const checklogin = require("../middlewares/checkLogin");
 
 const customerRouter = express.Router();
 
-// COUNT User
-router.get(
+// COUNT CUSTOMER
+customerRouter.get(
   "/count",
   expressAsyncHandler(async (req, res) => {
     const total = await Customer.countDocuments({});
+    // console.log("id");
     res.status(200).json(total);
   })
 );
@@ -38,7 +39,7 @@ customerRouter.get(
 );
 
 // GET ALL CUSTOMER WITH PAGENATION & SEARCH
-router.get(
+customerRouter.get(
   "/all/:page/:size",
   expressAsyncHandler(async (req, res) => {
     const page = parseInt(req.params.page);
