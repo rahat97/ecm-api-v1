@@ -48,7 +48,7 @@ customerRouter.get(
     const currentPage = page + 0;
 
     let query = {};
-    let product = [];
+    let category = [];
     // const size = parseInt(req.query.size);
     console.log("page:", currentPage, "size:", size, "search:", queryString);
 
@@ -61,47 +61,36 @@ customerRouter.get(
       console.log(isNumber);
       if (!isNumber) {
         // if text then search name
-        query = {
-          membership: { $regex: new RegExp("^" + queryString + ".*", "i") },
-        };
+        query = { name: { $regex: new RegExp("^" + queryString + ".*", "i") } };
         // query = { name:  queryString  };
       } else {
         // if number search in ean and article code
         query = {
-          $or: [
-            { name: { $regex: RegExp("^" + queryString + ".*", "i") } },
-            {
-              email: {
-                $regex: RegExp("^" + queryString + ".*", "i"),
-              },
-            },
-          ],
+          phone: {
+            $regex: RegExp("^" + queryString + ".*", "i"),
+          },
         };
       }
 
-      product = await Customer.find(query)
+      category = await Customer.find(query)
         .select({
           _id: 1,
           name: 1,
-          phone: 1,
-          address: 1,
         })
         .limit(50);
-      res.status(200).json(product);
+      res.status(200).json(category);
     } else {
       // regular pagination
       query = {};
 
-      product = await Customer.find(query)
+      category = await Customer.find(query)
         .select({
           _id: 1,
           name: 1,
-          phone: 1,
-          addrress: 1,
         })
         .limit(size)
         .skip(size * page);
-      res.status(200).json(product);
+      res.status(200).json(category);
       console.log("done:", query);
     }
   })

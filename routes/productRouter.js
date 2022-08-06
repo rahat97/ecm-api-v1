@@ -50,10 +50,13 @@ router.get(
     let product = [];
     // const size = parseInt(req.query.size);
     console.log("page:", currentPage, "size:", size, "search:", queryString);
+    console.log(typeof queryString);
 
     //check if search or the pagenation
 
     if (queryString) {
+      console.log("== query");
+
       console.log("search:", query);
       // search check if num or string
       const isNumber = /^\d/.test(queryString);
@@ -75,6 +78,7 @@ router.get(
           ],
         };
       }
+      console.log(query);
 
       product = await Product.find(query)
         .select({
@@ -91,6 +95,8 @@ router.get(
         .populate("priceList");
       res.status(200).json(product);
     } else {
+      console.log("no query");
+
       // regular pagination
       query = {};
 
