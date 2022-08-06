@@ -28,6 +28,75 @@ customerRouter.get(
   })
 );
 
+// GET ALL CUSTOMER WITH PAGENATION & SEARCH
+router.get(
+  "/all/:page/:size",
+  expressAsyncHandler(async (req, res) => {
+    const page = parseInt(req.params.page);
+    const size = parseInt(req.params.size);
+    const queryString = req.query?.q?.trim().toString().toLocaleLowerCase();
+    const currentPage = page + 0;
+
+    let query = {};
+    let product = [];
+    // const size = parseInt(req.query.size);
+    console.log("page:", currentPage, "size:", size, "search:", queryString);
+
+    //check if search or the pagenation
+
+    if (queryString) {
+      console.log("search:", query);
+      // search check if num or string
+      const isNumber = /^\d/.test(queryString);
+      console.log(isNumber);
+      if (!isNumber) {
+        // if text then search name
+        query = {
+          membership: { $regex: new RegExp("^" + queryString + ".*", "i") },
+        };
+        // query = { name:  queryString  };
+      } else {
+        // if number search in ean and article code
+        query = {
+          $or: [
+            { name: { $regex: RegExp("^" + queryString + ".*", "i") } },
+            {
+              email: {
+                $regex: RegExp("^" + queryString + ".*", "i"),
+              },
+            },
+          ],
+        };
+      }
+
+      product = await Customer.find(query)
+        .select({
+          _id: 1,
+          name: 1,
+          phone: 1,
+          address: 1,
+        })
+        .limit(50);
+      res.status(200).json(product);
+    } else {
+      // regular pagination
+      query = {};
+
+      product = await Customer.find(query)
+        .select({
+          _id: 1,
+          name: 1,
+          phone: 1,
+          addrress: 1,
+        })
+        .limit(size)
+        .skip(size * page);
+      res.status(200).json(product);
+      console.log("done:", query);
+    }
+  })
+);
+
 // GET ALL CUSTOMER DW
 customerRouter.get(
   "/dw",
