@@ -78,6 +78,79 @@ saleRouter.get(
   })
 );
 
+// GET ALL sales
+// GET ALL sales
+saleRouter.get(
+  "/export/:start/:end",
+  expressAsyncHandler(async (req, res) => {
+    const start = req.params.start
+      ? startOfDay(new Date(req.params.start))
+      : startOfDay(new Date.now());
+    const end = req.params.end
+      ? endOfDay(new Date(req.params.end))
+      : endOfDay(new Date.now());
+    // console.log(start, end, new Date());
+    const sales = await Sale.find({
+      status: "complete",
+      createdAt: { $gte: start, $lte: end },
+    })
+      .select({
+        invoiceId: 1,
+        totalItem: 1,
+        grossTotalRound: 1,
+        total: 1,
+        vat: 1,
+        status: 1,
+        paidAmount: 1,
+        billerId: 1,
+        totalReceived: 1,
+        createdAt: 1,
+        changeAmount: 1,
+        customerId: 1,
+      })
+      .populate("billerId", "name")
+      .populate("customerId", "phone");
+    res.send(sales);
+    // console.log(sales);
+    // // res.send('removed');
+  })
+);
+
+// saleRouter.get(
+//   "/export/:start/:end/",
+//   expressAsyncHandler(async (req, res) => {
+//     const start = req.params.start
+//       ? startOfDay(new Date(req.params.start))
+//       : startOfDay(new Date.now());
+//     const end = req.query.end
+//       ? endOfDay(new Date(req.params.end))
+//       : endOfDay(new Date.now());
+
+//     const biller = req.query.billerId;
+//     console.log(biller);
+// const sales = await Sale.find({
+//   status: "complete",
+//   createdAt: { $gte: start, $lte: end },
+// })
+//   .select({
+//     invoiceId: 1,
+//     totalItem: 1,
+//     grossTotalRound: 1,
+//     total: 1,
+//     billerId: 1,
+//     totalReceived: 1,
+//     createdAt: 1,
+//     changeAmount: 1,
+//     customerId: 1,
+//   })
+//   .populate("billerId", "name")
+//   .populate("customerId", "phone");
+//     res.send("sales");
+//     // console.log(sales);
+//     // // res.send('removed');
+//   })
+// );
+
 // GET ONE sales
 saleRouter.get(
   "/:id",
