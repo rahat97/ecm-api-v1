@@ -39,6 +39,23 @@ userRouter.get(
   })
 );
 
+// USER POS DW,
+userRouter.get(
+  "/dw",
+  expressAsyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const users = await User.find({}).select({
+      _id: 1,
+      name: 1,
+      username: 1,
+      phone: 1,
+    });
+    res.status(200).json(users);
+    // // res.send('removed');
+    // console.log(users);
+  })
+);
+
 // GET ALL USERS BY TYPE
 userRouter.get(
   "/type/:type",
