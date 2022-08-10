@@ -127,7 +127,7 @@ grnRouter.put(
   })
 );
 
-// GET ALL PRODUCTS WITH PAGENATION & SEARCH
+// GET ALL GRN WITH PAGENATION & SEARCH
 grnRouter.get(
   "/:page/:size",
   expressAsyncHandler(async (req, res) => {

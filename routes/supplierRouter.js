@@ -44,7 +44,7 @@ supplierRouter.get(
   })
 );
 
-// GET suppliers by Product article_code 
+// GET suppliers by Product article_code
 supplierRouter.get(
   "/product/:code",
   expressAsyncHandler(async (req, res) => {
@@ -53,7 +53,7 @@ supplierRouter.get(
       // _id: id,
       status: "active",
     });
-    console.log(code)
+    console.log(code);
     // }).populate("Product.id", "name", "ean", "article_code", "unit");
     res.send(suppliers);
     // // res.send('removed');
@@ -131,6 +131,75 @@ supplierRouter.delete(
         });
     } catch (error) {
       console.error(error);
+    }
+  })
+);
+
+// GET ALL GRN WITH PAGENATION & SEARCH
+supplierRouter.get(
+  "/:page/:size",
+  expressAsyncHandler(async (req, res) => {
+    const page = parseInt(req.params.page);
+    const size = parseInt(req.params.size);
+    const queryString = req.query?.q?.trim().toString().toLocaleLowerCase();
+    const currentPage = page + 0;
+
+    let query = {};
+    let grn = [];
+    // const size = parseInt(req.query.size);
+    console.log("page:", currentPage, "size:", size, "search:", queryString);
+    console.log(typeof queryString);
+
+    //check if search or the pagenation
+
+    if (queryString) {
+      console.log("== query");
+
+      console.log("search:", query);
+      // query = { grnNo: { $regex: new RegExp(queryString + ".*?", "i") } };
+      // search check if num or string
+      const isNumber = /^\d/.test(queryString);
+      console.log(isNumber);
+      if (!isNumber) {
+        // if text then search name
+        // query = { name:  queryString  };
+        query = { company: { $regex: RegExp(queryString + ".*", "i") } };
+      } else {
+        // if number search in ean and article code
+        query = { code: { $regex: RegExp("^" + queryString + ".*", "i") } };
+      }
+      console.log(query);
+
+      grn = await Supplier.find(query)
+        .select({
+          name: 1,
+          email: 1,
+          code: 1,
+          company: 1,
+        })
+        .limit(50);
+      // .populate("userId", "name")
+      // .populate("poNo", "poNo")
+      // // .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
+      // .populate("warehouse", "name");
+      res.status(200).json(grn);
+    } else {
+      console.log("no query");
+
+      // regular pagination
+      query = {};
+
+      grn = await Supplier.find(query).select({
+        name: 1,
+        email: 1,
+        code: 1,
+        company: 1,
+      });
+      // .limit(size)
+      // .skip(size * page)
+      // .populate("warehouse", "name");
+      res.status(200).json(grn);
+      console.log("done:", query);
     }
   })
 );

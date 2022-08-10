@@ -48,7 +48,7 @@ customerRouter.get(
     const currentPage = page + 0;
 
     let query = {};
-    let category = [];
+    let customer = [];
     // const size = parseInt(req.query.size);
     console.log("page:", currentPage, "size:", size, "search:", queryString);
 
@@ -61,7 +61,12 @@ customerRouter.get(
       console.log(isNumber);
       if (!isNumber) {
         // if text then search name
-        query = { name: { $regex: new RegExp("^" + queryString + ".*", "i") } };
+        query = {
+          $or: [
+            { name: { $regex: new RegExp(queryString + ".*?", "i") } },
+            { email: { $regex: new RegExp("^" + queryString + ".*", "i") } },
+          ],
+        };
         // query = { name:  queryString  };
       } else {
         // if number search in ean and article code
@@ -72,25 +77,27 @@ customerRouter.get(
         };
       }
 
-      category = await Customer.find(query)
+      customer = await Customer.find(query)
         .select({
           _id: 1,
           name: 1,
+          phone: 1,
         })
         .limit(50);
-      res.status(200).json(category);
+      res.status(200).json(customer);
     } else {
       // regular pagination
       query = {};
 
-      category = await Customer.find(query)
+      customer = await Customer.find(query)
         .select({
           _id: 1,
           name: 1,
+          phone: 1,
         })
         .limit(size)
         .skip(size * page);
-      res.status(200).json(category);
+      res.status(200).json(customer);
       console.log("done:", query);
     }
   })
