@@ -127,6 +127,91 @@ grnRouter.put(
   })
 );
 
+// GET ALL PRODUCTS WITH PAGENATION & SEARCH
+grnRouter.get(
+  "/:page/:size",
+  expressAsyncHandler(async (req, res) => {
+    const page = parseInt(req.params.page);
+    const size = parseInt(req.params.size);
+    const queryString = req.query?.q?.trim().toString().toLocaleLowerCase();
+    const currentPage = page + 0;
+
+    let query = {};
+    let grn = [];
+    // const size = parseInt(req.query.size);
+    console.log("page:", currentPage, "size:", size, "search:", queryString);
+    console.log(typeof queryString);
+
+    //check if search or the pagenation
+
+    if (queryString) {
+      console.log("== query");
+
+      console.log("search:", query);
+      query = { grnNo: { $regex: new RegExp(queryString + ".*?", "i") } };
+      // search check if num or string
+      // const isNumber = /^\d/.test(queryString);
+      // console.log(isNumber);
+      // if (!isNumber) {
+      //   // if text then search name
+      //   // query = { name:  queryString  };
+      // } else {
+      //   // if number search in ean and article code
+      //   query = {
+      //     $or: [
+      //       { ean: { $regex: RegExp("^" + queryString + ".*", "i") } },
+      //       {
+      //         article_code: {
+      //           $regex: RegExp("^" + queryString + ".*", "i"),
+      //         },
+      //       },
+      //     ],
+      //   };
+      // }
+      console.log(query);
+
+      grn = await Grn.find(query)
+        .select({
+          poNo: 1,
+          grnNo: 1,
+          userId: 1,
+          supplier: 1,
+          warehouse: 1,
+          products: 1,
+        })
+        .limit(50)
+        .populate("userId", "name")
+        .populate("poNo", "poNo")
+        // .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
+        .populate("warehouse", "name");
+      res.status(200).json(grn);
+    } else {
+      console.log("no query");
+
+      // regular pagination
+      query = {};
+
+      grn = await Grn.find(query)
+        .select({
+          poNo: 1,
+          grnNo: 1,
+          userId: 1,
+          supplier: 1,
+          warehouse: 1,
+          products: 1,
+        })
+        .limit(size)
+        .skip(size * page)
+        .populate("userId", "name")
+        .populate("poNo", "poNo")
+        // .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
+        .populate("warehouse", "name");
+      res.status(200).json(grn);
+      console.log("done:", query);
+    }
+  })
+);
+
 // DELETE ONE Grn
 grnRouter.delete(
   "/:id",
