@@ -185,7 +185,12 @@ supplierRouter.get(
         query = { company: { $regex: RegExp(queryString + ".*", "i") } };
       } else {
         // if number search in ean and article code
-        query = { code: { $regex: RegExp("^" + queryString + "?.*", "i") } };
+        query = {
+          $or: [
+            { code: { $regex: RegExp("^" + queryString + ".*", "i") } },
+            { phone: { $regex: RegExp("^" + queryString + ".*", "i") } },
+          ],
+        };
       }
       console.log(query);
 

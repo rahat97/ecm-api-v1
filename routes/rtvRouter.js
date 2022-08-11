@@ -18,6 +18,16 @@ const { generateRtvId } = require("../middlewares/generateId");
 
 const rtvRouter = express.Router();
 
+// GET Count rtv
+rtvRouter.get(
+  "/count",
+  expressAsyncHandler(async (req, res) => {
+    const total = await Rtv.countDocuments({});
+    // console.log("id");
+    res.status(200).json(total);
+  })
+);
+
 // GET ALL rtvs
 rtvRouter.get(
   "/",
