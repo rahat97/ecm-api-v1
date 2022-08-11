@@ -17,6 +17,15 @@ const checklogin = require("../middlewares/checkLogin");
 
 const supplierRouter = express.Router();
 
+// COUNT PRODUCT
+supplierRouter.get(
+  "/count",
+  expressAsyncHandler(async (req, res) => {
+    const total = await Supplier.countDocuments({});
+    res.status(200).json(total);
+  })
+);
+
 // GET ALL suppliers
 supplierRouter.get(
   "/",
@@ -25,6 +34,16 @@ supplierRouter.get(
     res.send(suppliers);
     // // res.send('removed');
     // console.log(suppliers);
+  })
+);
+
+// GET Count suppliers
+supplierRouter.get(
+  "/count",
+  expressAsyncHandler(async (req, res) => {
+    const total = await Supplier.countDocuments({});
+    // console.log("id");
+    res.status(200).json(total);
   })
 );
 
@@ -166,7 +185,7 @@ supplierRouter.get(
         query = { company: { $regex: RegExp(queryString + ".*", "i") } };
       } else {
         // if number search in ean and article code
-        query = { code: { $regex: RegExp("^" + queryString + ".*", "i") } };
+        query = { code: { $regex: RegExp("^" + queryString + "?.*", "i") } };
       }
       console.log(query);
 

@@ -42,6 +42,14 @@ grnRouter.get(
   })
 );
 
+grnRouter.get(
+  "/count",
+  expressAsyncHandler(async (req, res) => {
+    const total = await Grn.countDocuments({});
+    res.status(200).json(total);
+  })
+);
+
 // GET ONE grns
 grnRouter.get(
   "/:id",
@@ -178,12 +186,16 @@ grnRouter.get(
           supplier: 1,
           warehouse: 1,
           products: 1,
+          type: 1,
+          totalItem: 1,
+          total: 1,
+          status: 1,
+          createdAt: 1,
         })
-        .limit(50)
-        .populate("userId", "name")
         .populate("poNo", "poNo")
-        // .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
-        .populate("warehouse", "name");
+        .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
+        .populate("warehouse", "name")
+        .populate("userId", "name");
       res.status(200).json(grn);
     } else {
       console.log("no query");
@@ -199,13 +211,16 @@ grnRouter.get(
           supplier: 1,
           warehouse: 1,
           products: 1,
+          type: 1,
+          totalItem: 1,
+          total: 1,
+          status: 1,
+          createdAt: 1,
         })
-        .limit(size)
-        .skip(size * page)
-        .populate("userId", "name")
         .populate("poNo", "poNo")
-        // .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
-        .populate("warehouse", "name");
+        .populate("supplier", { company: 1, email: 1, phone: 1, address: 1 })
+        .populate("warehouse", "name")
+        .populate("userId", "name");
       res.status(200).json(grn);
       console.log("done:", query);
     }
