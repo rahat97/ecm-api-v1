@@ -18,6 +18,16 @@ const { generateRtvId } = require("../middlewares/generateId");
 
 const rtvRouter = express.Router();
 
+// GET Count rtv
+rtvRouter.get(
+  "/count",
+  expressAsyncHandler(async (req, res) => {
+    const total = await Rtv.countDocuments({});
+    // console.log("id");
+    res.status(200).json(total);
+  })
+);
+
 // GET ALL rtvs
 rtvRouter.get(
   "/",
@@ -139,6 +149,75 @@ rtvRouter.delete(
         });
     } catch (error) {
       console.error(error);
+    }
+  })
+);
+
+// GET ALL RTV WITH PAGENATION & SEARCH
+rtvRouter.get(
+  "/:page/:size",
+  expressAsyncHandler(async (req, res) => {
+    const page = parseInt(req.params.page);
+    const size = parseInt(req.params.size);
+    const queryString = req.query?.q?.trim().toString().toLocaleLowerCase();
+    const currentPage = page + 0;
+
+    let query = {};
+    let rtv = [];
+    // const size = parseInt(req.query.size);
+    console.log("page:", currentPage, "size:", size, "search:", queryString);
+    console.log(typeof queryString);
+
+    //check if search or the pagenation
+
+    if (queryString) {
+      console.log("== query");
+
+      console.log("search:", query);
+      query = { rtvNo: { $regex: new RegExp(queryString + ".*?", "i") } };
+
+      console.log(query);
+
+      rtv = await Rtv.find(query)
+        .select({
+          grnNo: 1,
+          rtvNo: 1,
+          userId: 1,
+          totalItem: 1,
+          supplier: 1,
+          total: 1,
+          status: 1,
+          createdAt: 1,
+        })
+        .populate("grnNo", "grnNo")
+        .populate("supplier", { company: 1 })
+        .populate("warehouse", "name")
+        .populate("userId", "name");
+      res.status(200).json(rtv);
+    } else {
+      console.log("no query");
+
+      // regular pagination
+      query = {};
+
+      rtv = await Rtv.find(query)
+        .select({
+          grnNo: 1,
+          rtvNo: 1,
+          userId: 1,
+          totalItem: 1,
+          supplier: 1,
+          total: 1,
+          status: 1,
+          createdAt: 1,
+        })
+        .populate("grnNo", "grnNo")
+        .populate("supplier", { company: 1 })
+        .populate("warehouse", "name")
+        .populate("userId", "name");
+
+      res.status(200).json(rtv);
+      console.log("done:", query);
     }
   })
 );
