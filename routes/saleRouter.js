@@ -134,25 +134,26 @@ saleRouter.get(
       status: "complete",
       createdAt: { $gte: start, $lte: end },
     })
-      // .select({
-      //   invoiceId: 1,
-      //   totalItem: 1,
-      //   grossTotalRound: 1,
-      //   total: 1,
-      //   vat: 1,
-      //   status: 1,
-      //   paidAmount: 1,
-      //   billerId: 1,
-      //   totalReceived: 1,
-      //   createdAt: 1,
-      //   changeAmount: 1,
-      //   customerId: 1,
-      //   tp:1
-      // })
+      .select({
+        invoiceId: 1,
+        // totalItem: 1,
+        // grossTotalRound: 1,
+        // total: 1,
+        // vat: 1,
+        // status: 1,
+        // paidAmount: 1,
+        // billerId: 1,
+        // totalReceived: 1,
+        // createdAt: 1,
+        // changeAmount: 1,
+        // customerId: 1,
+        products:1,
+        // tp:1
+      })
       // .populate("billerId", "name")
       // .populate("customerId", "phone");
     res.send(sales);
-    // console.log(sales);
+    console.log(sales);
     // // res.send('removed');
   })
 );
