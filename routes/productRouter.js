@@ -155,16 +155,16 @@ router.get(
 );
 
 // GET ALL PRODUCTS BY CATEGORY
-router.get(
-  "/category/:category",
-  expressAsyncHandler(async (req, res) => {
-    const category = req.params.category;
-    const products = await Product.find({
-      category: { $regex: new RegExp("^" + category.toLowerCase(), "i") },
-    });
-    res.send(products);
-  })
-);
+// router.get(
+//   "/category/:category",
+//   expressAsyncHandler(async (req, res) => {
+//     const category = req.params.category;
+//     const products = await Product.find({
+//       category: { $regex: new RegExp("^" + category.toLowerCase(), "i") },
+//     });
+//     res.send(products);
+//   })
+// );
 
 // GET ALL FEATURED PRODUCTS
 router.get(
@@ -263,8 +263,24 @@ router.get(
 router.get(
   "/category/:id",
   expressAsyncHandler(async (req, res) => {
-    const category = req.params.category;
-    const products = await Product.find({ category: category });
+    const category = req.params.id;
+    const products = await Product.find({ category: category })
+      .select({
+        _id: 1,
+        name: 1,
+        ean: 1,
+        unit: 1,
+        vat: 1,
+        article_code: 1,
+        priceList: 1,
+        promo_price: 1,
+        promo_start: 1,
+        promo_end: 1,
+      })
+      .populate("priceList", "mrp");
+    // .limit(5);
+    // Select fields
+    // console.log(category);0
     res.send(products);
   })
 );

@@ -114,7 +114,7 @@ categoryRouter.get(
 
 // GET ALL MASTER CATEGORY
 categoryRouter.get(
-  "/master/",
+  "/master",
   expressAsyncHandler(async (req, res) => {
     const categories = await Category.find({
       status: "active",
@@ -125,10 +125,19 @@ categoryRouter.get(
 );
 // GET ALL CATEGORY BY MASTER CATEGORY
 categoryRouter.get(
-  "/master/:id",
+  "/masterCat/:id",
   expressAsyncHandler(async (req, res) => {
     const mcId = req.params.id;
-    const categories = await Category.find({ mc: "mc" });
+    const categories = await Category.find({ mc: mcId });
+    res.send(categories);
+  })
+);
+// GET ALL CATEGORY BY MASTER CATEGORY
+categoryRouter.get(
+  "/master/:mcId",
+  expressAsyncHandler(async (req, res) => {
+    const mcId = req.params.mcId;
+    const categories = await Category.find({ mcId: mcId });
     res.send(categories);
   })
 );
