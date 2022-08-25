@@ -106,7 +106,7 @@ categoryRouter.get(
 categoryRouter.get(
   "/group/:group",
   expressAsyncHandler(async (req, res) => {
-    const group = req.params.group;
+    const group = req.params.group.toLowerCase();
     const categories = await Category.find({ group: group });
     res.send(categories);
   })
