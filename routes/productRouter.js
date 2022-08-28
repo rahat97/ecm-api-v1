@@ -212,7 +212,7 @@ router.get(
   })
 );
 router.get(
-  "select/:id",
+  "/select/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const products = await Product.find({ _id: id })
