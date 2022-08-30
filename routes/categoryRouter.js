@@ -66,6 +66,7 @@ categoryRouter.get(
           _id: 1,
           name: 1,
           mcId: 1,
+          group: 1,
           mc: 1,
         })
         .limit(50)
@@ -80,6 +81,7 @@ categoryRouter.get(
           _id: 1,
           name: 1,
           mcId: 1,
+          group: 1,
           mc: 1,
         })
         .limit(size)
