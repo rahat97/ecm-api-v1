@@ -194,6 +194,7 @@ router.get(
         master_category: 1,
       })
       .populate("category", "name")
+      .populate("priceList", "mrp")
       .populate("master_category", "name");
     res.status(200).json(products[0]);
   })
