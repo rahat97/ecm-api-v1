@@ -354,7 +354,7 @@ router.get(
         article_code: 1,
         priceList: 1,
       })
-      .populate("priceList", "mrp")
+      .populate("priceList")
       .limit(5);
     if (payload === "") {
       res.send([]);
