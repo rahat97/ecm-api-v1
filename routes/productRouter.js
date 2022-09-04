@@ -132,6 +132,9 @@ router.get(
           article_code: 1,
           priceList: 1,
           category: 1,
+          promo_price: 1,
+          promo_start: 1,
+          promo_end: 1,
         })
         .populate("category", "name")
         .populate("priceList");
