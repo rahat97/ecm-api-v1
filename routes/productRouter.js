@@ -283,7 +283,7 @@ router.get(
   "/category/:id",
   expressAsyncHandler(async (req, res) => {
     const category = req.params.id;
-    const products = await Product.find({ category: category })
+    const products = await Product.find({ category: ObjectId(category) })
       .select({
         _id: 1,
         name: 1,
@@ -299,7 +299,8 @@ router.get(
       .populate("priceList", "mrp");
     // .limit(5);
     // Select fields
-    // console.log(category);0
+    console.log(products);
+    console.log(category);
     res.send(products);
   })
 );
