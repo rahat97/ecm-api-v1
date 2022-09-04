@@ -177,7 +177,19 @@ router.get(
   expressAsyncHandler(async (req, res) => {
     const products = await Product.find({
       featured: true,
-    });
+    })
+      .select({
+        name: 1,
+        ean: 1,
+        article_code: 1,
+        priceList: 1,
+        category: 1,
+        promo_price: 1,
+        promo_start: 1,
+        promo_end: 1,
+      })
+      .populate("category", "name")
+      .populate("priceList");
     res.send(products);
   })
 );
