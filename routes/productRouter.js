@@ -133,7 +133,9 @@ router.get(
           priceList: 1,
           category: 1,
         })
-        .populate("category", "name");
+        .populate("category", "name")
+        .populate("priceList");
+
       res.send(products);
     } catch {
       res.status(500).json("Server side error");
