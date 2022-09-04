@@ -130,7 +130,8 @@ categoryRouter.get(
   "/masterCat/:id",
   expressAsyncHandler(async (req, res) => {
     const mcId = req.params.id;
-    const categories = await Category.find({ mc: mcId });
+    const categories = await Category.find({ mc: { $exists: true }, mc: mcId });
+    // console.log(mcId)
     res.send(categories);
   })
 );
