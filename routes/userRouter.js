@@ -292,5 +292,46 @@ userRouter.post(
     }
   })
 );
+// USER Validation
+userRouter.post(
+  "/valid",
+  expressAsyncHandler(async (req, res) => {
+    try {
+      let user;
+      // console.log(req.body);
+
+      user = await User.find({
+        status: "active",
+        username: req.body.username.toLowerCase(),
+      });
+      // console.log("user:", user);
+
+      if (user && user.length > 0) {
+        const isValidPassword = await bcrypt.compare(
+          req.body.password,
+          user[0].password
+        );
+        if (isValidPassword) {
+          res.status(200).json({ status: true });
+        } else {
+          res.status(401).json({
+            status: false,
+            error: "Password Does not Match",
+          });
+        }
+      } else {
+        res.status(401).json({
+          status: false,
+          error: "User Not Found",
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        status: false,
+        error: err,
+      });
+    }
+  })
+);
 
 module.exports = userRouter;
