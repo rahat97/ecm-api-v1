@@ -255,7 +255,7 @@ saleRouter.post(
   generatePosId,
   expressAsyncHandler(async (req, res) => {
     const newSale = new Sale(req.body);
-    console.log(newSale);
+    console.log("newSale", newSale);
     try {
       await newSale.save((err, sale) => {
         if (err) {

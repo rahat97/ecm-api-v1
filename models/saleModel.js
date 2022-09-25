@@ -41,6 +41,10 @@ const saleSchema = mongoose.Schema(
     totalItem: { type: Number, require: true },
     total: { type: Number, require: true },
     vat: { type: Number, require: true },
+    point: {
+      old: { type: Number },
+      new: { type: Number },
+    },
     discount: { type: Number, require: true },
     billerId: { type: mongoose.Types.ObjectId, require: true, ref: "User" },
     customerId: {
