@@ -22,6 +22,23 @@ const saleSchema = mongoose.Schema(
         }),
       },
     ],
+    returnProducts: [
+      {
+        type: Map,
+        of: new mongoose.Schema({
+          id: { type: mongoose.Types.ObjectId, require: true, ref: "Products" },
+          tp: { type: Number, require: true },
+          mrp: { type: Number, require: true },
+          supplier: {
+            type: String,
+            require: true,
+          },
+          order: { type: Number, require: true },
+          vat: { type: Number, require: true },
+          qty: { type: Number, require: true },
+        }),
+      },
+    ],
     paidAmount: new mongoose.Schema({
       cash: { type: Number },
       mfs: {
