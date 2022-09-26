@@ -9,7 +9,6 @@
  * 7. delete one
  */
 const express = require("express");
-const router = express.Router();
 const expressAsyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const Brand = require("../models/brandModel");

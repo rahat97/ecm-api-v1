@@ -249,6 +249,20 @@ saleRouter.get(
   })
 );
 
+// GET ONE sales
+saleRouter.get(
+  "/invoice/:id",
+  expressAsyncHandler(async (req, res) => {
+    const id = req.params.id;
+    const sales = await Sale.find({ invoiceId: id, status: "complete" })
+      .populate("billerId", "name")
+      .populate("customerId", "phone");
+    res.send(sales[0]);
+    // // res.send('removed');
+    // console.log(sales);
+  })
+);
+
 // CREATE ONE SALE
 saleRouter.post(
   "/",

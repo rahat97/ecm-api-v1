@@ -39,6 +39,7 @@ const saleSchema = mongoose.Schema(
         }),
       },
     ],
+    returnInvoice: { type: mongoose.Types.ObjectId, ref: "Sale" },
     paidAmount: new mongoose.Schema({
       cash: { type: Number },
       mfs: {
