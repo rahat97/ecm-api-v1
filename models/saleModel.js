@@ -39,6 +39,14 @@ const saleSchema = mongoose.Schema(
         }),
       },
     ],
+    returnCal: {
+      totalItem: { type: Number },
+      total: { type: Number },
+      vatAmount: { type: Number },
+      grossTotal: { type: Number },
+      grossTotalRound: { type: Number },
+      point: { type: Number },
+    },
     returnInvoice: { type: mongoose.Types.ObjectId, ref: "Sale" },
     paidAmount: new mongoose.Schema({
       cash: { type: Number },

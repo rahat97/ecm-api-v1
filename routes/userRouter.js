@@ -151,7 +151,7 @@ userRouter.put(
     }
 
     // console.log(req.body)
-    // console.log(update)
+    console.log(update);
     try {
       await User.updateOne({ _id: id }, { $set: update })
         .then((response) => {
