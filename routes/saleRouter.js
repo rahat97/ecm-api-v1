@@ -242,7 +242,8 @@ saleRouter.get(
     const id = req.params.id;
     const sales = await Sale.find({ _id: id, status: "complete" })
       .populate("billerId", "name")
-      .populate("customerId", "phone");
+      .populate("customerId", "phone")
+      .populate("returnInvoice", "invoiceId");
     res.send(sales[0]);
     // // res.send('removed');
     // console.log(sales);
@@ -273,6 +274,7 @@ saleRouter.post(
     try {
       await newSale.save((err, sale) => {
         if (err) {
+          // console.log("err:", res, err);
           res
             .status(500)
             .json({ message: "There was a server side error", error: err });
