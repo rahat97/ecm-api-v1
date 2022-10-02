@@ -156,9 +156,10 @@ saleRouter.get(
   })
 );
 
-// TODAYS SALE
+// TODAYS SALE Total
 saleRouter.get(
-  "/today/:start/:end",
+  "/total/:start/:end",
+  //
   expressAsyncHandler(async (req, res) => {
     const start = req.params.start
       ? startOfDay(new Date(req.params.start))
@@ -167,36 +168,77 @@ saleRouter.get(
       ? endOfDay(new Date(req.params.end))
       : endOfDay(new Date.now());
     // console.log(start, end, new Date());
-    const sales = await Sale.aggregate([
-      { $match: { createdAt: { $gte: start, $lte: end } } },
-      { $group: { _id: "$customerId", total: { $sum: "$grossTotalRound" } } },
-    ]);
-    // const sales = await Sale.find({
-    //   status: "complete",
-    //   createdAt: { $gte: start, $lte: end },
-    // })
-    //   .select({
-    //     invoiceId: 1,
-    //     totalItem: 1,
-    //     grossTotalRound: 1,
-    //     total: 1,
-    //     vat: 1,
-    //     status: 1,
-    //     paidAmount: 1,
-    //     billerId: 1,
-    //     totalReceived: 1,
-    //     createdAt: 1,
-    //     changeAmount: 1,
-    //     customerId: 1,
-    //     products: 1,
-    //     tp: 1,
-    //   })
-    //   .populate("billerId", "name")
-    //   .populate("customerId", "phone");
-
-    res.send(sales);
-    console.log(sales);
-    // // res.send('removed');
+    const day = parseInt(1);
+    try {
+      const sales = await Sale.aggregate([
+        {
+          $match: {
+            $and: [
+              {
+                status: "complete",
+              },
+              {
+                createdAt: {
+                  $gt: start,
+                  $lt: end,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            grossTotalRound: { $sum: "$grossTotalRound" },
+            total: { $sum: "$total" },
+            vat: { $sum: "$vat" },
+          },
+        },
+      ]);
+      res.send(sales);
+    } catch (err) {
+      console.log(err);
+    }
+  })
+);
+// TODAYS SALE Count
+saleRouter.get(
+  "/footfall/:start/:end",
+  //
+  expressAsyncHandler(async (req, res) => {
+    const start = req.params.start
+      ? startOfDay(new Date(req.params.start))
+      : startOfDay(new Date.now());
+    const end = req.params.end
+      ? endOfDay(new Date(req.params.end))
+      : endOfDay(new Date.now());
+    // console.log(start, end, new Date());
+    const day = parseInt(1);
+    try {
+      const sales = await Sale.aggregate([
+        {
+          $match: {
+            $and: [
+              {
+                status: "complete",
+              },
+              {
+                createdAt: {
+                  $gt: start,
+                  $lt: end,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $count: "footfall",
+        },
+      ]);
+      res.send(sales);
+    } catch (err) {
+      console.log(err);
+    }
   })
 );
 
@@ -346,6 +388,26 @@ saleRouter.delete(
     } catch (error) {
       console.error(error);
     }
+  })
+);
+
+// SALES AGGREGATION
+saleRouter.get(
+  "todaySale",
+  expressAsyncHandler(async (req, res) => {
+    const sale = await Sale.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: ISODate("2013-01-01T00:00:00.0Z"),
+            $lt: ISODate("2013-02-01T00:00:00.0Z"),
+          },
+        },
+      },
+      // { $group: { _id: null, count: { $count: "$_id" } } },
+    ]);
+
+    console.log(sale);
   })
 );
 
