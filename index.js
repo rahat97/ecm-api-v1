@@ -2,24 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-const productRouter = require("./routes/productRouter");
-const userRouter = require("./routes/userRouter");
-const categoryRouter = require("./routes/categoryRouter");
-const saleRouter = require("./routes/saleRouter");
-const supplierRouter = require("./routes/supplierRouter");
-const customerRouter = require("./routes/customerRouter");
-const brandRouter = require("./routes/brandRouter");
-const unitRouter = require("./routes/unitRouter");
-const priceRouter = require("./routes/priceRouter");
-const warehouseRouter = require("./routes/warehouseRouter");
-const inventoryRouter = require("./routes/inventoryRouter");
-const inventoryCountRouter = require("./routes/inventoryCountRouter");
-const poRouter = require("./routes/purchaseRouter");
-const grnRouter = require("./routes/grnRouter");
-const rtvRouter = require("./routes/rtvRouter");
-const tpnRouter = require("./routes/tpnRouter");
-const companyRouter = require("./routes/companyRouter");
-const damageRouter = require("./routes/damageRouter");
+const employeeRouter = require("./routes/employeeECMRouter")
+const bankRouter = require("./routes/bankECMRouter")
+const attendenceRouter = require("./routes/attendenceECMRouter")
+const clientRouter = require("./routes/clientsECMRouter")
+const inventoryRouter = require("./routes/inventoryECMRouter")
+const projectRouter = require("./routes/projectECMRouter")
+const requisitionRouter = require("./routes/requisitionECMRouter")
+const supplierRouter = require("./routes/supplierECMRouter")
+const userRouter = require("./routes/userECMRouters")
+
+
 const multer = require("multer");
 
 require("dotenv").config();
@@ -42,7 +35,7 @@ app.use(
 app.use(express.json());
 app.use(express.static(__dirname + "/template"));
 
-const dbUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.jmnaf.mongodb.net/pos-api-v1?retryWrites=true&w=majority`;
+const dbUrl = `mongodb+srv://ecm-admin:mDZRrdSXzHPlEua5@cluster0.ht6vrw8.mongodb.net/?retryWrites=true&w=majority`;
 // database connection
 mongoose
   .connect(dbUrl)
@@ -50,24 +43,16 @@ mongoose
   .catch((err) => console.log(err));
 
 // application router
-app.use("/api/product", productRouter);
-app.use("/api/user", userRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/sale", saleRouter);
-app.use("/api/supplier", supplierRouter);
-app.use("/api/customer", customerRouter);
-app.use("/api/brand", brandRouter);
-app.use("/api/unit", unitRouter);
-app.use("/api/price", priceRouter);
-app.use("/api/warehouse", warehouseRouter);
+
+app.use("/api/employee", employeeRouter);
+app.use("/api/bank", bankRouter);
+app.use("/api/attendence", attendenceRouter);
+app.use("/api/client", clientRouter);
 app.use("/api/inventory", inventoryRouter);
-app.use("/api/inventoryCount", inventoryCountRouter);
-app.use("/api/purchase", poRouter);
-app.use("/api/grn", grnRouter);
-app.use("/api/rtv", rtvRouter);
-app.use("/api/tpn", tpnRouter);
-app.use("/api/company", companyRouter);
-app.use("/api/damage", damageRouter);
+app.use("/api/project", projectRouter);
+app.use("/api/requisition", requisitionRouter);
+app.use("/api/supplier", supplierRouter);
+app.use("/api/user", userRouter);
 
 // Home
 app.get("/", async (req, res) => {
