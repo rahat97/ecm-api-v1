@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const attendenceECMSchema = mongoose.Schema(
+const attendenceSchema = mongoose.Schema(
     {
         project: { type: String, require: true },
         date: { type: String, require: true },
@@ -12,5 +12,5 @@ const attendenceECMSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const attendenceECM = new mongoose.model("attendence", attendenceECMSchema);
-module.exports = attendenceECM;
+const attendence = new mongoose.model("attendence", attendenceSchema);
+module.exports = attendence;

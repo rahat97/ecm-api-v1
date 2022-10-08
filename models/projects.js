@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const projectECMSchema = mongoose.Schema(
+const projectSchema = mongoose.Schema(
     {
         name: { type: String, require: true },
         client: { type: String, require: true },
@@ -19,5 +19,5 @@ const projectECMSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const projectECM = new mongoose.model("project", projectECMSchema);
-module.exports = projectECM;
+const project = new mongoose.model("project", projectSchema);
+module.exports = project;

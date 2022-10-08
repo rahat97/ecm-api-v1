@@ -1,6 +1,6 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Attendence = require("../models/attendenceECM");
+const Attendence = require("../models/attendence");
 
 const attendenceRouter = express.Router();
 

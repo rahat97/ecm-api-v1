@@ -1,6 +1,6 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Supplier = require("../models/supplierECM");
+const Supplier = require("../models/supplier");
 
 const SupplierRouter = express.Router();
 

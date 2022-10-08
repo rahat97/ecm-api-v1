@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const userECMSchema = mongoose.Schema(
+const userSchema = mongoose.Schema(
     {
         admin: { type: String, require: true },
         MD: { type: String, require: true },
@@ -12,5 +12,5 @@ const userECMSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const userECM = new mongoose.model("user", userECMSchema);
-module.exports = userECM;
+const user = new mongoose.model("user", userSchema);
+module.exports = user;

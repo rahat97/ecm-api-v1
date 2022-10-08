@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const inventoryECMSchema = mongoose.Schema(
+const inventorySchema = mongoose.Schema(
     {
         pid: { type: String, require: true },
         item: { type: String, require: true },
@@ -13,5 +13,5 @@ const inventoryECMSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const inventoryECM = new mongoose.model("inventory", inventoryECMSchema);
-module.exports = inventoryECM;
+const inventory = new mongoose.model("inventory", inventorySchema);
+module.exports = inventory;

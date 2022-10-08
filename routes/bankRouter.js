@@ -1,6 +1,6 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Bank = require("../models/bankECM");
+const Bank = require("../models/bank");
 
 const bankRouter = express.Router();
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Inventory = require("../models/inventoryECM");
+const Inventory = require("../models/inventory");
 
 const inventoryRouter = express.Router();
 

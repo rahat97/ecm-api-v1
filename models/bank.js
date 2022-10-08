@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bankECMSchema = mongoose.Schema(
+const bankSchema = mongoose.Schema(
     {
         name: { type: String, require: true },
         accountno: { type: String, require: true },
@@ -10,5 +10,5 @@ const bankECMSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const bankECM = new mongoose.model("bank", bankECMSchema);
-module.exports = bankECM;
+const bank = new mongoose.model("bank", bankSchema);
+module.exports = bank;

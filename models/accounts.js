@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const accountECMSchema = mongoose.Schema(
+const accountSchema = mongoose.Schema(
     {
         expense: { type: String, require: true },
         purchase: { type: String, require: true },
@@ -14,5 +14,5 @@ const accountECMSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const accountECM = new mongoose.model("account", accountECMSchema);
-module.exports = accountECM;
+const account = new mongoose.model("account", accountSchema);
+module.exports = account;

@@ -1,6 +1,6 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Client = require("../models/clientsECM");
+const Client = require("../models/clients");
 
 const clientRouter = express.Router();
 

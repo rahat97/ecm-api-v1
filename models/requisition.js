@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const requisitionECMSchema = mongoose.Schema(
+const requisitionSchema = mongoose.Schema(
     {
         sid: { type: String, require: true },
         details: { type: String, require: true },
@@ -15,5 +15,5 @@ const requisitionECMSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const requisitionECM = new mongoose.model("requisition", requisitionECMSchema);
-module.exports = requisitionECM;
+const requisition = new mongoose.model("requisition", requisitionSchema);
+module.exports = requisition;

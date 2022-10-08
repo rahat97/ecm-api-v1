@@ -2,16 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-const employeeRouter = require("./routes/employeeECMRouter")
-const bankRouter = require("./routes/bankECMRouter")
-const attendenceRouter = require("./routes/attendenceECMRouter")
-const clientRouter = require("./routes/clientsECMRouter")
-const inventoryRouter = require("./routes/inventoryECMRouter")
-const projectRouter = require("./routes/projectECMRouter")
-const requisitionRouter = require("./routes/requisitionECMRouter")
-const supplierRouter = require("./routes/supplierECMRouter")
-const userRouter = require("./routes/userECMRouters")
-const accountRouter = require("./routes/accountECMRouter")
+const employeeRouter = require("./routes/employeeRouter")
+const bankRouter = require("./routes/bankRouter")
+const attendenceRouter = require("./routes/attendenceRouter")
+const clientRouter = require("./routes/clientsRouter")
+const inventoryRouter = require("./routes/inventoryRouter")
+const projectRouter = require("./routes/projectRouter")
+const requisitionRouter = require("./routes/requisitionRouter")
+const supplierRouter = require("./routes/supplierRouter")
+const userRouter = require("./routes/userRouters")
+const accountRouter = require("./routes/accountRouter")
 
 
 const multer = require("multer");
@@ -45,16 +45,16 @@ mongoose
 
 // application router
 
-app.use("/ecm/employee", employeeRouter);
-app.use("/ecm/bank", bankRouter);
-app.use("/ecm/attendence", attendenceRouter);
-app.use("/ecm/client", clientRouter);
-app.use("/ecm/inventory", inventoryRouter);
-app.use("/ecm/project", projectRouter);
-app.use("/ecm/requisition", requisitionRouter);
-app.use("/ecm/supplier", supplierRouter);
-app.use("/ecm/user", userRouter);
-app.use("/ecm/account", accountRouter);
+app.use("/api/employee", employeeRouter);
+app.use("/api/bank", bankRouter);
+app.use("/api/attendence", attendenceRouter);
+app.use("/api/client", clientRouter);
+app.use("/api/inventory", inventoryRouter);
+app.use("/api/project", projectRouter);
+app.use("/api/requisition", requisitionRouter);
+app.use("/api/supplier", supplierRouter);
+app.use("/api/user", userRouter);
+app.use("/api/account", accountRouter);
 
 // Home
 app.get("/", async (req, res) => {

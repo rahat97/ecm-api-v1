@@ -1,6 +1,6 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Requisition = require("../models/requisitionECM");
+const Requisition = require("../models/requisition");
 
 const requisitionRouter = express.Router();
 
