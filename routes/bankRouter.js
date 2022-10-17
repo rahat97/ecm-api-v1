@@ -7,7 +7,7 @@ const bankRouter = express.Router();
 bankRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const bank = await Bank.find({ status: "active" });
+        const bank = await Bank.find();
         res.send(bank);
         // // res.send('removed');
         console.log(bank);

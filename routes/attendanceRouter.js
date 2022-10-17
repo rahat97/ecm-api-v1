@@ -1,41 +1,45 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Inventory = require("../models/inventory");
+const Attendance = require("../models/attendance");
 
-const inventoryRouter = express.Router();
+const attendanceRouter = express.Router();
 
-inventoryRouter.get(
+attendanceRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const inventories = await Inventory.find();
-        res.send(inventories);
+        const attendance = await Attendance.find();
+        res.send(attendance);
         // // res.send('removed');
-        console.log(inventories);
+        console.log(attendance);
     })
 );
 
-
-// GET ONE inventories
-inventoryRouter.get(
+// GET USER BY ID
+attendanceRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
-        const inventories = await Inventory.find({ _id: id, status: "active" });
-        res.send(inventories[0]);
-        // // res.send('removed');
-        console.log(inventories);
+        const attendance = await Attendance.find({ _id: id }).select({
+            project: 1,
+            date: 1,
+            inTime: 1,
+            outTime: 1,
+            eid: 1,
+            status: 1,
+        });
+        res.send(attendance[0]);
     })
 );
 
-// CREATE ONE Inventory
-inventoryRouter.post(
+// CREATE ONE Attendance
+attendanceRouter.post(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const newInventory = new Inventory(req.body);
+        const newAttendance = new Attendance(req.body);
         try {
-            await newInventory.save();
+            await newAttendance.save();
             res.status(200).json({
-                message: "Inventory is created Successfully",
+                message: "Attendance is created Successfully",
             });
         } catch (err) {
             res
@@ -45,30 +49,16 @@ inventoryRouter.post(
     })
 );
 
-// CREATE MULTI inventories
-inventoryRouter.post(
-    "/all",
-    expressAsyncHandler(async (req, res) => {
-        await Inventory.insertMany(req.body, (err) => {
-            if (err) {
-                res.status(500).json({ error: err });
-            } else {
-                res.status(200).json({
-                    message: "inventories are created Successfully",
-                });
-            }
-        });
-    })
-);
 
-// UPDATE ONE Inventory
-inventoryRouter.put(
+// UPDATE ONE Attendance
+attendanceRouter.put(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
         const update = req.body;
+        // console.log(req.body);
         try {
-            await Inventory.updateOne({ _id: id }, { $set: update })
+            await Attendance.updateOne({ _id: id }, { $set: update })
                 .then((response) => {
                     res.send(response);
                 })
@@ -81,13 +71,12 @@ inventoryRouter.put(
     })
 );
 
-// DELETE ONE Inventory
-inventoryRouter.delete(
+attendanceRouter.delete(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
         try {
-            await Inventory.deleteOne({ _id: id })
+            await Attendance.deleteOne({ _id: id })
                 .then((response) => {
                     res.send(response);
                 })
@@ -100,6 +89,4 @@ inventoryRouter.delete(
     })
 );
 
-
-
-module.exports = inventoryRouter;
+module.exports = attendanceRouter;

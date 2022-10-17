@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const projectSchema = mongoose.Schema(
     {
         name: { type: String, require: true },
+        pid: { type: String, require: true },
         client: { type: String, require: true },
         location: { type: String, require: true },
         details: { type: String, require: true },
@@ -12,8 +13,7 @@ const projectSchema = mongoose.Schema(
         workOrder: { type: String, require: true },
         manager: { type: String, require: true },
         engineer: { type: String, require: true },
-        stuff: { type: String, require: true },
-        subContructor: { type: String, require: true },
+        subContractor: { type: String, require: true },
     },
     {
         timestamps: true,

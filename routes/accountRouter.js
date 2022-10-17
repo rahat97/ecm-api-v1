@@ -7,7 +7,7 @@ const accountRouter = express.Router();
 accountRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const account = await Account.find({ status: "active" });
+        const account = await Account.find();
         res.send(account);
         // // res.send('removed');
         console.log(account);
