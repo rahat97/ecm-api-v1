@@ -4,6 +4,8 @@ const Client = require("../models/clients");
 
 const clientRouter = express.Router();
 
+
+//GET ALL CLIENT 
 clientRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
@@ -14,6 +16,7 @@ clientRouter.get(
     })
 );
 
+//GET CLIENT COUNT
 clientRouter.get(
     "/count",
     expressAsyncHandler(async (req, res) => {
@@ -24,7 +27,7 @@ clientRouter.get(
 );
 
 
-// GET ONE client
+// GET ONE client BY ID
 clientRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {

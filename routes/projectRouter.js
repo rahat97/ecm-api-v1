@@ -4,6 +4,7 @@ const Project = require("../models/projects");
 
 const projectRouter = express.Router();
 
+//GET ALL PROJECTS
 projectRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
@@ -96,7 +97,7 @@ projectRouter.put(
     })
 );
 
-// DELETE ONE Supplier
+// DELETE ONE PROJECT
 projectRouter.delete(
     "/:id",
     expressAsyncHandler(async (req, res) => {

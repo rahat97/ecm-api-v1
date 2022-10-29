@@ -4,6 +4,8 @@ const Employee = require("../models/employee");
 
 const employeeRouter = express.Router();
 
+
+//GET ALL EMPLOYEE
 employeeRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
@@ -14,7 +16,7 @@ employeeRouter.get(
     })
 );
 
-// GET USER BY ID
+// GET EMPLOYEE BY ID
 employeeRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {
@@ -33,7 +35,7 @@ employeeRouter.get(
     })
 );
 
-// GET USER BY PHONE
+// GET EMPLOYEE BY PHONE
 employeeRouter.get(
     "/phone/:phone",
     expressAsyncHandler(async (req, res) => {
@@ -43,7 +45,7 @@ employeeRouter.get(
     })
 );
 
-// GET USER BY EMAIL
+// GET EMPLOYEE BY EMAIL
 employeeRouter.get(
     "/email/:email",
     expressAsyncHandler(async (req, res) => {
@@ -53,7 +55,7 @@ employeeRouter.get(
     })
 );
 
-
+//GET COUNT OF ALL EMPLOYEES
 employeeRouter.get(
     "/count",
     expressAsyncHandler(async (req, res) => {
@@ -101,7 +103,7 @@ employeeRouter.put(
     })
 );
 
-// DELETE ONE Supplier
+// DELETE ONE EMPLOYEE
 employeeRouter.delete(
     "/:id",
     expressAsyncHandler(async (req, res) => {

@@ -4,6 +4,7 @@ const Inventory = require("../models/inventory");
 
 const inventoryRouter = express.Router();
 
+//GET ALL INVENTORY
 inventoryRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
@@ -15,7 +16,7 @@ inventoryRouter.get(
 );
 
 
-// GET ONE inventories
+// GET ONE INVENTORY
 inventoryRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {
@@ -27,7 +28,7 @@ inventoryRouter.get(
     })
 );
 
-// CREATE ONE Inventory
+// CREATE ONE INVENTORY
 inventoryRouter.post(
     "/",
     expressAsyncHandler(async (req, res) => {
@@ -45,7 +46,7 @@ inventoryRouter.post(
     })
 );
 
-// CREATE MULTI inventories
+// CREATE MULTI INVENTORY
 inventoryRouter.post(
     "/all",
     expressAsyncHandler(async (req, res) => {
@@ -61,7 +62,7 @@ inventoryRouter.post(
     })
 );
 
-// UPDATE ONE Inventory
+// UPDATE ONE INVENTORY
 inventoryRouter.put(
     "/:id",
     expressAsyncHandler(async (req, res) => {
@@ -81,7 +82,7 @@ inventoryRouter.put(
     })
 );
 
-// DELETE ONE Inventory
+// DELETE ONE INVENTORY
 inventoryRouter.delete(
     "/:id",
     expressAsyncHandler(async (req, res) => {

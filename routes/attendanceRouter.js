@@ -4,6 +4,7 @@ const Attendance = require("../models/attendance");
 
 const attendanceRouter = express.Router();
 
+//GET ALL ATTENDANCE 
 attendanceRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
@@ -14,7 +15,7 @@ attendanceRouter.get(
     })
 );
 
-// GET USER BY ID
+// GET ATTENDANCE BY ID
 attendanceRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {
@@ -31,7 +32,7 @@ attendanceRouter.get(
     })
 );
 
-// CREATE ONE Attendance
+// CREATE ONE ATTENDANCE
 attendanceRouter.post(
     "/",
     expressAsyncHandler(async (req, res) => {
@@ -50,7 +51,7 @@ attendanceRouter.post(
 );
 
 
-// UPDATE ONE Attendance
+// UPDATE ONE ATTENDANCE
 attendanceRouter.put(
     "/:id",
     expressAsyncHandler(async (req, res) => {
@@ -71,6 +72,8 @@ attendanceRouter.put(
     })
 );
 
+
+// DELETE ONE ATTENDANCE
 attendanceRouter.delete(
     "/:id",
     expressAsyncHandler(async (req, res) => {

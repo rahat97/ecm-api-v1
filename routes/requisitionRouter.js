@@ -4,6 +4,7 @@ const Requisition = require("../models/requisition");
 
 const requisitionRouter = express.Router();
 
+//GET ALL REQUISITION
 requisitionRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
@@ -14,7 +15,7 @@ requisitionRouter.get(
     })
 );
 
-// GET USER BY ID
+// GET Requisition BY ID
 requisitionRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {
@@ -33,7 +34,7 @@ requisitionRouter.get(
     })
 );
 
-// CREATE ONE Supplier
+// CREATE ONE Requisition
 requisitionRouter.post(
     "/",
     expressAsyncHandler(async (req, res) => {
@@ -41,7 +42,7 @@ requisitionRouter.post(
         try {
             await newRequisition.save();
             res.status(200).json({
-                message: "Supplier is created Successfully",
+                message: "Requisition is created Successfully",
             });
         } catch (err) {
             res
@@ -51,6 +52,7 @@ requisitionRouter.post(
     })
 );
 
+//UPDATE REQUISITION 
 requisitionRouter.put(
     "/:id",
     expressAsyncHandler(async (req, res) => {
@@ -71,7 +73,7 @@ requisitionRouter.put(
     })
 );
 
-// DELETE ONE Supplier
+// DELETE ONE Requisition
 requisitionRouter.delete(
     "/:id",
     expressAsyncHandler(async (req, res) => {
