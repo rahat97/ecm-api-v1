@@ -36,7 +36,7 @@ app.use(
 app.use(express.json());
 app.use(express.static(__dirname + "/template"));
 
-const dbUrl = `mongodb+srv://ecm-admin:mDZRrdSXzHPlEua5@cluster0.ht6vrw8.mongodb.net/?retryWrites=true&w=majority`;
+const dbUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ht6vrw8.mongodb.net/?retryWrites=true&w=majority`;
 // database connection
 mongoose
   .connect(dbUrl)
@@ -62,7 +62,7 @@ app.get("/", async (req, res) => {
 });
 
 // API DOCS
-app.get("/api/v1/docs", async (req, res) => {
+app.get("/docs", async (req, res) => {
   res.sendFile(path.join(__dirname + "/template/docs.html"));
 });
 
