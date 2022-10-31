@@ -8,7 +8,7 @@ const employeeSchema = mongoose.Schema(
         nid: { type: String, require: true },
         designation: { type: String, require: true },
         photo: { type: String },
-        // type: { type: String },
+        type: { type: String },
         status: { type: String, enum: ["active", "inactive"] },
     },
     {
