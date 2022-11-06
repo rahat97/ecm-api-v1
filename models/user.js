@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 const userSchema = mongoose.Schema(
     {
-        admin: { type: String, require: true },
-        MD: { type: String, require: true },
-        siteManager: { type: String, require: true },
-        siteEngineer: { type: String, require: true },
-        accounts: { type: String, require: true },
-        assAccounts: { type: String, require: true },
+        name: { type: String, require: true },
+        username: { type: String, require: true },
+        phone: { type: String, require: true },
+        email: { type: String, require: true },
+        address: { type: String, require: true },
+        nid: { type: String, require: true },
+        type: { type: String, enum: ["admin", "MD", "Site Manager", "Site Engineer", "Accounts", "Assistant Accounts"] },
+        photo: { type: String },
+        status: { type: String, enum: ["active", "inactive"] },
     },
     {
         timestamps: true,

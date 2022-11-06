@@ -4,7 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const employeeRouter = require("./routes/employeeRouter")
 const bankRouter = require("./routes/bankRouter")
-const attendenceRouter = require("./routes/attendenceRouter")
+const attendanceRouter = require("./routes/attendanceRouter")
 const clientRouter = require("./routes/clientsRouter")
 const inventoryRouter = require("./routes/inventoryRouter")
 const projectRouter = require("./routes/projectRouter")
@@ -36,7 +36,7 @@ app.use(
 app.use(express.json());
 app.use(express.static(__dirname + "/template"));
 
-const dbUrl = `mongodb+srv://ecm-admin:mDZRrdSXzHPlEua5@cluster0.ht6vrw8.mongodb.net/?retryWrites=true&w=majority`;
+const dbUrl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ht6vrw8.mongodb.net/?retryWrites=true&w=majority`;
 // database connection
 mongoose
   .connect(dbUrl)
@@ -47,7 +47,7 @@ mongoose
 
 app.use("/api/employee", employeeRouter);
 app.use("/api/bank", bankRouter);
-app.use("/api/attendence", attendenceRouter);
+app.use("/api/attendance", attendanceRouter);
 app.use("/api/client", clientRouter);
 app.use("/api/inventory", inventoryRouter);
 app.use("/api/project", projectRouter);
@@ -62,7 +62,7 @@ app.get("/", async (req, res) => {
 });
 
 // API DOCS
-app.get("/api/v1/docs", async (req, res) => {
+app.get("/docs", async (req, res) => {
   res.sendFile(path.join(__dirname + "/template/docs.html"));
 });
 
