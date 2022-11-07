@@ -12,6 +12,7 @@ const requisitionRouter = require("./routes/requisitionRouter")
 const supplierRouter = require("./routes/supplierRouter")
 const userRouter = require("./routes/userRouters")
 const accountRouter = require("./routes/accountRouter")
+const unitRouter = require("./routes/unitRouter")
 
 
 const multer = require("multer");
@@ -55,16 +56,17 @@ app.use("/api/requisition", requisitionRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/user", userRouter);
 app.use("/api/account", accountRouter);
+app.use("/api/unit", unitRouter);
 
 // Home
 app.get("/", async (req, res) => {
   res.sendFile(path.join(__dirname + "/template/home.html"));
 });
 
-// API DOCS
-app.get("/docs", async (req, res) => {
-  res.sendFile(path.join(__dirname + "/template/docs.html"));
-});
+// // API DOCS
+// app.get("/docs", async (req, res) => {
+//   res.sendFile(path.join(__dirname + "/template/docs.html"));
+// });
 
 // error Handle
 const errorHandler = (err, req, res, next) => {
