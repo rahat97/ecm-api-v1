@@ -9,7 +9,8 @@ const requisitionSchema = mongoose.Schema(
         creationDate: { type: String, require: true },
         executionDate: { type: String, require: true },
         by: { type: String, require: true },
-        // type: { type: String, require: true },
+        type: { type: String, require: true },
+        status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,
