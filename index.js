@@ -2,18 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
-const employeeRouter = require("./routes/employeeRouter")
-const bankRouter = require("./routes/bankRouter")
-const attendanceRouter = require("./routes/attendanceRouter")
-const clientRouter = require("./routes/clientsRouter")
-const inventoryRouter = require("./routes/inventoryRouter")
-const projectRouter = require("./routes/projectRouter")
-const requisitionRouter = require("./routes/requisitionRouter")
-const supplierRouter = require("./routes/supplierRouter")
-const userRouter = require("./routes/userRouters")
-const accountRouter = require("./routes/accountRouter")
-const unitRouter = require("./routes/unitRouter")
-
+const employeeRouter = require("./routes/employeeRouter");
+const bankRouter = require("./routes/bankRouter");
+const attendanceRouter = require("./routes/attendanceRouter");
+const clientRouter = require("./routes/clientsRouter");
+const inventoryRouter = require("./routes/inventoryRouter");
+const projectRouter = require("./routes/projectRouter");
+const requisitionRouter = require("./routes/requisitionRouter");
+const supplierRouter = require("./routes/supplierRouter");
+const userRouter = require("./routes/userRouters");
+const accountRouter = require("./routes/accountRouter");
+const unitRouter = require("./routes/unitRouter");
 
 const multer = require("multer");
 
