@@ -5,7 +5,7 @@ const bankSchema = mongoose.Schema(
         accountNo: { type: String, require: true },
         address: { type: String, require: true },
         branch: { type: String, require: true },
-        status: { type: String, require: true }
+        status: { type: String, enum: ["active", "suspend"] }
     },
     {
         timestamps: true,
