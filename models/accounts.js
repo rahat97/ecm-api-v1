@@ -9,6 +9,7 @@ const accountSchema = mongoose.Schema(
         cPayment: { type: String, require: true },
         OPC: { type: String, require: true },
         investment: { type: String, require: true },
+        status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,

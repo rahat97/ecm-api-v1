@@ -9,7 +9,7 @@ const employeeSchema = mongoose.Schema(
         designation: { type: String, require: true },
         photo: { type: String },
         type: { type: String },
-        status: { type: String, enum: ["active", "inactive"] },
+        status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,
