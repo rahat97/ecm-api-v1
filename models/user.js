@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema(
         nid: { type: String, require: true },
         type: { type: String, enum: ["admin", "MD", "Site Manager", "Site Engineer", "Accounts", "Assistant Accounts"] },
         photo: { type: String },
-        status: { type: String, enum: ["active", "inactive"] },
+        status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,

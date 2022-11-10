@@ -11,7 +11,7 @@ const clientsSchema = mongoose.Schema(
         tradeLicense: { type: String, require: true },
         // photo: { type: String },
         // type: { type: String },
-        status: { type: String, enum: ["active", "inactive"] },
+        status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,

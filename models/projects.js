@@ -14,6 +14,7 @@ const projectSchema = mongoose.Schema(
         manager: { type: String, require: true },
         engineer: { type: String, require: true },
         subContractor: { type: String, require: true },
+        status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,

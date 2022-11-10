@@ -6,7 +6,7 @@ const attendanceSchema = mongoose.Schema(
         inTime: { type: String, require: true },
         outTime: { type: String, require: true },
         eid: { type: String, require: true },
-        status: { type: String, enum: ["active", "inactive"] },
+        status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,

@@ -8,6 +8,7 @@ const inventorySchema = mongoose.Schema(
         nid: { type: String, require: true },
         cid: { type: String, require: true },
         type: { type: String, enum: ["in", "out"] },
+        status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,
