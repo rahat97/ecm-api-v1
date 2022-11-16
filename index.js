@@ -13,6 +13,7 @@ const supplierRouter = require("./routes/supplierRouter");
 const userRouter = require("./routes/userRouters");
 const accountRouter = require("./routes/accountRouter");
 const unitRouter = require("./routes/unitRouter");
+const accountHeadRouter = require("./routes/accountHeadRouter");
 
 const multer = require("multer");
 
@@ -56,6 +57,7 @@ app.use("/api/supplier", supplierRouter);
 app.use("/api/user", userRouter);
 app.use("/api/account", accountRouter);
 app.use("/api/unit", unitRouter);
+app.use("/api/accountHead", accountHeadRouter);
 
 // Home
 app.get("/", async (req, res) => {
