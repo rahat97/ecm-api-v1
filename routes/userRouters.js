@@ -134,8 +134,8 @@ userRouter.delete(
 userRouter.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
+    const hashPassword = await bcrypt.hash(req.body.password, 10);
     try {
-      const hashPassword = await bcrypt.hash(req.body.password, 10);
 
       const newUser = new User({
         name: req.body.name,
