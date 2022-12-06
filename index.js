@@ -14,6 +14,9 @@ const userRouter = require("./routes/userRouters");
 const accountRouter = require("./routes/accountRouter");
 const unitRouter = require("./routes/unitRouter");
 const accountHeadRouter = require("./routes/accountHeadRouter");
+const categoryRouter = require("./routes/categoryRouter");
+const purchaseRouter = require("./routes/purchaseRouter");
+const productRouter = require("./routes/productRouter");
 
 const multer = require("multer");
 
@@ -58,6 +61,9 @@ app.use("/api/user", userRouter);
 app.use("/api/account", accountRouter);
 app.use("/api/unit", unitRouter);
 app.use("/api/accountHead", accountHeadRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/product", productRouter);
+app.use("/api/purchase", purchaseRouter);
 
 // Home
 app.get("/", async (req, res) => {
