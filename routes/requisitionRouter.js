@@ -21,14 +21,14 @@ requisitionRouter.get(
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
         const requisition = await Requisition.find({ _id: id }).select({
-            sid: 1,
-            details: 1,
-            title: 1,
-            amount: 1,
-            manager: 1,
-            creationDate: 1,
-            executionDate: 1,
-            by: 1,
+            prid: 1,
+            date: 1,
+            product: 1,
+            note: 1,
+            // manager: 1,
+            // creationDate: 1,
+            // executionDate: 1,
+            // by: 1,
         });
         res.send(requisition[0]);
     })
