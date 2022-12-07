@@ -1,24 +1,12 @@
 const mongoose = require("mongoose");
 const purchaseSchema = mongoose.Schema(
     {
-        poNo: { type: String, require: true },
-        byUser: { type: String, require: true },
-        date: { type: String, require: true },
-        totalItem: { type: String, require: true },
-        products: [
-            {
-                type: Map,
-                of: new mongoose.Schema({
-                    id: {
-                        type: mongoose.Types.ObjectId,
-                        ref: "Product",
-                        require: true,
-                    }
-                }),
-            },
-        ],
-        note: { type: String },
-        status: { type: String, enum: ["active", "suspend"] },
+        prid: { type: String, require: true },
+        reqid: { type: String, require: true },
+        user: { type: String, require: true },
+        product: { type: String, require: true },
+        titem: { type: String, require: true },
+        gtotal: { type: String, require: true },
     },
     {
         timestamps: true,

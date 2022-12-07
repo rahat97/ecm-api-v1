@@ -20,7 +20,15 @@ purchaseRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
-        const purchase = await Purchase.find({ _id: id });
+        const purchase = await Purchase.find({ _id: id }).select({
+            prid: 1,
+            reqid: 1,
+            user: 1,
+            product: 1,
+            titem: 1,
+            gtotal: 1,
+            
+        });
         res.send(purchase[0]);
     })
 );
