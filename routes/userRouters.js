@@ -134,9 +134,11 @@ userRouter.delete(
 userRouter.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
-    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    console.log("new user", req.body);
+    console.log(bcrypt);
+    // const hashPassword = await bcrypt.hash(req.body.password, 10);
+    // console.log("hash", hashPassword);
     try {
-
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
@@ -145,7 +147,7 @@ userRouter.post(
         type: req.body.type,
         address: "",
         privilege: {},
-        password: hashPassword,
+        password: req.body.password,
         status: req.body.status,
       });
       await newUser.save();
@@ -154,14 +156,9 @@ userRouter.post(
         status: "success",
       });
     } catch (error) {
-      // res.status(400).json({
-      res
-        .status(500)
-        .json({ message: "There was a server side error", error: error });
-      // });
+      console.log(error);
+      res.status(500).json({ message: "There was a server side error", error });
     }
-
-    // res.send(newUser);?
   })
 );
 
