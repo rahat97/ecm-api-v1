@@ -8,7 +8,14 @@ const requisitionRouter = express.Router();
 requisitionRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const requisition = await Requisition.find();
+        const requisition = await Requisition.find().select({
+            prid: 1,
+            date: 1,
+            product: 1,
+            note: 1,
+        })
+        .populate("product","name")
+     .populate("prid","name")
         res.send(requisition);
         // // res.send('removed');
         console.log(requisition);
@@ -29,7 +36,8 @@ requisitionRouter.get(
             // creationDate: 1,
             // executionDate: 1,
             // by: 1,
-        });
+        })
+    ;
         res.send(requisition[0]);
     })
 );
@@ -38,6 +46,7 @@ requisitionRouter.get(
 requisitionRouter.post(
     "/",
     expressAsyncHandler(async (req, res) => {
+        console.log(req.body)
         const newRequisition = new Requisition(req.body);
         try {
             await newRequisition.save();
