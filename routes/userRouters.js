@@ -78,6 +78,7 @@ userRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
     const newUser = new User(req.body);
+    // console.log(newUser)
     try {
       await newUser.save();
       res.status(200).json({
@@ -134,10 +135,11 @@ userRouter.delete(
 userRouter.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
-    console.log("new user", req.body);
     console.log(bcrypt);
-    // const hashPassword = await bcrypt.hash(req.body.password, 10);
-    // console.log("hash", hashPassword);
+    
+    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    console.log("new user", req.body);
+    console.log("hash", hashPassword);
     try {
       const newUser = new User({
         name: req.body.name,
@@ -147,7 +149,7 @@ userRouter.post(
         type: req.body.type,
         address: "",
         privilege: {},
-        password: req.body.password,
+        password: hashPassword,
         status: req.body.status,
       });
       await newUser.save();

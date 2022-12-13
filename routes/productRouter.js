@@ -15,6 +15,20 @@ productRouter.get(
     })
 );
 
+//GET ALL product DW
+productRouter.get(
+    "/dw",
+    expressAsyncHandler(async (req, res) => {
+      const product = await Product.find({}).select({
+        _id: 1,
+        name: 1,
+      });
+      console.log(product);
+      res.send(product);
+      // // res.send('removed');
+    })
+  );
+
 // GET product by id
 productRouter.get(
     "/:id",
