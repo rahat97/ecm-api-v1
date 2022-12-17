@@ -12,7 +12,7 @@ const projectSchema = mongoose.Schema(
         duration: { type: String, require: true },
         workOrder: { type: String, require: true },
         manager: { type: String, require: true },
-        engineer: { type: String, require: true },
+        engineer: { type: mongoose.Types.ObjectId, ref: "User" },
         subContractor: { type: String, require: true },
         status: { type: String, enum: ["active", "suspend"] },
     },
