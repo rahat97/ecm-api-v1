@@ -8,7 +8,17 @@ const attendanceRouter = express.Router();
 attendanceRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const attendance = await Attendance.find();
+        const attendance = await Attendance.find().select({
+            project: 1,
+            date: 1,
+            inTime: 1,
+            outTime: 1,
+            eid: 1,
+            employee:1,
+            status: 1,
+        })
+        .populate("project","name")
+        .populate("employee","name");
         res.send(attendance);
         // // res.send('removed');
         console.log(attendance);
@@ -36,6 +46,7 @@ attendanceRouter.get(
 attendanceRouter.post(
     "/",
     expressAsyncHandler(async (req, res) => {
+        console.log(req.body)
         const newAttendance = new Attendance(req.body);
         try {
             await newAttendance.save();

@@ -25,6 +25,8 @@ bankRouter.get(
       accountNo: 1,
       address: 1,
       branch: 1,
+      swiftCode:1,
+      routingNo:1,
     });
     res.send(bank[0]);
   })
