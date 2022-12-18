@@ -24,8 +24,7 @@ projectRouter.get(
             subContractor: 1,
             status: 1,
 
-        })
-        .populate("user","name")
+        });
         res.send(projects);
         // // res.send('removed');
         console.log(projects);
@@ -39,7 +38,8 @@ projectRouter.get(
         const projects = await Project.find({}).select({
             _id: 1,
             name: 1,
-        });
+        })
+        .populate("user","name")
         res.send(projects);
         // // res.send('removed');
         console.log(projects);

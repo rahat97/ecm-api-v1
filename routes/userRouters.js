@@ -25,6 +25,28 @@ userRouter.get(
     console.log(user);
   })
 );
+//GET ALL USERS
+userRouter.get(
+  "/eng_dw",
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const user = await User.find({status : "active", type: "site_engineer"}).select({
+        _id: 1,
+        name: 1,
+        // email: 1,
+        // status: 1,
+        // phone: 1,
+        // type: 1,
+      })
+      ;
+      res.send(user);
+      //   res.status(200).json({ user });
+    } catch (err) {
+      res.status(500).json({ status: false, message: err });
+    }
+    console.log(user);
+  })
+);
 
 // GET USER BY ID
 userRouter.get(
