@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 const accountHeadSchema = mongoose.Schema(
     {
         name: { type: String, require: true },
-        code: { type: String, require: true, unique: true },
+        details: { type: String, require: true },
+        type: { type: String, require: true },
+        // code: { type: String, require: true, unique: true },
         status: { type: String, enum: ["active", "suspend"] }
     },
     {
