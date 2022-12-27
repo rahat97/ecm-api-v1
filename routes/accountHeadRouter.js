@@ -18,12 +18,16 @@ accountHeadRouter.get(
 accountHeadRouter.post(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const accountHead = new AccountHead(req.body);
+        console.log(req.body);
+        const newaccountHead = new AccountHead(req.body);
+        console.log(newaccountHead)
         try {
-            await accountHead.save();
-            res.status(200).json({
-                message: "Account Head is created Successfully",
-            });
+           await newaccountHead.save(); 
+           console.log("accounthead")
+        res.status(200).json({
+                   message: "Account Head is created Successfully",
+               });
+
         } catch (err) {
             res
                 .status(500)
