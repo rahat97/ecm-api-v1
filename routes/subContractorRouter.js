@@ -1,6 +1,6 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Purchase = require("../models/subContractorModel");
+const SubContractor = require("../models/subContractorModel");
 
 const subContractorRouter = express.Router();
 
