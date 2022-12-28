@@ -18,9 +18,9 @@ const categoryRouter = require("./routes/categoryRouter");
 const purchaseRouter = require("./routes/purchaseRouter");
 const productRouter = require("./routes/productRouter");
 const paymentRouter = require("./routes/paymentRouter");
-// const accountExpenditureRouter = require("./routes/accountExpenditureRouter");
-// const receivedAmountRouter = require("./routes/receivedAmountRouter");
-// const grnRouter = require("./routes/grnRouter");
+const accountExpenditureRouter = require("./routes/accountExpenditureRouter");
+const receivedAmountRouter = require("./routes/receivedAmountRouter");
+const grnRouter = require("./routes/grnRouter");
 const subContractorRouter = require("./routes/subContractorRouter");
 
 const multer = require("multer");
@@ -70,9 +70,9 @@ app.use("/api/category", categoryRouter);
 app.use("/api/product", productRouter);
 app.use("/api/purchase", purchaseRouter);
 app.use("/api/payment", paymentRouter);
-// app.use("/api/accountExpenditure", accountExpenditureRouter);
-// app.use("/api/receivedAmount", receivedAmountRouter);
-// app.use("/api/grn", grnRouter);
+app.use("/api/accountExpenditure", accountExpenditureRouter);
+app.use("/api/receivedAmount", receivedAmountRouter);
+app.use("/api/grn", grnRouter);
 app.use("/api/subcontractor", subContractorRouter);
 
 // Home
