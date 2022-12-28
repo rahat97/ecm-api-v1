@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const requisitionSchema = mongoose.Schema(
     {
-        prid: { type: String, require: true },
+        prid: { type: mongoose.Types.ObjectId, ref: "Project", require: true },
         date: { type: String, require: true },
-        product: { type: String, require: true },
+        product: { type: mongoose.Types.ObjectId, ref: "Product", require: true },
         note: { type: String, require: true },
         // manager: { type: String, require: true },
         // creationDate: { type: String, require: true },

@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const attendanceSchema = mongoose.Schema(
     {
-        project: { type: String, require: true },
-        date: { type: String, require: true },
-        inTime: { type: String, require: true },
-        outTime: { type: String, require: true },
-        eid: { type: String, require: true },
+        project: { type: mongoose.Types.ObjectId, ref: "Project" },
+        date: { type: String },
+        inTime: { type: String },
+        outTime: { type: String},
+        eid:{type: String},
+        employee: {  type: mongoose.Types.ObjectId, ref: "Employee" },
         status: { type: String, enum: ["active", "suspend"] },
     },
     {

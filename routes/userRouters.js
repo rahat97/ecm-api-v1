@@ -25,6 +25,28 @@ userRouter.get(
     console.log(user);
   })
 );
+//GET ALL USERS
+userRouter.get(
+  "/eng_dw",
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const user = await User.find({status : "active", type: "site_engineer"}).select({
+        _id: 1,
+        name: 1,
+        // email: 1,
+        // status: 1,
+        // phone: 1,
+        // type: 1,
+      })
+      ;
+      res.send(user);
+      //   res.status(200).json({ user });
+    } catch (err) {
+      res.status(500).json({ status: false, message: err });
+    }
+    console.log(user);
+  })
+);
 
 // GET USER BY ID
 userRouter.get(
@@ -78,6 +100,7 @@ userRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
     const newUser = new User(req.body);
+    // console.log(newUser)
     try {
       await newUser.save();
       res.status(200).json({
@@ -134,10 +157,11 @@ userRouter.delete(
 userRouter.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
-    console.log("new user", req.body);
     console.log(bcrypt);
-    // const hashPassword = await bcrypt.hash(req.body.password, 10);
-    // console.log("hash", hashPassword);
+    
+    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    console.log("new user", req.body);
+    console.log("hash", hashPassword);
     try {
       const newUser = new User({
         name: req.body.name,
@@ -147,7 +171,7 @@ userRouter.post(
         type: req.body.type,
         address: "",
         privilege: {},
-        password: req.body.password,
+        password: hashPassword,
         status: req.body.status,
       });
       await newUser.save();

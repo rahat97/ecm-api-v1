@@ -1,33 +1,46 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const AccountHead = require("../models/accountHeadModel");
+const Payment = require("../models/paymentModel");
 
-const accountHeadRouter = express.Router();
+const paymentRouter = express.Router();
 
-accountHeadRouter.get(
+//GET ALL payment
+paymentRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const accountHead = await AccountHead.find();
-        res.send(accountHead);
+        const payment = await Payment.find({});
+        res.send(payment);
         // // res.send('removed');
-        console.log(accountHead);
+        console.log(payment);
     })
 );
 
-// CREATE ONE BANK
-accountHeadRouter.post(
+// GET Payment by id
+paymentRouter.get(
+    "/:id",
+    expressAsyncHandler(async (req, res) => {
+        const id = req.params.id;
+        const payment = await Payment.find({ _id: id }).select({
+            name: 1,
+            phone: 1,
+            details: 1,
+            status: 1,
+            
+        });
+        res.send(payment[0]);
+    })
+);
+
+// CREATE ONE Payment
+paymentRouter.post(
     "/",
     expressAsyncHandler(async (req, res) => {
-        console.log(req.body);
-        const newaccountHead = new AccountHead(req.body);
-        console.log(newaccountHead)
+        const newPayment = new Payment(req.body);
         try {
-           await newaccountHead.save(); 
-           console.log("accounthead")
-        res.status(200).json({
-                   message: "Account Head is created Successfully",
-               });
-
+            await newPayment.save();
+            res.status(200).json({
+                message: "Payment is created Successfully",
+            });
         } catch (err) {
             res
                 .status(500)
@@ -36,14 +49,15 @@ accountHeadRouter.post(
     })
 );
 
-accountHeadRouter.put(
+// UPDATE ONE Payment
+paymentRouter.put(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
         const update = req.body;
         // console.log(req.body);
         try {
-            await AccountHead.updateOne({ _id: id }, { $set: update })
+            await Payment.updateOne({ _id: id }, { $set: update })
                 .then((response) => {
                     res.send(response);
                 })
@@ -56,12 +70,13 @@ accountHeadRouter.put(
     })
 );
 
-accountHeadRouter.delete(
+// DELETE ONE Payment
+paymentRouter.delete(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
         try {
-            await AccountHead.deleteOne({ _id: id })
+            await Payment.deleteOne({ _id: id })
                 .then((response) => {
                     res.send(response);
                 })
@@ -74,4 +89,4 @@ accountHeadRouter.delete(
     })
 );
 
-module.exports = accountHeadRouter;
+module.exports = paymentRouter;

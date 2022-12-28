@@ -1,57 +1,47 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Requisition = require("../models/requisition");
+const Purchase = require("../models/subContractorModel");
 
-const requisitionRouter = express.Router();
+const subContractorRouter = express.Router();
 
-//GET ALL REQUISITION
-requisitionRouter.get(
+//GET ALL SubContractor
+subContractorRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const requisition = await Requisition.find().select({
-            prid: 1,
-            date: 1,
-            product: 1,
-            note: 1,
-        })
-        .populate("product","name")
-     .populate("prid","name")
-        res.send(requisition);
+        const subContractor = await SubContractor.find({});
+        res.send(subContractor);
         // // res.send('removed');
-        console.log(requisition);
+        console.log(subContractor);
     })
 );
 
-// GET Requisition BY ID
-requisitionRouter.get(
+// GET subContractor by id
+subContractorRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
-        const requisition = await Requisition.find({ _id: id }).select({
-            prid: 1,
-            date: 1,
-            product: 1,
-            note: 1,
-            // manager: 1,
-            // creationDate: 1,
-            // executionDate: 1,
-            // by: 1,
-        })
-    ;
-        res.send(requisition[0]);
+        const subContractor = await SubContractor.find({ _id: id }).select({
+            name: 1,
+            phone: 1,
+            email: 1,
+            address: 1,
+            nid: 1,
+            status: 1,
+            
+        });
+        res.send(subContractor[0]);
     })
 );
 
-// CREATE ONE Requisition
-requisitionRouter.post(
+// CREATE ONE subContractor
+subContractorRouter.post(
     "/",
     expressAsyncHandler(async (req, res) => {
-        console.log(req.body)
-        const newRequisition = new Requisition(req.body);
+        const newSubContractor = new SubContractor(req.body);
         try {
-            await newRequisition.save();
+            await newSubContractor.save();
             res.status(200).json({
-                message: "Requisition is created Successfully",
+                message: "SubContractor is created Successfully",
             });
         } catch (err) {
             res
@@ -61,15 +51,15 @@ requisitionRouter.post(
     })
 );
 
-//UPDATE REQUISITION 
-requisitionRouter.put(
+// UPDATE ONE SubContractor
+subContractorRouter.put(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
         const update = req.body;
         // console.log(req.body);
         try {
-            await Requisition.updateOne({ _id: id }, { $set: update })
+            await SubContractor.updateOne({ _id: id }, { $set: update })
                 .then((response) => {
                     res.send(response);
                 })
@@ -82,13 +72,13 @@ requisitionRouter.put(
     })
 );
 
-// DELETE ONE Requisition
-requisitionRouter.delete(
+// DELETE ONE SubContractor
+subContractorRouter.delete(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
         try {
-            await Requisition.deleteOne({ _id: id })
+            await SubContractor.deleteOne({ _id: id })
                 .then((response) => {
                     res.send(response);
                 })
@@ -101,6 +91,4 @@ requisitionRouter.delete(
     })
 );
 
-
-
-module.exports = requisitionRouter;
+module.exports = subContractorRouter;

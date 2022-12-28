@@ -8,7 +8,38 @@ const projectRouter = express.Router();
 projectRouter.get(
     "/",
     expressAsyncHandler(async (req, res) => {
-        const projects = await Project.find();
+        const projects = await Project.find({}).select({
+            name: 1,
+            pid: 1,
+            client: 1,
+            location: 1,
+            details: 1,
+            budgets: 1,
+            stuff: 1,
+            projectManager: 1,
+            duration: 1,
+            workOrder: 1,
+            manager: 1,
+            engineer: 1,
+            subContractor: 1,
+            status: 1,
+
+        });
+        res.send(projects);
+        // // res.send('removed');
+        console.log(projects);
+    })
+);
+
+//GET ALL PROJECTS DW
+projectRouter.get(
+    "/dw",
+    expressAsyncHandler(async (req, res) => {
+        const projects = await Project.find({}).select({
+            _id: 1,
+            name: 1,
+        })
+        .populate("user","name")
         res.send(projects);
         // // res.send('removed');
         console.log(projects);
