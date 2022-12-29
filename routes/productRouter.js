@@ -21,7 +21,7 @@ productRouter.get(
         .populate("unit", "name");
       //   .populated("category");
 
-      console.log(product);
+      // console.log(product);
       res.send(product);
     } catch (err) {
       console.log(err);
@@ -38,7 +38,7 @@ productRouter.get(
         _id: 1,
         name: 1,
       });
-      console.log(product);
+      // console.log(product);
       res.send(product);
       // // res.send('removed');
     })
@@ -49,7 +49,8 @@ productRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const product = await Product.find({ _id: id });
+    const product = await Product.find({ _id: id }) .populate("category", "name")
+    .populate("unit", "symbol");;
     res.send(product[0]);
   })
 );

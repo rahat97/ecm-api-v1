@@ -7,7 +7,7 @@ const supplierSchema = mongoose.Schema(
         address: { type: String, require: true },
         nid: { type: String, require: true },
         company: { type: String, require: true },
-        treadLicence: { type: String, require: true },
+        tradeLicense: { type: String, require: true },
         status: { type: String, enum: ["active", "suspend"] },
     },
     {

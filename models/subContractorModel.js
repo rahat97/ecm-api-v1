@@ -3,8 +3,8 @@ const subContractorSchema = mongoose.Schema(
     {
         name: { type: String },
         phone: { type: String },
-        email: { type: String },
-        address: { type: String },
+        // email: { type: String },
+        // address: { type: String },
         nid: { type: String },
         status: { type: String, enum: ["active", "suspend"] },
     },

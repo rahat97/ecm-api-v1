@@ -22,10 +22,12 @@ supplierRouter.get(
         const supplier = await Supplier.find({ _id: id }).select({
             name: 1,
             email: 1,
+            address: 1,
+            nid: 1,
             phone: 1,
             company: 1,
             status: 1,
-            treadLicence: 1,
+            tradeLicense: 1,
         });
         res.send(supplier[0]);
     })
