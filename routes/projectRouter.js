@@ -10,7 +10,7 @@ projectRouter.get(
     expressAsyncHandler(async (req, res) => {
         const projects = await Project.find({}).select({
             name: 1,
-            pid: 1,
+            // pid: 1,
             client: 1,
             location: 1,
             details: 1,
