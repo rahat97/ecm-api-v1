@@ -12,10 +12,14 @@ userRouter.get(
       const user = await User.find({}).select({
         _id: 1,
         name: 1,
-        email: 1,
-        status: 1,
+        username: 1,
         phone: 1,
+        email: 1,
+        password: 1,
+        address: 1,
+        nid: 1,
         type: 1,
+        status: 1,
       });
       res.send(user);
       //   res.status(200).json({ user });
@@ -54,12 +58,15 @@ userRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const user = await User.find({ _id: id }).select({
-      name: 1,
-      email: 1,
-      phone: 1,
-      type: 1,
-      status: 1,
-      username: 1,
+        name: 1,
+        username: 1,
+        phone: 1,
+        email: 1,
+        password: 1,
+        address: 1,
+        nid: 1,
+        type: 1,
+        status: 1,
     });
     res.send(user[0]);
   })
@@ -165,13 +172,14 @@ userRouter.post(
     try {
       const newUser = new User({
         name: req.body.name,
-        email: req.body.email,
         username: req.body.username,
         phone: req.body.phone,
-        type: req.body.type,
-        address: "",
-        privilege: {},
+        email: req.body.email,
         password: req.body.password,
+        address: "",
+        nid: req.body.nid,
+        type: req.body.type,
+        privilege: {},
         status: req.body.status,
       });
       await newUser.save();

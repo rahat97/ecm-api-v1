@@ -9,12 +9,12 @@ const userSchema = mongoose.Schema(
         address: { type: String, require: true },
         nid: { type: String, require: true },
         type: { type: String, enum: ["admin", "md", "site_manager", "site_ngineer", "accounts", "assistant_accounts", "project_manager", "project_engineer", "project_accounts"] },
-        photo: { type: String },
+        // photo: { type: String },
         status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,
     }
 );
-const user = new mongoose.model("user", userSchema);
+const user = new mongoose.model("User", userSchema);
 module.exports = user;

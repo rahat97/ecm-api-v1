@@ -11,5 +11,5 @@ const accountHeadSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const accountHead = new mongoose.model("accounthead", accountHeadSchema);
+const accountHead = new mongoose.model("AccountHead", accountHeadSchema);
 module.exports = accountHead;
