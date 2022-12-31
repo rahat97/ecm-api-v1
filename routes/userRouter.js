@@ -171,7 +171,7 @@ userRouter.post(
         type: req.body.type,
         address: "",
         privilege: {},
-        password: hashPassword,
+        password: req.body.password,
         status: req.body.status,
       });
       await newUser.save();

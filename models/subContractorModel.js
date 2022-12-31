@@ -12,5 +12,5 @@ const subContractorSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const subContractor = new mongoose.model("subContractor", subContractorSchema);
+const subContractor = new mongoose.model("SubContractor", subContractorSchema);
 module.exports = subContractor;

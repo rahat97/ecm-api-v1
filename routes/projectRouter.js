@@ -10,24 +10,21 @@ projectRouter.get(
     expressAsyncHandler(async (req, res) => {
         const projects = await Project.find({}).select({
             name: 1,
-            // pid: 1,
+            pid: 1,
             client: 1,
             location: 1,
             details: 1,
             budgets: 1,
             stuff: 1,
-            projectManager: 1,
             duration: 1,
             workOrder: 1,
-            manager: 1,
-            engineer: 1,
-            subContractor: 1,
             status: 1,
 
-        });
+        })
+        .populate("client","name")
+        console.log(projects);
         res.send(projects);
         // // res.send('removed');
-        console.log(projects);
     })
 );
 
@@ -58,13 +55,12 @@ projectRouter.get(
             details: 1,
             budgets: 1,
             stuff: 1,
-            projectManager: 1,
             duration: 1,
             workOrder: 1,
-            manager: 1,
-            engineer: 1,
             subContractor: 1,
-        });
+        })
+        .populate("client", "name")
+        .populate("subContractor", "name");
         res.send(project[0]);
     })
 );
@@ -95,9 +91,12 @@ projectRouter.post(
     expressAsyncHandler(async (req, res) => {
         const newProject = new Project(req.body);
         try {
-            await newProject.save();
-            res.status(200).json({
-                message: "Project is created Successfully",
+            await newProject.save().then(result=>{
+                console.log(result.data)
+                res.status(200).json({
+                    message: "Project is created Successfully",
+                });
+
             });
         } catch (err) {
             res
