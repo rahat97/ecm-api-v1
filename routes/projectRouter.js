@@ -28,6 +28,23 @@ projectRouter.get(
     })
 );
 
+// // GET ALL PROJECT BY TYPE
+// userRouter.get(
+//     "/type/:type",
+//     expressAsyncHandler(async (req, res) => {
+//       let type = req.params.type;
+//       let query = {type: type}
+  
+//       if(type === "all"){
+//         query = {}
+//       }
+  
+      
+//       const projects = await Project.find(query);
+//       res.send(projects);
+//     })
+//   );
+
 //GET ALL PROJECTS DW
 projectRouter.get(
     "/dw",
@@ -36,10 +53,8 @@ projectRouter.get(
             _id: 1,
             name: 1,
         })
-        .populate("user","name")
-        res.send(projects);
-        // // res.send('removed');
         console.log(projects);
+        res.send(projects);
     })
 );
 

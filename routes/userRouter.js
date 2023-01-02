@@ -96,8 +96,15 @@ userRouter.get(
 userRouter.get(
   "/type/:type",
   expressAsyncHandler(async (req, res) => {
-    const type = req.params.type;
-    const users = await User.find({ type: type });
+    let type = req.params.type;
+    let query = {type: type}
+
+    if(type === "all"){
+      query = {}
+    }
+
+    
+    const users = await User.find(query);
     res.send(users);
   })
 );
