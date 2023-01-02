@@ -8,7 +8,19 @@ const receivedAmountRouter = express.Router();
 receivedAmountRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const receivedAmount = await ReceivedAmount.find({});
+    const receivedAmount = await ReceivedAmount.find({}).select({
+      // slNo: 1,
+      date: 1,
+      // accHead: 1,
+      details: 1,
+      amount:1,
+      type:1,
+      chequeNo:1,
+      bank:1,
+      particular:1,
+      status:1,
+    })
+      .populate("bank", "name") ;
     res.send(receivedAmount);
     // // res.send('removed');
     console.log(receivedAmount);
@@ -21,9 +33,9 @@ receivedAmountRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const receivedAmount = await ReceivedAmount.find({ _id: id }).select({
-        slNo: 1,
+        // slNo: 1,
         date: 1,
-        accHead: 1,
+        // accHead: 1,
         details: 1,
         amount:1,
         type:1,
@@ -31,7 +43,8 @@ receivedAmountRouter.get(
         bank:1,
         particular:1,
         status:1,
-    });
+    })
+    .populate("bank", "name");
     res.send(receivedAmount[0]);
   })
 );
@@ -52,6 +65,21 @@ receivedAmountRouter.post(
         .status(500)
         .json({ message: "There was a server side error", error: err });
     }
+  })
+);
+
+//GET ALL ReceivedAmount DW
+receivedAmountRouter.get(
+  "/dw",
+  expressAsyncHandler(async (req, res) => {
+      const receivedAmount = await receivedAmount.find({}).select({
+          _id: 1,
+          name: 1,
+      })
+      .populate("bank","name")
+      res.send(receivedAmount);
+      // // res.send('removed');
+      console.log(receivedAmount);
   })
 );
 

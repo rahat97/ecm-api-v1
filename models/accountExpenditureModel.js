@@ -15,5 +15,5 @@ const accountExpenditureSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const accountExpenditure = new mongoose.model("accountExpenditure", accountExpenditureSchema);
+const accountExpenditure = new mongoose.model("AccountExpenditure", accountExpenditureSchema);
 module.exports = accountExpenditure;

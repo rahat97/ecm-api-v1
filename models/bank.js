@@ -13,5 +13,5 @@ const bankSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const bank = new mongoose.model("bank", bankSchema);
+const bank = new mongoose.model("Bank", bankSchema);
 module.exports = bank;
