@@ -16,5 +16,5 @@ const requisitionSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const requisition = new mongoose.model("requisition", requisitionSchema);
+const requisition = new mongoose.model("Requisition", requisitionSchema);
 module.exports = requisition;
