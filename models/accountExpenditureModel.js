@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const accountExpenditureSchema = mongoose.Schema(
     {
+        generateAccExpId: { type: String, require: true },
         date: { type: Date },
         accountHead: { type: mongoose.Types.ObjectId, ref: "AccountHead" },
         details: { type: String, require: true },

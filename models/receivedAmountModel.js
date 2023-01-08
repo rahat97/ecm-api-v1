@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const receivedAmountSchema = mongoose.Schema(
     {
         // slNo: { type: String, require: true },
+        recvAmntId : { type: String, require: true },
         date: { type: String, require: true },
         // accHead: { type: String, require: true },
         details: { type: String },

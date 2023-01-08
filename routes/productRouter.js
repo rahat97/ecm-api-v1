@@ -37,7 +37,10 @@ productRouter.get(
       const product = await Product.find({}).select({
         _id: 1,
         name: 1,
-      });
+        unit:1,
+      })
+      .populate("unit","name")
+      ;
       // console.log(product);
       res.send(product);
       // // res.send('removed');

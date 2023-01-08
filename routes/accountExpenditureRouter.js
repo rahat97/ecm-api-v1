@@ -1,7 +1,7 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const AccountExpenditure = require("../models/accountExpenditureModel");
-
+const {generateAccExpId} = require("../middlewares/generateId");
 const accountExpenditureRouter = express.Router();
 
 //GET ALL accountExpenditures
@@ -66,6 +66,7 @@ accountExpenditureRouter.get(
 // CREATE ONE accountExpenditure
 accountExpenditureRouter.post(
   "/",
+  generateAccExpId,
   expressAsyncHandler(async (req, res) => {
     console.log(req);
     const newAccountExpenditure = new AccountExpenditure(req.body);

@@ -1,7 +1,7 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const ReceivedAmount = require("../models/receivedAmountModel");
-
+const {generatReceivedAmountId} = require("../middlewares/generateId");
 const receivedAmountRouter = express.Router();
 
 //GET ALL receivedAmountS
@@ -53,6 +53,7 @@ receivedAmountRouter.get(
 // CREATE ONE receivedAmount
 receivedAmountRouter.post(
   "/",
+  generatReceivedAmountId,
   expressAsyncHandler(async (req, res) => {
     const newReceivedAmount = new ReceivedAmount(req.body);
     try {

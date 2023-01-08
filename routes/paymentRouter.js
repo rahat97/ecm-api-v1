@@ -1,6 +1,7 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const Payment = require("../models/paymentModel");
+const {generatePaymentId} = require("../middlewares/generateId");
 
 const paymentRouter = express.Router();
 
@@ -34,6 +35,7 @@ paymentRouter.get(
 // CREATE ONE Payment
 paymentRouter.post(
     "/",
+    generatePaymentId,
     expressAsyncHandler(async (req, res) => {
         const newPayment = new Payment(req.body);
         try {

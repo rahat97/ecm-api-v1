@@ -1,6 +1,7 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const Requisition = require("../models/requisition");
+const {generateReqId} = require("../middlewares/generateId");
 
 const requisitionRouter = express.Router();
 
@@ -9,14 +10,9 @@ requisitionRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
     const requisition = await Requisition.find()
-      .select({
-        prid: 1,
-        date: 1,
-        product: 1,
-        note: 1,
-      })
-      .populate("product", "name")
-      .populate("prid", "name");
+      
+      // .populate("product", "name")
+      // .populate("prid", "name");
     res.send(requisition);
     // // res.send('removed');
     console.log(requisition);
@@ -45,6 +41,7 @@ requisitionRouter.get(
 // CREATE ONE Requisition
 requisitionRouter.post(
   "/",
+  generateReqId,
   expressAsyncHandler(async (req, res) => {
     console.log(req.body);
     const newRequisition = new Requisition(req.body);
