@@ -19,7 +19,7 @@ const generatePoId = async (req, res, next) => {
   const date = format(new Date(new Date()), "MMddyyyy");
   const newId = process.env.ID_PREFIX + "-PO-" + date + "-" + current;
   console.log(newId);
-  req.body.poId = newId;
+  req.body.poId = newId; 
   next();
 };
 

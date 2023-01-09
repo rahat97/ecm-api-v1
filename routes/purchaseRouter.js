@@ -50,6 +50,7 @@ purchaseRouter.post(
                 .status(500)
                 .json({ message: "There was a server side error", error: err });
         }
+        // console.log(newPurchase)
     })
 );
 
