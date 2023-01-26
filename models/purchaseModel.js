@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const purchaseSchema = mongoose.Schema(
     {
+        poId : {type : String, require: true},
         prid: { type: String, require: true },
         reqid: { type: String, require: true },
         user: { type: String, require: true },
