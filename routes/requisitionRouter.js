@@ -29,6 +29,8 @@ requisitionRouter.get(
       date: 1,
       product: 1,
       note: 1,
+      by: 1,
+      status: 1,
       // manager: 1,
       // creationDate: 1,
       // executionDate: 1,
