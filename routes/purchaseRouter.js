@@ -1,6 +1,7 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const Purchase = require("../models/purchaseModel");
+const {generatePoId} = require("../middlewares/generateId");
 
 const purchaseRouter = express.Router();
 
@@ -45,6 +46,7 @@ purchaseRouter.get(
 // CREATE ONE Purchase
 purchaseRouter.post(
     "/",
+    generatePoId,
     expressAsyncHandler(async (req, res) => {
         const newPurchase = new Purchase(req.body);
         try {
@@ -57,6 +59,7 @@ purchaseRouter.post(
                 .status(500)
                 .json({ message: "There was a server side error", error: err });
         }
+        // console.log(newPurchase)
     })
 );
 

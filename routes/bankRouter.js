@@ -8,7 +8,15 @@ const bankRouter = express.Router();
 bankRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const bank = await Bank.find({});
+    const bank = await Bank.find({}).select({
+      _id: 1,
+      name: 1,
+      accountNo: 1,
+      address: 1,
+      branch: 1,
+      swiftCode:1,
+      routingNo:1,
+    });
     res.send(bank);
     // // res.send('removed');
     console.log(bank);
@@ -21,6 +29,7 @@ bankRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const bank = await Bank.find({ _id: id }).select({
+      _id: 1,
       name: 1,
       accountNo: 1,
       address: 1,
