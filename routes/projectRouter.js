@@ -39,7 +39,7 @@ projectRouter.get(
             _id: 1,
             name: 1,
         })
-        .populate("user","name")
+        //  .populate("user", "name")
         res.send(projects);
         // // res.send('removed');
         console.log(projects);

@@ -27,9 +27,18 @@ purchaseRouter.get(
             product: 1,
             titem: 1,
             gtotal: 1,
-            
+
         });
         res.send(purchase[0]);
+    })
+);
+purchaseRouter.get(
+    "/dw",
+    expressAsyncHandler(async (req, res) => {
+        const purchase = await Purchase.find({});
+        res.send(purchase);
+        // // res.send('removed');
+        console.log(purchase);
     })
 );
 
