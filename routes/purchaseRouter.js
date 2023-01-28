@@ -28,6 +28,7 @@ purchaseRouter.get(
             product: 1,
             titem: 1,
             gtotal: 1,
+            supplier: 1,
             
         });
         res.send(purchase[0]);

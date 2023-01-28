@@ -5,7 +5,7 @@ const purchaseSchema = mongoose.Schema(
         prid: { type: String, require: true },
         reqid: { type: String, require: true },
         user: { type: String, require: true },
-        product: [
+        product : [
             {
               type: Map,
               of: new mongoose.Schema({
