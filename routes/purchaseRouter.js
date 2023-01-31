@@ -21,7 +21,7 @@ purchaseRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
-        const purchase = await Purchase.find({ _id: id }).select({
+        const purchase = await Purchase.findOne({ _id: id }).select({
             prid: 1,
             reqid: 1,
             user: 1,
@@ -30,8 +30,10 @@ purchaseRouter.get(
             gtotal: 1,
             supplier: 1,
             
-        });
-        res.send(purchase[0]);
+        })
+        .populate("user", "name");
+        console.log(purchase)
+        res.send(purchase);
     })
 );
 
