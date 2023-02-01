@@ -31,6 +31,7 @@ requisitionRouter.get(
       note: 1,
       by: 1,
       status: 1,
+      reqId:1,
       // manager: 1,
       // creationDate: 1,
       // executionDate: 1,

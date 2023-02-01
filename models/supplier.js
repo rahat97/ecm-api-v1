@@ -14,5 +14,5 @@ const supplierSchema = mongoose.Schema(
         timestamps: true,
     }
 );
-const supplier = new mongoose.model("supplier", supplierSchema);
+const supplier = new mongoose.model("Supplier", supplierSchema);
 module.exports = supplier;

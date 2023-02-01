@@ -4,8 +4,8 @@ const purchaseSchema = mongoose.Schema(
         poId : {type : String, require: true},
         // prid: { type: String, require: true },
         reqId: { type: String, require: true },
-        user: { type: String, require: true },
-        supplier: { type: String, require: true },
+        user: { type: mongoose.Types.ObjectId, ref: "User"},
+        supplier: { type: mongoose.Types.ObjectId, ref: "Supplier" },
         product : [
             {
               type: Map,
@@ -19,6 +19,7 @@ const purchaseSchema = mongoose.Schema(
                 order: { type: Number, default: 0, require: true },
                 price: { type: Number, default: 0, require: true },
                 qty: { type: Number, default: 0, require: true },
+                total: { type: Number, default: 0},
                 unit: { type: mongoose.Types.ObjectId, ref: "Unit", require: true },
               }),
             },

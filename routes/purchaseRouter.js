@@ -23,15 +23,18 @@ purchaseRouter.get(
         const id = req.params.id;
         const purchase = await Purchase.findOne({ _id: id }).select({
             prid: 1,
-            reqid: 1,
+            reqId: 1,
             user: 1,
             product: 1,
             titem: 1,
             gtotal: 1,
             supplier: 1,
+            poId: 1,
             
         })
-        .populate("user", "name");
+        .populate("user", "name")
+        .populate("supplier", "name")
+        .populate("reqId", "reqId")
         console.log(purchase)
         res.send(purchase);
     })
