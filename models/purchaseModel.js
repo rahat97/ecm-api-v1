@@ -26,6 +26,7 @@ const purchaseSchema = mongoose.Schema(
           ],
         titem: { type: String, require: true },
         gtotal: { type: String, require: true },
+        shippingcost: { type: String },
     },
     {
         timestamps: true,

@@ -30,6 +30,7 @@ purchaseRouter.get(
             gtotal: 1,
             supplier: 1,
             poId: 1,
+            shippingcost: 1,
             
         })
         .populate("user", "name")
