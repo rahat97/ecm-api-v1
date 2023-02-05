@@ -1,6 +1,7 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const Grn = require("../models/grnModel");
+const { generateGrnId } = require("../middlewares/generateId");
 
 const grnRouter = express.Router();
 
@@ -21,14 +22,15 @@ grnRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const grn = await Grn.find({ _id: id }).select({
-      po: 1,
-      productName: 1,
+      poId: 1,
       date: 1,
-      by: 1,
-      item:1,
-      total:1,
-      status:1,
-    });
+      product: 1,
+      titem: 1,
+      gtotal: 1,
+      shippingcost: 1,
+      status: 1,
+    })
+    .populate("poId", "poId")
     res.send(grn[0]);
   })
 );
@@ -36,6 +38,7 @@ grnRouter.get(
 // CREATE ONE grn
 grnRouter.post(
   "/",
+  generateGrnId,
   expressAsyncHandler(async (req, res) => {
     const newGrn = new Grn(req.body);
     try {
