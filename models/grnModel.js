@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const grnSchema = mongoose.Schema(
     {
-        po: { type: String, require: true },
-        date: { type: String, require: true },
+        poId: { type: String, require: true },
+        grnId: { type: String, require: true },
+        date: { type: String },
         // productName: { type: String, require: true },
         product : [
             {
