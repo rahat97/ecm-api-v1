@@ -8,23 +8,36 @@ const categoryRouter = express.Router();
 categoryRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const category = await Category.find({});
-    res.send(category);
+    try {
+      const category = await Category.find({})
+        .select({
+          _id: 1,
+          name: 1,
+          parent: 1,
+          status: 1,
+          details: 1,
+        })
+        .populate("parent", "name");
+      // console.log(category);
+      res.send(category);
+    } catch (err) {
+      console.error(err);
+    }
     // // res.send('removed');
-    // console.log(category);
   })
 );
 //GET ALL category DW
 categoryRouter.get(
   "/dw",
   expressAsyncHandler(async (req, res) => {
-    const category = await Category.find({}).select({
+    const category = await Category.find({
+      $or: [{ parent: null }, { parent: { $exists: false } }],
+    }).select({
       _id: 1,
       name: 1,
     });
     console.log(category);
     res.send(category);
-    // // res.send('removed');
   })
 );
 
