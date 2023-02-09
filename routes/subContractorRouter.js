@@ -23,8 +23,8 @@ subContractorRouter.get(
         const subContractor = await SubContractor.find({ _id: id }).select({
             name: 1,
             phone: 1,
-            email: 1,
-            address: 1,
+            // email: 1,
+            // address: 1,
             nid: 1,
             status: 1,
             

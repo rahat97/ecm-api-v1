@@ -1,57 +1,52 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Requisition = require("../models/requisition");
-const {generateReqId} = require("../middlewares/generateId");
+const Grn = require("../models/grnModel");
+const { generateGrnId } = require("../middlewares/generateId");
 
-const requisitionRouter = express.Router();
+const grnRouter = express.Router();
 
-//GET ALL REQUISITION
-requisitionRouter.get(
+//GET ALL grns
+grnRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const requisition = await Requisition.find({})
-      
-      // .populate("product", "name")
-      // .populate("prid", "name");
-      console.log(requisition);
-    res.send(requisition);
+    const grn = await Grn.find({});
+    res.send(grn);
     // // res.send('removed');
+    console.log(grn);
   })
 );
 
-// GET Requisition BY ID
-requisitionRouter.get(
+// GET grn by id
+grnRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const requisition = await Requisition.find({ _id: id }).select({
-      prid: 1,
+    const grn = await Grn.find({ _id: id }).select({
+      poId: 1,
+      grnId: 1,
       date: 1,
       product: 1,
-      note: 1,
-      by: 1,
+      titem: 1,
+      gtotal: 1,
+      shippingcost: 1,
       status: 1,
-      reqId:1,
-      // manager: 1,
-      // creationDate: 1,
-      // executionDate: 1,
-      // by: 1,
-    });
-    res.send(requisition[0]);
+    })
+    .populate("poId", "poId")
+    .populate("grnId", "grnId")
+    res.send(grn[0]);
   })
 );
 
-// CREATE ONE Requisition
-requisitionRouter.post(
+// CREATE ONE grn
+grnRouter.post(
   "/",
-  generateReqId,
+  generateGrnId,
   expressAsyncHandler(async (req, res) => {
-    console.log(req.body);
-    const newRequisition = new Requisition(req.body);
+    const newGrn = new Grn(req.body);
     try {
-      await newRequisition.save();
+      await newGrn.save();
       res.status(200).json({
-        message: "Requisition is created Successfully",
+        message: "grn is created Successfully",
       });
     } catch (err) {
       res
@@ -61,15 +56,15 @@ requisitionRouter.post(
   })
 );
 
-//UPDATE REQUISITION
-requisitionRouter.put(
+// UPDATE ONE grn
+grnRouter.put(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const update = req.body;
     // console.log(req.body);
     try {
-      await Requisition.updateOne({ _id: id }, { $set: update })
+      await Grn.updateOne({ _id: id }, { $set: update })
         .then((response) => {
           res.send(response);
         })
@@ -82,13 +77,13 @@ requisitionRouter.put(
   })
 );
 
-// DELETE ONE Requisition
-requisitionRouter.delete(
+// DELETE ONE grn
+grnRouter.delete(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     try {
-      await Requisition.deleteOne({ _id: id })
+      await Grn.deleteOne({ _id: id })
         .then((response) => {
           res.send(response);
         })
@@ -101,4 +96,4 @@ requisitionRouter.delete(
   })
 );
 
-module.exports = requisitionRouter;
+module.exports = grnRouter;

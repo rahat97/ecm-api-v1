@@ -1,6 +1,7 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const Purchase = require("../models/purchaseModel");
+const {generatePoId} = require("../middlewares/generateId");
 
 const purchaseRouter = express.Router();
 
@@ -20,22 +21,30 @@ purchaseRouter.get(
     "/:id",
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
-        const purchase = await Purchase.find({ _id: id }).select({
+        const purchase = await Purchase.findOne({ _id: id }).select({
             prid: 1,
-            reqid: 1,
+            reqId: 1,
             user: 1,
             product: 1,
             titem: 1,
             gtotal: 1,
+            supplier: 1,
+            poId: 1,
+            shippingcost: 1,
             
-        });
-        res.send(purchase[0]);
+        })
+        .populate("user", "name")
+        .populate("supplier", "name")
+        .populate("reqId", "reqId")
+        console.log(purchase)
+        res.send(purchase);
     })
 );
 
 // CREATE ONE Purchase
 purchaseRouter.post(
     "/",
+    generatePoId,
     expressAsyncHandler(async (req, res) => {
         const newPurchase = new Purchase(req.body);
         try {
@@ -48,6 +57,7 @@ purchaseRouter.post(
                 .status(500)
                 .json({ message: "There was a server side error", error: err });
         }
+        // console.log(newPurchase)
     })
 );
 

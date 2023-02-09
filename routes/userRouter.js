@@ -12,10 +12,14 @@ userRouter.get(
       const user = await User.find({}).select({
         _id: 1,
         name: 1,
-        email: 1,
-        status: 1,
+        username: 1,
         phone: 1,
+        email: 1,
+        password: 1,
+        address: 1,
+        nid: 1,
         type: 1,
+        status: 1,
       });
       res.send(user);
       //   res.status(200).json({ user });
@@ -54,12 +58,15 @@ userRouter.get(
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const user = await User.find({ _id: id }).select({
-      name: 1,
-      email: 1,
-      phone: 1,
-      type: 1,
-      status: 1,
-      username: 1,
+        name: 1,
+        username: 1,
+        phone: 1,
+        email: 1,
+        password: 1,
+        address: 1,
+        nid: 1,
+        type: 1,
+        status: 1,
     });
     res.send(user[0]);
   })
@@ -89,8 +96,15 @@ userRouter.get(
 userRouter.get(
   "/type/:type",
   expressAsyncHandler(async (req, res) => {
-    const type = req.params.type;
-    const users = await User.find({ type: type });
+    let type = req.params.type;
+    let query = {type: type}
+
+    if(type === "all"){
+      query = {}
+    }
+
+    
+    const users = await User.find(query);
     res.send(users);
   })
 );
@@ -157,21 +171,22 @@ userRouter.delete(
 userRouter.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
-    console.log(bcrypt);
+    // console.log(bcrypt);
     
-    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    // const hashPassword = await bcrypt.hash(req.body.password, 10);
     console.log("new user", req.body);
-    console.log("hash", hashPassword);
+    // console.log("hash", hashPassword);
     try {
       const newUser = new User({
         name: req.body.name,
-        email: req.body.email,
         username: req.body.username,
         phone: req.body.phone,
-        type: req.body.type,
+        email: req.body.email,
+        password: req.body.password,
         address: "",
+        nid: req.body.nid,
+        type: req.body.type,
         privilege: {},
-        password: hashPassword,
         status: req.body.status,
       });
       await newUser.save();
@@ -190,43 +205,52 @@ userRouter.post(
 userRouter.post(
   "/login",
   expressAsyncHandler(async (req, res) => {
-    const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-      req.body.email
-    );
+   const userId=req.body.userId;
     // console.log({ body: req.body, email: isEmail })
+    // const isnumber= parseInt(userId)
     try {
       let user;
-      if (isEmail) {
-        user = await User.find({
-          status: "active",
-          email: req.body.email.toLowerCase(),
-        });
-      } else {
-        user = await User.find({
-          status: "active",
-          username: req.body.email.toLowerCase(),
-        });
-      }
-      // console.log(user)
+      // if (isnumber===NaN) {
+        //   console.log("j",userId)
+        //   user = await User.find({
+          //     status: "active",
+      //     phone: userId
+      //   });
+      // } else {
+        //   console.log("k",userId)
+        //   user = await User.find({
+          //     status: "active",
+          //     username: userId,
+          //   });
+          // }
+          console.log(userId)
+      
+      user = await User.find({
+        status: "active",
+        phone: userId
+      });
+      console.log(user)
       if (user && user.length > 0) {
-        const isValidPassword = await bcrypt.compare(
-          req.body.password,
-          user[0].password
+        console.log("j", req.body.password,
+          user[0].password)
+        const isValidPassword =  (
+          req.body.password=== user[0].password
         );
+        console.log("k",isValidPassword)
         if (isValidPassword) {
           // generate token
-          const token = jwt.sign(
-            {
-              username: user[0].username,
-              userId: user[0]._id,
-              type: user[0].type,
-            },
-            process.env.JWT_SECRET,
-            { expiresIn: "1h" }
-          );
+          // const token = jwt.sign(
+          //   {
+          //     username: user[0].username,
+          //     userId: user[0]._id,
+          //     type: user[0].type,
+          //   },
+          //   process.env.JWT_SECRET,
+          //   { expiresIn: "1h" }
+          // );
 
           res.status(200).json({
-            access_token: token,
+            // access_token: token,
             status: true,
             user: {
               id: user[0]._id,
@@ -257,6 +281,76 @@ userRouter.post(
     }
   })
 );
+// userRouter.post(
+//   "/login",
+//   expressAsyncHandler(async (req, res) => {
+//     const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+//       req.body.email
+//     );
+//     // console.log({ body: req.body, email: isEmail })
+//     try {
+//       let user;
+//       if (isEmail) {
+//         user = await User.find({
+//           status: "active",
+//           email: req.body.email.toLowerCase(),
+//         });
+//       } else {
+//         user = await User.find({
+//           status: "active",
+//           username: req.body.email.toLowerCase(),
+//         });
+//       }
+//       // console.log(user)
+//       if (user && user.length > 0) {
+//         const isValidPassword = await compare(
+//           req.body.password,
+//           user[0].password
+//         );
+//         if (isValidPassword) {
+//           // generate token
+//           const token = jwt.sign(
+//             {
+//               username: user[0].username,
+//               userId: user[0]._id,
+//               type: user[0].type,
+//             },
+//             process.env.JWT_SECRET,
+//             { expiresIn: "1h" }
+//           );
+
+//           res.status(200).json({
+//             access_token: token,
+//             status: true,
+//             user: {
+//               id: user[0]._id,
+//               name: user[0].name,
+//               username: user[0].username,
+//               email: user[0].email,
+//               type: user[0].type,
+//             },
+//             message: "Login Successful",
+//           });
+//         } else {
+//           res.status(401).json({
+//             status: false,
+//             error: "Password Does not Match",
+//           });
+//         }
+//       } else {
+//         res.status(401).json({
+//           status: false,
+//           error: "User Not Found",
+//         });
+//       }
+//     } catch (err) {
+//       res.status(500).json({
+//         status: false,
+//         error: err,
+//       });
+//     }
+//   })
+// );
 // USER Validation
 userRouter.post(
   "/valid",

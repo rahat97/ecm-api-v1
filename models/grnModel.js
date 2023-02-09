@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
-const purchaseSchema = mongoose.Schema(
+const grnSchema = mongoose.Schema(
     {
-        poId : {type : String, require: true},
-        // prid: { type: String, require: true },
-        reqId: { type: String, require: true },
-        user: { type: mongoose.Types.ObjectId, ref: "User"},
-        supplier: { type: mongoose.Types.ObjectId, ref: "Supplier" },
+        poId: { type: String, require: true },
+        grnId: { type: String, require: true },
+        date: { type: String },
+        // productName: { type: String, require: true },
         product : [
             {
               type: Map,
@@ -27,10 +26,11 @@ const purchaseSchema = mongoose.Schema(
         titem: { type: String, require: true },
         gtotal: { type: String, require: true },
         shippingcost: { type: String },
+        status: { type: String, enum: ["active", "suspend"] }
     },
     {
         timestamps: true,
     }
 );
-const purchase = new mongoose.model("purchase", purchaseSchema);
-module.exports = purchase;
+const grn = new mongoose.model("grn", grnSchema);
+module.exports = grn;

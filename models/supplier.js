@@ -7,12 +7,12 @@ const supplierSchema = mongoose.Schema(
         address: { type: String, require: true },
         nid: { type: String, require: true },
         company: { type: String, require: true },
-        treadLicence: { type: String, require: true },
+        tradeLicense: { type: String, require: true },
         status: { type: String, enum: ["active", "suspend"] },
     },
     {
         timestamps: true,
     }
 );
-const supplier = new mongoose.model("supplier", supplierSchema);
+const supplier = new mongoose.model("Supplier", supplierSchema);
 module.exports = supplier;
