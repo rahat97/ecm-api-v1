@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const projectSchema = mongoose.Schema(
     {
-        name: { type: String, require: true },
         pid: { type: String, require: true },
+        name: { type: String, require: true },  
         client: { type: mongoose.Types.ObjectId, ref: "Client"},
         location: { type: String, require: true },
         details: { type: String, require: true },
