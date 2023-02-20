@@ -1,7 +1,7 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const Purchase = require("../models/purchaseModel");
-const {generatePoId} = require("../middlewares/generateId");
+const { generatePoId } = require("../middlewares/generateId");
 
 const purchaseRouter = express.Router();
 
@@ -28,16 +28,18 @@ purchaseRouter.get(
             product: 1,
             titem: 1,
             gtotal: 1,
-            supplier: 1,
-            poId: 1,
-            shippingcost: 1,
-            
-        })
-        .populate("user", "name")
-        .populate("supplier", "name")
-        .populate("reqId", "reqId")
-        console.log(purchase)
+
+        });
+        res.send(purchase[0]);
+    })
+);
+purchaseRouter.get(
+    "/dw",
+    expressAsyncHandler(async (req, res) => {
+        const purchase = await Purchase.find({});
         res.send(purchase);
+        // // res.send('removed');
+        console.log(purchase);
     })
 );
 

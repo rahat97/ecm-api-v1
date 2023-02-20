@@ -1,28 +1,35 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const AccountExpenditure = require("../models/accountExpenditureModel");
-const {generateAccExpId} = require("../middlewares/generateId");
+const { generateAccExpId } = require("../middlewares/generateId");
 const accountExpenditureRouter = express.Router();
 
 //GET ALL accountExpenditures
 accountExpenditureRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const accountExpenditure = await AccountExpenditure.find({}).select({
-      date: 1,
-      accountHead: 1,
-      details: 1,
-      responsiblePerson: 1,
-      paidTo:1,
-      projectName:1,
-      type:1,
-      chequeNo:1,
-      status:1,
-    })
-    .populate("accountHead", "name")
-    .populate("responsiblePerson", "name")
-    .populate("projectName", "name");
-    
+    const accountExpenditure = await AccountExpenditure.find({})
+      .select({
+        date: 1,
+        accountHead: 1,
+        details: 1,
+        responsiblePerson: 1,
+        paidTo: 1,
+        bank: 1,
+        projectName: 1,
+        type: 1,
+        txid: 1,
+        phone: 1,
+        cardtype: 1,
+        chequeNo: 1,
+        mfsName: 1,
+        amount: 1,
+        status: 1,
+      })
+      .populate("accountHead", "name")
+      .populate("responsiblePerson", "name")
+      .populate("projectName", "name");
+
     res.send(accountExpenditure);
     // // res.send('removed');
     console.log(accountExpenditure);
@@ -30,25 +37,45 @@ accountExpenditureRouter.get(
   // .populate("accountHead", "name")
 );
 
+//GET ALL AccountExpenditure DW
+accountExpenditureRouter.get(
+  "/dw",
+  expressAsyncHandler(async (req, res) => {
+    const accountExpenditure = await accountExpenditure.find({}).select({
+      _id: 1,
+      name: 1,
+    });
+    console.log(accountExpenditure);
+    res.send(accountExpenditure);
+  })
+);
+
 // GET accountExpenditure by id
 accountExpenditureRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const accountExpenditure = await AccountExpenditure.find({ _id: id }).select({
+    const accountExpenditure = await AccountExpenditure.find({ _id: id })
+      .select({
         date: 1,
         accountHead: 1,
         details: 1,
         responsiblePerson: 1,
-        paidTo:1,
-        projectName:1,
-        type:1,
-        chequeNo:1,
-        status:1,
-    })
-    .populate("accountHead", "name")
-    .populate("responsiblePerson", "name")
-    .populate("projectName", "name") ;
+        paidTo: 1,
+        projectName: 1,
+        type: 1,
+        txid: 1,
+        phone: 1,
+        cardtype: 1,
+        chequeNo: 1,
+        mfsName: 1,
+        amount: 1,
+        status: 1,
+      })
+      .populate("accountHead", "name")
+      .populate("responsiblePerson", "name")
+      .populate("projectName", "name");
+
     res.send(accountExpenditure[0]);
   })
 );
@@ -84,21 +111,23 @@ accountExpenditureRouter.post(
 );
 
 //GET ALL AccountExpenditure DW
-accountExpenditureRouter.get(
-  "/dw",
-  expressAsyncHandler(async (req, res) => {
-      const accountExpenditure = await accountExpenditure.find({}).select({
-          _id: 1,
-          name: 1,
-      })
-      .populate("project","name")
-      res.send(accountExpenditure);
-      // // res.send('removed');
-      console.log(accountExpenditure);
-  })
-);
+// accountExpenditureRouter.get(
+//   "/dw",
+//   expressAsyncHandler(async (req, res) => {
+//     const accountExpenditure = await accountExpenditure
+//       .find({})
+//       .select({
+//         _id: 1,
+//         name: 1,
+//       })
+//       .populate("project", "name");
+//     res.send(accountExpenditure);
+//     // // res.send('removed');
+//     console.log(accountExpenditure);
+//   })
+// );
 
-// UPDATE ONE BANK
+// UPDATE ONE Account Expenditure
 accountExpenditureRouter.put(
   "/:id",
   expressAsyncHandler(async (req, res) => {

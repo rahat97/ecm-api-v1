@@ -27,7 +27,7 @@ grnRouter.get(
       date: 1,
       product: 1,
       titem: 1,
-      gtotal: 1,
+      gtotal: 1, 
       shippingcost: 1,
       status: 1,
     })
