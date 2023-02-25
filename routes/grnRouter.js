@@ -23,6 +23,7 @@ grnRouter.get(
     const id = req.params.id;
     const grn = await Grn.find({ _id: id }).select({
       poId: 1,
+      invoiceNo: 1,
       grnId: 1,
       date: 1,
       product: 1,

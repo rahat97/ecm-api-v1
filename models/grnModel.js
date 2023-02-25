@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const grnSchema = mongoose.Schema(
   {
     poId: { type: String, require: true },
+    invoiceNo: { type: String },
     grnId: { type: String, require: true },
     date: { type: String },
     // productName: { type: String, require: true },

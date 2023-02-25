@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const purchaseSchema = mongoose.Schema(
     {
         poId : {type : String, require: true},
-        // prid: { type: String, require: true },
+        invoiceNo: { type: String },
         reqId: { type: String, require: true },
         user: { type: mongoose.Types.ObjectId, ref: "User"},
         supplier: { type: mongoose.Types.ObjectId, ref: "Supplier" },

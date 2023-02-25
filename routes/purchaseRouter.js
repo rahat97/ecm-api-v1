@@ -23,6 +23,7 @@ purchaseRouter.get(
         const id = req.params.id;
         const purchase = await Purchase.findOne({ _id: id }).select({
             prid: 1,
+            invoiceNo: 1,
             reqId: 1,
             user: 1,
             product: 1,
