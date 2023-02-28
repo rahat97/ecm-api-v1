@@ -22,16 +22,20 @@ purchaseRouter.get(
     expressAsyncHandler(async (req, res) => {
         const id = req.params.id;
         const purchase = await Purchase.findOne({ _id: id }).select({
-            prid: 1,
+            poId: 1,
             invoiceNo: 1,
             reqId: 1,
             user: 1,
             product: 1,
             titem: 1,
             gtotal: 1,
+            supplier:1,
+            shippingcost:1,
 
-        });
-        res.send(purchase[0]);
+        })
+        .populate("user","name")
+        .populate("supplier","name")
+        res.send(purchase);
     })
 );
 purchaseRouter.get(
