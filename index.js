@@ -22,6 +22,7 @@ const accountExpenditureRouter = require("./routes/accountExpenditureRouter");
 const receivedAmountRouter = require("./routes/receivedAmountRouter");
 const grnRouter = require("./routes/grnRouter");
 const subContractorRouter = require("./routes/subContractorRouter");
+const dashboardRouter = require("./routes/dashboardRouter");
 
 const multer = require("multer");
 
@@ -74,6 +75,7 @@ app.use("/api/accountExpenditure", accountExpenditureRouter);
 app.use("/api/receivedAmount", receivedAmountRouter);
 app.use("/api/grn", grnRouter);
 app.use("/api/subcontractor", subContractorRouter);
+app.use("/api/dashboardRouter", dashboardRouter);
 
 // Home
 app.get("/", async (req, res) => {
