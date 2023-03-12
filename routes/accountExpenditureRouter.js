@@ -95,7 +95,7 @@ accountExpenditureRouter.post(
   "/",
   generateAccExpId,
   expressAsyncHandler(async (req, res) => {
-    console.log(req);
+    console.log("hello",req.body);
     const newAccountExpenditure = new AccountExpenditure(req.body);
     try {
       await newAccountExpenditure.save();

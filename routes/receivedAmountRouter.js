@@ -55,6 +55,7 @@ receivedAmountRouter.post(
   "/",
   generatReceivedAmountId,
   expressAsyncHandler(async (req, res) => {
+    console.log("hello",req.body);
     const newReceivedAmount = new ReceivedAmount(req.body);
     try {
       await newReceivedAmount.save();
