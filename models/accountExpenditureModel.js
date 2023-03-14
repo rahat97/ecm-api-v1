@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const accountExpenditureSchema = mongoose.Schema(
     {
-        generateAccExpId: { type: String, require: true },
+        accExpId: { type: String, require: true },
         date: { type: Date },
         accountHead: { type: mongoose.Types.ObjectId, ref: "AccountHead" },
-        details: { type: String, require: true },
+        details: { type: String },
         responsiblePerson: { type: mongoose.Types.ObjectId, ref: "User" },
-        paidTo: { type: String, require: true },
-        bank: { type: mongoose.Types.ObjectId, ref: "Bank" },
+        paidTo: { type: String },
+        bank: { type: mongoose.Types.ObjectId, ref: "Bank", sparse: true, default: null },
         projectName: { type: mongoose.Types.ObjectId, ref: "Project" },
         type: { type: String, require: true },
         txid: { type: String,},

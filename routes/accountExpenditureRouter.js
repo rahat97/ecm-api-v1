@@ -32,7 +32,7 @@ accountExpenditureRouter.get(
 
     res.send(accountExpenditure);
     // // res.send('removed');
-    console.log(accountExpenditure);
+    // console.log(accountExpenditure);
   })
   // .populate("accountHead", "name")
 );
@@ -45,7 +45,7 @@ accountExpenditureRouter.get(
       _id: 1,
       name: 1,
     });
-    console.log(accountExpenditure);
+    // console.log(accountExpenditure);
     res.send(accountExpenditure);
   })
 );

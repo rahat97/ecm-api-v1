@@ -23,7 +23,7 @@ receivedAmountRouter.get(
       .populate("bank", "name") ;
     res.send(receivedAmount);
     // // res.send('removed');
-    console.log(receivedAmount);
+    // console.log(receivedAmount);
   })
 );
 
