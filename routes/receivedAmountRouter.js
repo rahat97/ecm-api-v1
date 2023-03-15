@@ -11,12 +11,18 @@ receivedAmountRouter.get(
     const receivedAmount = await ReceivedAmount.find({}).select({
       // slNo: 1,
       date: 1,
+      project: 1,
       // accHead: 1,
       details: 1,
       amount:1,
       type:1,
+      phone:1,
+      txid:1,
+      cardtype:1,
       chequeNo:1,
+      individual:1,
       bank:1,
+      mfsName:1,
       particular:1,
       status:1,
     })
@@ -35,16 +41,23 @@ receivedAmountRouter.get(
     const receivedAmount = await ReceivedAmount.find({ _id: id }).select({
         // slNo: 1,
         date: 1,
+        project: 1,
         // accHead: 1,
         details: 1,
         amount:1,
         type:1,
+        phone:1,
+        txid:1,
+        cardtype:1,
         chequeNo:1,
+        individual:1,
         bank:1,
+        mfsName:1,
         particular:1,
         status:1,
     })
-    .populate("bank", "name");
+    .populate("bank", "name")
+    .populate("project", "name");
     res.send(receivedAmount[0]);
   })
 );

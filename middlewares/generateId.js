@@ -106,7 +106,7 @@ const generatReceivedAmountId = async (req, res, next) => {
   const number = ("000" + (todayTotal + 1)).toString();
   const current = number.substring(number.length - 4);
   const date = format(new Date(new Date()), "MMddyyyy");
-  const newId = process.env.ID_PREFIX + "-RecvAmnt-" + date + "-" + current;
+  const newId = process.env.ID_PREFIX + "-REAMT-" + date + "-" + current;
   console.log(newId);
   req.body.recvAmntId = newId;
   next();

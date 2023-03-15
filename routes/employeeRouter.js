@@ -29,6 +29,7 @@ employeeRouter.get(
             nid: 1,
             designation: 1,
             photo: 1,
+            type: 1,
             status: 1,
         });
         res.send(employee[0]);
