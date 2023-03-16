@@ -18,6 +18,7 @@ projectRouter.get(
             stuff: 1,
             duration: 1,
             workOrder: 1,
+            subContractor:1,
             status: 1,
 
         })
@@ -79,6 +80,7 @@ projectRouter.get(
             duration: 1,
             workOrder: 1,
             subContractor: 1,
+            status: 1,
         })
             .populate("client", "name")
             .populate("subContractor", "name");

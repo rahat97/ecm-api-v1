@@ -16,6 +16,7 @@ bankRouter.get(
       branch: 1,
       swiftCode:1,
       routingNo:1,
+      status: 1,
     });
     res.send(bank);
     // // res.send('removed');
@@ -36,6 +37,7 @@ bankRouter.get(
       branch: 1,
       swiftCode:1,
       routingNo:1,
+      status:1,
     });
     res.send(bank[0]);
   })
