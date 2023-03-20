@@ -32,13 +32,16 @@ attendanceRouter.get(
         const id = req.params.id;
         const attendance = await Attendance.find({ _id: id }).select({
             project: 1,
+            employee:1,
             date: 1,
             inTime: 1,
             outTime: 1,
             eid: 1,
             status: 1,
-        });
-        res.send(attendance[0]);
+        })
+        .populate("project","name")
+        .populate("employee","name");
+        res.send(attendance);
     })
 );
 
