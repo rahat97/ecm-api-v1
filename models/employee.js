@@ -6,9 +6,9 @@ const employeeSchema = mongoose.Schema(
     email: { type: String },
     address: { type: String },
     nid: { type: String },
-    designation: { type: String, require: true },
+    designation: { type: String, enum: ["site_manager", "site_engineer", "accounts", "assistant_accounts", "project_manager", "project_engineer", "project_accounts"] },
     photo: { type: String },
-    type: { type: String },
+    type: { type: String, enum: ["company", "subContract", "master_roll"] },
     status: { type: String, enum: ["active", "suspend"] },
   },
   {

@@ -28,6 +28,7 @@ accountExpenditureRouter.get(
       })
       .populate("accountHead", "name")
       .populate("responsiblePerson", "name")
+      .populate("bank", "name")
       .populate("projectName", "name");
 
     res.send(accountExpenditure);
@@ -64,6 +65,7 @@ accountExpenditureRouter.get(
         paidTo: 1,
         projectName: 1,
         type: 1,
+        bank: 1,
         txid: 1,
         phone: 1,
         cardtype: 1,
@@ -74,6 +76,7 @@ accountExpenditureRouter.get(
       })
       .populate("accountHead", "name")
       .populate("responsiblePerson", "name")
+      .populate("bank", "name")
       .populate("projectName", "name");
 
     res.send(accountExpenditure[0]);
