@@ -28,7 +28,7 @@ const grnSchema = mongoose.Schema(
     gtotal: { type: String, require: true },
     shippingcost: { type: String },
     type: { type: String, enum: ["in", "out"] },
-    status: { type: String, enum: ["active", "suspend"] }
+    status: { type: String, enum: ["in", "out"] }
   },
   {
     timestamps: true,
