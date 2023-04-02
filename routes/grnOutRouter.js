@@ -1,36 +1,45 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
-const Grn = require("../models/grnModel");
+const GrnOut = require("../models/grnModel");
 const { generateGrnId } = require("../middlewares/generateId");
 
-const grnRouter = express.Router();
+const grnOutRouter = express.Router();
 
-//GET ALL grns
-grnRouter.get(
+//GET ALL grnOuts
+grnOutRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const grn = await Grn.find({});
-    res.send(grn);
+    const grnOut = await GrnOut.find({});
+    res.send(grnOut);
     // // res.send('removed');
-    console.log(grn);
+    console.log(grnOut);
   })
 );
-grnRouter.get(
+grnOutRouter.get(
   "/in",
   expressAsyncHandler(async (req, res) => {
-    const grn = await Grn.find({type:"in"});
-    res.send(grn);
+    const grnOut = await GrnOut.find({type:"in"});
+    res.send(grnOut);
     // // res.send('removed');
-    console.log(grn);
+    console.log(grnOut);
+  })
+);
+grnOutRouter.get(
+  "/out",
+  expressAsyncHandler(async (req, res) => {
+    const grnOut = await GrnOut.find({type:"out"});
+    res.send(grnOut);
+    // // res.send('removed');
+    console.log(grnOut);
   })
 );
 
-// GET grn by id
-grnRouter.get(
+// GET grnOut by id
+grnOutRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const grn = await Grn.find({ _id: id }).select({
+    const grnOut = await GrnOut.find({ _id: id }).select({
       poId: 1,
       invoiceNo: 1,
       grnId: 1,
@@ -43,20 +52,20 @@ grnRouter.get(
     })
     .populate("poId", "poId")
     .populate("grnId", "grnId")
-    res.send(grn[0]);
+    res.send(grnOut[0]);
   })
 );
 
-// CREATE ONE grn
-grnRouter.post(
+// CREATE ONE grnOut
+grnOutRouter.post(
   "/",
   generateGrnId,
   expressAsyncHandler(async (req, res) => {
-    const newGrn = new Grn(req.body);
+    const newGrn = new GrnOut(req.body);
     try {
       await newGrn.save();
       res.status(200).json({
-        message: "grn is created Successfully",
+        message: "grnOut is created Successfully",
       });
     } catch (err) {
       res
@@ -66,15 +75,15 @@ grnRouter.post(
   })
 );
 
-// UPDATE ONE grn
-grnRouter.put(
+// UPDATE ONE grnOut
+grnOutRouter.put(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     const update = req.body;
     // console.log(req.body);
     try {
-      await Grn.updateOne({ _id: id }, { $set: update })
+      await GrnOut.updateOne({ _id: id }, { $set: update })
         .then((response) => {
           res.send(response);
         })
@@ -87,13 +96,13 @@ grnRouter.put(
   })
 );
 
-// DELETE ONE grn
-grnRouter.delete(
+// DELETE ONE grnOut
+grnOutRouter.delete(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
     try {
-      await Grn.deleteOne({ _id: id })
+      await GrnOut.deleteOne({ _id: id })
         .then((response) => {
           res.send(response);
         })
@@ -106,4 +115,4 @@ grnRouter.delete(
   })
 );
 
-module.exports = grnRouter;
+module.exports = grnOutRouter;
