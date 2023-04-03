@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const inventorySchema = mongoose.Schema(
     {
-        pid: { type: String, require: true },
-        item: { type: String, require: true },
-        qty: { type: String, require: true },
-        date: { type: String, require: true },
-        nid: { type: String, require: true },
-        cid: { type: String, require: true },
+        ProjectId: { type: mongoose.Types.ObjectId, ref: "Project", require: true },
+        material: { type: mongoose.Types.ObjectId, ref: "Product", require: true },
+        totalStock: { type: String, require: true },
+        currentStock: { type: String, require: true },
+        stockOut: { type: String, require: true },
+        damageStock: { type: String, require: true },
         type: { type: String, enum: ["in", "out"] },
         status: { type: String, enum: ["active", "suspend"] },
     },
@@ -16,3 +16,10 @@ const inventorySchema = mongoose.Schema(
 );
 const inventory = new mongoose.model("inventory", inventorySchema);
 module.exports = inventory;
+
+/**
+ * calculation:
+ * Stock In: 
+ * Stock Out:
+ * Damage: 
+ * */ 
