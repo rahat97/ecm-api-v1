@@ -2,6 +2,7 @@ const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const Grn = require("../models/grnModel");
 const { generateGrnId } = require("../middlewares/generateId");
+const { stockIN } = require("../middlewares/useInventory");
 
 const grnRouter = express.Router();
 
@@ -51,6 +52,7 @@ grnRouter.get(
 grnRouter.post(
   "/",
   generateGrnId,
+  // stockIN,
   expressAsyncHandler(async (req, res) => {
     const newGrn = new Grn(req.body);
     try {

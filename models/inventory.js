@@ -19,7 +19,7 @@ module.exports = inventory;
 
 /**
  * calculation:
- * Stock In: 
- * Stock Out:
+ * Stock In:  total (+), current (+)
+ * Stock Out: current (-), stockOut (+)
  * Damage: 
  * */ 
