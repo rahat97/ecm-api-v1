@@ -2,7 +2,7 @@ const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const Grn = require("../models/grnModel");
 const { generateGrnId } = require("../middlewares/generateId");
-const { stockIN } = require("../middlewares/useInventory");
+const { stockIN, stockOut, damageOut } = require("../middlewares/useInventory");
 
 const grnRouter = express.Router();
 
@@ -52,19 +52,21 @@ grnRouter.get(
 grnRouter.post(
   "/",
   generateGrnId,
-  // stockIN,
+  stockIN,
+  stockOut,
+  damageOut,
   expressAsyncHandler(async (req, res) => {
-    const newGrn = new Grn(req.body);
-    try {
-      await newGrn.save();
-      res.status(200).json({
-        message: "grn is created Successfully",
-      });
-    } catch (err) {
-      res
-        .status(500)
-        .json({ message: "There was a server side error", error: err });
-    }
+    // const newGrn = new Grn(req.body);
+    // try {
+    //   await newGrn.save();
+    //   res.status(200).json({
+    //     message: "grn is created Successfully",
+    //   });
+    // } catch (err) {
+    //   res
+    //     .status(500)
+    //     .json({ message: "There was a server side error", error: err });
+    // }
   })
 );
 

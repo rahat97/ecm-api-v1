@@ -7,7 +7,7 @@ const inventorySchema = mongoose.Schema(
         currentStock: { type: String, require: true },
         stockOut: { type: String, require: true },
         damageStock: { type: String, require: true },
-        type: { type: String, enum: ["in", "out"] },
+        // type: { type: String, enum: ["in", "out"] },
         status: { type: String, enum: ["active", "suspend"] },
     },
     {
