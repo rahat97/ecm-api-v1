@@ -19,7 +19,7 @@ grnRouter.get(
 grnRouter.get(
   "/in",
   expressAsyncHandler(async (req, res) => {
-    const grn = await Grn.find({type:"in"});
+    const grn = await Grn.find({ type: "in" });
     res.send(grn);
     // // res.send('removed');
     console.log(grn);
@@ -31,19 +31,20 @@ grnRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
     const id = req.params.id;
-    const grn = await Grn.find({ _id: id }).select({
-      poId: 1,
-      invoiceNo: 1,
-      grnId: 1,
-      date: 1,
-      product: 1,
-      titem: 1,
-      gtotal: 1, 
-      shippingcost: 1,
-      status: 1,
-    })
-    .populate("poId", "poId")
-    .populate("grnId", "grnId")
+    const grn = await Grn.find({ _id: id })
+      .select({
+        poId: 1,
+        invoiceNo: 1,
+        grnId: 1,
+        date: 1,
+        product: 1,
+        titem: 1,
+        gtotal: 1,
+        shippingcost: 1,
+        status: 1,
+      })
+      .populate("poId", "poId")
+      .populate("grnId", "grnId");
     res.send(grn[0]);
   })
 );
@@ -54,19 +55,19 @@ grnRouter.post(
   generateGrnId,
   stockIN,
   stockOut,
-  damageOut,
+  // damageOut,
   expressAsyncHandler(async (req, res) => {
-    // const newGrn = new Grn(req.body);
-    // try {
-    //   await newGrn.save();
-    //   res.status(200).json({
-    //     message: "grn is created Successfully",
-    //   });
-    // } catch (err) {
-    //   res
-    //     .status(500)
-    //     .json({ message: "There was a server side error", error: err });
-    // }
+    const newGrn = new Grn(req.body);
+    try {
+      await newGrn.save();
+      res.status(200).json({
+        message: "grn is created Successfully",
+      });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: "There was a server side error", error: err });
+    }
   })
 );
 
