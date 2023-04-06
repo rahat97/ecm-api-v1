@@ -1,5 +1,7 @@
 const { format, startOfDay, endOfDay } = require("date-fns");
 const Grn = require("../models/grnModel");
+const GrnOut = require("../models/grnModel");
+const Damage = require("../models/damageModel");
 const Purchase = require("../models/purchaseModel");
 const Requisition = require("../models/requisition");
 const Payment = require("../models/paymentModel");
@@ -57,6 +59,44 @@ const generateGrnId = async (req, res, next) => {
   console.log(newId);
   next();
 };
+
+// Generate GrnOut Id
+const generateGrnOutId = async (req, res, next) => {
+  // TODO:: todays total
+
+  const todayTotal = await GrnOut.countDocuments({
+    createdAt: { $gte: startOfDay(new Date()), $lte: endOfDay(new Date()) },
+  });
+
+  const number = ("000" + (todayTotal + 1)).toString();
+  const current = number.substring(number.length - 4);
+  const date = format(new Date(new Date()), "MMddyyyy");
+  const newId = process.env.ID_PREFIX + "-GRNOUT-" + date + "-" + current;
+  console.log(newId);
+  req.body.grnOutId = newId;
+  console.log(newId);
+  next();
+};
+
+
+// Generate Damage Id
+const generateDamageId = async (req, res, next) => {
+  // TODO:: todays total
+
+  const todayTotal = await Damage.countDocuments({
+    createdAt: { $gte: startOfDay(new Date()), $lte: endOfDay(new Date()) },
+  });
+
+  const number = ("000" + (todayTotal + 1)).toString();
+  const current = number.substring(number.length - 4);
+  const date = format(new Date(new Date()), "MMddyyyy");
+  const newId = process.env.ID_PREFIX + "-DAM-" + date + "-" + current;
+  console.log(newId);
+  req.body.damageId = newId;
+  console.log(newId);
+  next();
+};
+
 
 
 // Generate Payment Id
@@ -119,6 +159,8 @@ const generatReceivedAmountId = async (req, res, next) => {
 module.exports = {
   generatePoId,
   generateGrnId,
+  generateGrnOutId,
+  generateDamageId,
   generateReqId,
   generatePaymentId,
   generateAccExpId,

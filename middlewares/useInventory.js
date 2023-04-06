@@ -64,13 +64,16 @@ const stockOut = async (req, res, next) => {
         };
         await Inventory.update({ _id: inv[0]?._id }, { $set: inventory });
       } else {
-        // const inventory={
-        //     // totalStock:pro.qty,
-        //     currentStock:pro.qty,
-        //     stockOut:pro.qty,
-        // }
-        // res.status(401).json("There is no Product in Inventory")
-        // await Inventory.update({_id:inv._id},{$set:Inventory})
+        const newInventory = new Inventory({
+          ProjectId: grnData.ProjectId,
+          material: pro.id,
+          totalStock: pro.qty,
+          currentStock: pro.qty,
+          stockOut: 0,
+          damageStock: 0,
+          status: "active",
+        });
+        await newInventory.save();
       }
     });
   }
@@ -85,7 +88,7 @@ const damageOut = async (req, res, next) => {
     
   try {
     const grnData = req.body;
-    console.log(grnData);
+    console.log("grnData",grnData);
     const products = grnData.product;
     products.map(async (pro) => {
       const inv = await Inventory.find({ material: pro.id });
@@ -98,13 +101,16 @@ const damageOut = async (req, res, next) => {
         };
         await Inventory.update({ _id: inv[0]?._id }, { $set: inventory });
       } else {
-        // const inventory={
-        //     // totalStock:pro.qty,
-        //     currentStock:pro.qty,
-        //     stockOut:pro.qty,
-        // }
-        // res.status(401).json("There is no Damage Product.")
-        // await Inventory.update({_id:inv._id},{$set:Inventory})
+        const newInventory = new Inventory({
+          ProjectId: grnData.ProjectId,
+          material: pro.id,
+          totalStock: pro.qty,
+          currentStock: pro.qty,
+          stockOut: 0,
+          damageStock: 0,
+          status: "active",
+        });
+        await newInventory.save();
       }
     });
   } catch (err) {
