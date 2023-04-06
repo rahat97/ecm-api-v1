@@ -54,7 +54,7 @@ grnRouter.post(
   "/",
   generateGrnId,
   stockIN,
-  stockOut,
+  // stockOut,
   // damageOut,
   expressAsyncHandler(async (req, res) => {
     const newGrn = new Grn(req.body);
