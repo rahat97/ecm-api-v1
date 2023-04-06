@@ -92,7 +92,7 @@ const generateDamageId = async (req, res, next) => {
   const date = format(new Date(new Date()), "MMddyyyy");
   const newId = process.env.ID_PREFIX + "-DAM-" + date + "-" + current;
   console.log(newId);
-  req.body.damageId = newId;
+  req.body.dmgId = newId;
   console.log(newId);
   next();
 };

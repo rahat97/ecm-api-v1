@@ -5,6 +5,7 @@ const damageSchema = mongoose.Schema(
     dmgId: { type: String, require: true },
     date: { type: String },
     by: { type: String },
+    totalQty: { type: String },
     product: [
       {
         type: Map,
