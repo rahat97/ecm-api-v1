@@ -15,6 +15,28 @@ inventoryRouter.get(
   })
 );
 
+// GET ALL inventories for export
+inventoryRouter.get(
+  "/export",
+  expressAsyncHandler(async (req, res) => {
+    const inventories = await Inventory.find({ status: "active" })
+      .select({
+        _id: 1,
+        ProjectId: 1,
+        material: 1,
+        totalStock: 1,
+        currentStock: 1,
+        stockOut: 1,
+        damageStock: 1,
+        type: 1,
+        status: 1,
+      })
+      .populate("material", "name");
+    console.log(inventories);
+    res.send(inventories);
+  })
+);
+
 // GET ONE INVENTORY
 inventoryRouter.get(
   "/:id",
