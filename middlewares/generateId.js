@@ -7,6 +7,7 @@ const Requisition = require("../models/requisition");
 const Payment = require("../models/paymentModel");
 const AccountExpenditure = require("../models/accountExpenditureModel");
 const ReceivedAmount = require("../models/receivedAmountModel");
+const accountHead = require("../models/accountHeadModel");
 
 // Generate PO Id
 const generatePoId = async (req, res, next) => {
@@ -154,6 +155,25 @@ const generatReceivedAmountId = async (req, res, next) => {
 
 
 
+// Generate Accounts Head Id
+const generatAccountHeadId = async (req, res, next) => {
+  // TODO:: todays total
+
+  const todayTotal = await accountHead.countDocuments({
+    createdAt: { $gte: startOfDay(new Date()), $lte: endOfDay(new Date()) },
+  });
+
+  const number = ("000" + (todayTotal + 1)).toString();
+  const current = number.substring(number.length - 4);
+  const date = format(new Date(new Date()), "MMddyyyy");
+  const newId = process.env.ID_PREFIX + "-ACCHD-" + date + "-" + current;
+  console.log(newId);
+  req.body.accHeadId = newId;
+  next();
+};
+
+
+
 
 
 module.exports = {
@@ -165,4 +185,5 @@ module.exports = {
   generatePaymentId,
   generateAccExpId,
   generatReceivedAmountId,
+  generatAccountHeadId,
 };

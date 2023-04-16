@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const accountHeadSchema = mongoose.Schema(
   {
+    accHeadId: { type: String, require: true },
     name: { type: String, require: true },
     details: { type: String },
     // type: { type: String, enum: ["cash", "cheque", "mfs", "card"] },
