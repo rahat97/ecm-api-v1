@@ -1,6 +1,7 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const AccountHead = require("../models/accountHeadModel");
+const { generatAccountHeadId } = require("../middlewares/generateId");
 
 const accountHeadRouter = express.Router();
 
@@ -9,6 +10,8 @@ accountHeadRouter.get(
     expressAsyncHandler(async (req, res) => {
         const accountHead = await AccountHead.find({}).select({
             _id: 1,
+            accHeadId: 1,
+            ahcode: 1,
             name: 1,
             details: 1,
             type: 1,
@@ -26,6 +29,8 @@ accountHeadRouter.get(
         console.log(id)
         const accountHead = await AccountHead.find({_id : id}).select({
             _id: 1,
+            accHeadId:1,
+            ahcode: 1,
             name: 1,
             details: 1,
             type: 1,

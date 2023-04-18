@@ -26,7 +26,42 @@ accountExpenditureRouter.get(
         amount: 1,
         status: 1,
       })
-      .populate("accountHead", "name")
+      .populate("accountHead", {name:1, ahcode:1})      
+      .populate("responsiblePerson", "name")
+      .populate("bank", "name")
+      .populate("projectName", "name");
+
+    res.send(accountExpenditure);
+    // // res.send('removed');
+    // console.log(accountExpenditure);
+  })
+  // .populate("accountHead", "name")
+);
+
+//GET ALL accountExpenditures by accounts head
+accountExpenditureRouter.get(
+  "/ah/:id",
+  expressAsyncHandler(async (req, res) => {
+    const id =  req.params.id;
+    const accountExpenditure = await AccountExpenditure.find({accountHead: id})
+      .select({
+        date: 1,
+        accountHead: 1,
+        details: 1,
+        responsiblePerson: 1,
+        paidTo: 1,
+        bank: 1,
+        projectName: 1,
+        type: 1,
+        txid: 1,
+        phone: 1,
+        cardtype: 1,
+        chequeNo: 1,
+        mfsName: 1,
+        amount: 1,
+        status: 1,
+      })
+      .populate("accountHead", {name:1, ahcode:1})      
       .populate("responsiblePerson", "name")
       .populate("bank", "name")
       .populate("projectName", "name");
@@ -74,7 +109,7 @@ accountExpenditureRouter.get(
         amount: 1,
         status: 1,
       })
-      .populate("accountHead", "name")
+      .populate("accountHead", {name:1, ahcode:1})
       .populate("responsiblePerson", "name")
       .populate("bank", "name")
       .populate("projectName", "name");
