@@ -1,6 +1,8 @@
 const express = require("express");
 const expressAsyncHandler = require("express-async-handler");
 const User = require("../models/user");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const userRouter = express.Router();
 
@@ -114,7 +116,7 @@ userRouter.post(
   "/",
   expressAsyncHandler(async (req, res) => {
     const newUser = new User(req.body);
-    // console.log(newUser)
+    console.log(newUser)
     try {
       await newUser.save();
       res.status(200).json({
@@ -173,22 +175,24 @@ userRouter.post(
   expressAsyncHandler(async (req, res) => {
     // console.log(bcrypt);
     
-    // const hashPassword = await bcrypt.hash(req.body.password, 10);
-    console.log("new user", req.body);
-    // console.log("hash", hashPassword);
+    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    console.log("hash", hashPassword);
     try {
       const newUser = new User({
         name: req.body.name,
-        username: req.body.username,
+        username: req.body.phone,
         phone: req.body.phone,
         email: req.body.email,
-        password: req.body.password,
+        password: hashPassword,
         address: "",
         nid: req.body.nid,
         type: req.body.type,
         privilege: {},
         status: req.body.status,
       });
+      
+      console.log("new user",newUser);
+
       await newUser.save();
       res.status(200).json({
         message: "Registration Successful",
@@ -205,80 +209,129 @@ userRouter.post(
 userRouter.post(
   "/login",
   expressAsyncHandler(async (req, res) => {
-   const userId=req.body.userId;
+   const {userId, password}=req.body;
+   let errText = ""
+
+  
+   try{
+    await User.find({ username: userId })
+    .then((user) => {
+      // res.send(response);
+ if (user && user?.length > 0) {
+          console.log(password)
+          console.log( user?.password) 
+             bcrypt.compare(password, user?.password, function(err, result) {
+               console.log(result)
+              if(result===true){
+
+                const token = jwt.sign(
+                          {
+                            name: user[0].name,
+                            userId: user[0]._id,
+                            type: user[0].type,
+                          },
+                          process.env.JWT_SECRET,
+                          { expiresIn: "1h" }
+                        );
+                        res.status(200).json({
+                          access_token: token,
+                          status: true, 
+                          message: "Login Successful",
+                        });
+              }
+
+          });
+
+        }else{
+          errText = "User does not matched!"
+        }
+      console.log("response",response)
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+       
+
+   }catch(err){
+    errText = err
+    console.log(err)
+
+   }
+  //  console.log(req.body)
+  //  console.log(errTextz)
     // console.log({ body: req.body, email: isEmail })
     // const isnumber= parseInt(userId)
-    try {
-      let user;
-      // if (isnumber===NaN) {
-        //   console.log("j",userId)
-        //   user = await User.find({
-          //     status: "active",
-      //     phone: userId
-      //   });
-      // } else {
-        //   console.log("k",userId)
-        //   user = await User.find({
-          //     status: "active",
-          //     username: userId,
-          //   });
-          // }
-          console.log(userId)
+    // try {
+    //   let user;
+    //   // if (isnumber===NaN) {
+    //     //   console.log("j",userId)
+    //     //   user = await User.find({
+    //       //     status: "active",
+    //   //     phone: userId
+    //   //   });
+    //   // } else {
+    //     //   console.log("k",userId)
+    //     //   user = await User.find({
+    //       //     status: "active",
+    //       //     username: userId,
+    //       //   });
+    //       // }
+    //       console.log(userId)
       
-      user = await User.find({
-        status: "active",
-        phone: userId
-      });
-      console.log(user)
-      if (user && user.length > 0) {
-        console.log("j", req.body.password,
-          user[0].password)
-        const isValidPassword =  (
-          req.body.password=== user[0].password
-        );
-        console.log("k",isValidPassword)
-        if (isValidPassword) {
-          // generate token
-          // const token = jwt.sign(
-          //   {
-          //     username: user[0].username,
-          //     userId: user[0]._id,
-          //     type: user[0].type,
-          //   },
-          //   process.env.JWT_SECRET,
-          //   { expiresIn: "1h" }
-          // );
+    //   user = await User.find({
+    //     status: "active",
+    //     phone: userId
+    //   });
+    //   console.log(user)
+    //   if (user && user.length > 0) {
+    //     console.log("j", req.body.password,
+    //       user[0].password)
+    //     const isValidPassword =  (
+    //       req.body.password=== user[0].password
+    //     );
+    //     console.log("k",isValidPassword)
+    //     if (isValidPassword) {
+    //       // generate token
+    //       const token = jwt.sign(
+    //         {
+    //           username: user[0].username,
+    //           userId: user[0]._id,
+    //           type: user[0].type,
+    //         },
+    //         process.env.JWT_SECRET,
+    //         { expiresIn: "1h" }
+    //       );
 
-          res.status(200).json({
-            // access_token: token,
-            status: true,
-            user: {
-              id: user[0]._id,
-              name: user[0].name,
-              username: user[0].username,
-              email: user[0].email,
-              type: user[0].type,
-            },
-            message: "Login Successful",
-          });
-        } else {
-          res.status(401).json({
-            status: false,
-            error: "Password Does not Match",
-          });
-        }
-      } else {
-        res.status(401).json({
-          status: false,
-          error: "User Not Found",
-        });
-      }
-    } catch (err) {
-      res.status(500).json({
-        status: false,
-        error: err,
-      });
-    }
+    //       res.status(200).json({
+    //         access_token: token,
+    //         status: true,
+    //         // user: {
+    //         //   id: user[0]._id,
+    //         //   name: user[0].name,
+    //         //   username: user[0].username,
+    //         //   email: user[0].email,
+    //         //   type: user[0].type,
+    //         // },
+    //         message: "Login Successful",
+    //       });
+    //     } else {
+    //       res.status(401).json({
+    //         status: false,
+    //         error: "Password Does not Match",
+    //       });
+    //     }
+    //   } else {
+    //     res.status(401).json({
+    //       status: false,
+    //       error: "User Not Found",
+    //     });
+    //   }
+    // } catch (err) {
+    //   res.status(500).json({
+    //     status: false,
+    //     error: err,
+    //   });
+    // }
   })
 );
 // userRouter.post(

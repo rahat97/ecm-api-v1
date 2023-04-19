@@ -10,10 +10,12 @@ accountExpenditureRouter.get(
   expressAsyncHandler(async (req, res) => {
     const accountExpenditure = await AccountExpenditure.find({})
       .select({
+        accExpId: 1,
         date: 1,
         accountHead: 1,
         details: 1,
         responsiblePerson: 1,
+        supplier: 1,
         paidTo: 1,
         bank: 1,
         projectName: 1,
@@ -29,7 +31,8 @@ accountExpenditureRouter.get(
       .populate("accountHead", {name:1, ahcode:1})      
       .populate("responsiblePerson", "name")
       .populate("bank", "name")
-      .populate("projectName", "name");
+      .populate("projectName", "name")
+      .populate("supplier", "name");
 
     res.send(accountExpenditure);
     // // res.send('removed');
@@ -46,9 +49,11 @@ accountExpenditureRouter.get(
     const accountExpenditure = await AccountExpenditure.find({accountHead: id})
       .select({
         date: 1,
+        accExpId: 1,
         accountHead: 1,
         details: 1,
         responsiblePerson: 1,
+        supplier: 1,
         paidTo: 1,
         bank: 1,
         projectName: 1,
@@ -64,7 +69,8 @@ accountExpenditureRouter.get(
       .populate("accountHead", {name:1, ahcode:1})      
       .populate("responsiblePerson", "name")
       .populate("bank", "name")
-      .populate("projectName", "name");
+      .populate("projectName", "name")
+      .populate("supplier", "name");
 
     res.send(accountExpenditure);
     // // res.send('removed');
@@ -94,9 +100,11 @@ accountExpenditureRouter.get(
     const accountExpenditure = await AccountExpenditure.find({ _id: id })
       .select({
         date: 1,
+        accExpId: 1,
         accountHead: 1,
         details: 1,
         responsiblePerson: 1,
+        supplier: 1,
         paidTo: 1,
         projectName: 1,
         type: 1,
@@ -112,7 +120,8 @@ accountExpenditureRouter.get(
       .populate("accountHead", {name:1, ahcode:1})
       .populate("responsiblePerson", "name")
       .populate("bank", "name")
-      .populate("projectName", "name");
+      .populate("projectName", "name")
+      .populate("supplier", "name");
 
     res.send(accountExpenditure[0]);
   })

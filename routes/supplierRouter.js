@@ -66,10 +66,20 @@ supplierRouter.post(
     expressAsyncHandler(async (req, res) => {
         const newSupplier = new Supplier(req.body);
         try {
-            await newSupplier.save();
-            res.status(200).json({
-                message: "Supplier is created Successfully",
-            });
+            await newSupplier.save((err, supplier) => {
+                if (err) {
+                  res
+                    .status(500)
+                    .json({ message: "There was a server side error", error: err });
+                } else {
+                  console.log(supplier);
+                  res.status(200).json({
+                    message: "Supplier is created Successfully",
+                    id: supplier._id,
+                  });
+                }
+              });
+           
         } catch (err) {
             res
                 .status(500)

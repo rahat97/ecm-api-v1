@@ -9,6 +9,7 @@ const accountExpenditureSchema = mongoose.Schema(
         paidTo: { type: String },
         bank: { type: mongoose.Types.ObjectId, ref: "Bank", sparse: true, default: null },
         projectName: { type: mongoose.Types.ObjectId, ref: "Project" },
+        supplier: { type: mongoose.Types.ObjectId, ref: "Supplier" },
         type: { type: String, require: true },
         txid: { type: String,},
         phone: { type: String, },
