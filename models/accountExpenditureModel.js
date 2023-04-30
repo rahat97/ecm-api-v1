@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const accountExpenditureSchema = mongoose.Schema(
     {
-        accExpId: { type: String, require: true },
+        accExpId: { type: String },
         date: { type: Date },
         accountHead: { type: mongoose.Types.ObjectId, ref: "AccountHead" },
         details: { type: String },
@@ -10,13 +10,13 @@ const accountExpenditureSchema = mongoose.Schema(
         bank: { type: mongoose.Types.ObjectId, ref: "Bank", sparse: true, default: null },
         projectName: { type: mongoose.Types.ObjectId, ref: "Project" },
         supplier: { type: mongoose.Types.ObjectId, ref: "Supplier" },
-        type: { type: String, require: true },
+        type: { type: String },
         txid: { type: String,},
         phone: { type: String, },
         cardtype: { type: String, },
         chequeNo: { type: String },
         mfsName: { type: String },
-        amount: { type: String, require: true },
+        amount: { type: String },
         status: { type: String, enum: ["active", "suspend"] }
     },
     {
